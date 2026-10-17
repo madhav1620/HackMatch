@@ -1,11 +1,244 @@
-/** Seed: demo students + sample hackathons + a recruiting team.
- *  Run: npx prisma db seed  (configured in package.json) */
+/** Seed: demo users (students + organizer) + hackathon feed data (Discovery Hub).
+ *  Run: npm run db:seed -w server   (also wired as `npx prisma db seed`) */
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
-const skills = (...s: string[]) => JSON.stringify(s);
+const tags = (...s: string[]) => JSON.stringify(s);
+const d = (days: number) => new Date(Date.now() + days * 24 * 60 * 60 * 1000);
+
+const HACKATHON_IDS: Record<string, string> = {};
+
+type SeedHackathon = {
+  name: string;
+  tagline: string;
+  description: string;
+  mode: string;
+  location: string | null;
+  orgType: string;
+  prizePool: number;
+  deadlineInDays: number;
+  startInDays: number;
+  endInDays: number;
+  techTags: string[];
+  minTeamSize: number;
+  maxTeamSize: number;
+  status?: string;
+  url?: string;
+  byOrganizer?: boolean;
+};
+
+const HACKATHONS: SeedHackathon[] = [
+  {
+    name: "CalHacks 11.0",
+    tagline: "36 hours of frontier tech at UC Berkeley",
+    description:
+      "CalHacks is the largest collegiate hackathon in the world. 36 hours, 2000+ hackers, high-bandwidth compute clusters, and venture partners on the floor.",
+    mode: "OFFLINE",
+    location: "Pauley Ballroom, Berkeley, CA",
+    orgType: "EXTERNAL",
+    prizePool: 3300000,
+    deadlineInDays: 9,
+    startInDays: 24,
+    endInDays: 26,
+    techTags: ["AI/ML", "Rust", "React", "Hardware"],
+    minTeamSize: 3,
+    maxTeamSize: 5,
+    url: "https://calhacks.io",
+  },
+  {
+    name: "Smart India Hackathon 2026",
+    tagline: "India's biggest hackathon — innovate for a billion people",
+    description:
+      "SIH is a nationwide flagship hackathon organized by AICTE. Solve real problems posed by ministries and industries in 36 hours.",
+    mode: "HYBRID",
+    location: "Campus nodal centres",
+    orgType: "INTERNAL",
+    prizePool: 100000,
+    deadlineInDays: 12,
+    startInDays: 20,
+    endInDays: 22,
+    techTags: ["React", "Python", "IoT", "AI/ML"],
+    minTeamSize: 4,
+    maxTeamSize: 6,
+    url: "https://sih.gov.in",
+    byOrganizer: true,
+  },
+  {
+    name: "GDG Solution Challenge 2027",
+    tagline: "Build with Google tech, ship for social impact",
+    description:
+      "Solution Challenge invites students to build projects using Google technologies (Firebase, Flutter, AI APIs) that solve local problems.",
+    mode: "ONLINE",
+    location: null,
+    orgType: "EXTERNAL",
+    prizePool: 250000,
+    deadlineInDays: 30,
+    startInDays: 35,
+    endInDays: 37,
+    techTags: ["Flutter", "Firebase", "AI/ML", "React"],
+    minTeamSize: 1,
+    maxTeamSize: 4,
+    url: "https://developers.google.com/community/gdsc-solution-challenge",
+  },
+  {
+    name: "HackVIT '26",
+    tagline: "48-hour sprint at VIT Vellore",
+    description: "In-person 48-hour hackathon with mentorship from industry engineers and on-the-spot prizes.",
+    mode: "OFFLINE",
+    location: "VIT Vellore, TN",
+    orgType: "EXTERNAL",
+    prizePool: 200000,
+    deadlineInDays: 5,
+    startInDays: 8,
+    endInDays: 10,
+    techTags: ["React", "Node.js", "AI/ML"],
+    minTeamSize: 2,
+    maxTeamSize: 5,
+  },
+  {
+    name: "Midnight Hacks",
+    tagline: "24 hours, one night, ship something real",
+    description:
+      "A single-night online sprint. Small scope, fast judgement, brutal deadline. Perfect first hackathon.",
+    mode: "ONLINE",
+    location: null,
+    orgType: "EXTERNAL",
+    prizePool: 30000,
+    deadlineInDays: 1,
+    startInDays: 2,
+    endInDays: 3,
+    techTags: ["TypeScript", "React", "Python"],
+    minTeamSize: 1,
+    maxTeamSize: 3,
+  },
+  {
+    name: "Hack the North",
+    tagline: "Canada's largest hackathon",
+    description: "36 hours at the University of Waterloo with hardware labs, mentors, and a legendary opening ceremony.",
+    mode: "OFFLINE",
+    location: "Waterloo, ON",
+    orgType: "EXTERNAL",
+    prizePool: 2500000,
+    deadlineInDays: 45,
+    startInDays: 60,
+    endInDays: 62,
+    techTags: ["TypeScript", "React", "Python", "Hardware"],
+    minTeamSize: 2,
+    maxTeamSize: 4,
+    url: "https://hackthenorth.com",
+  },
+  {
+    name: "TreeHacks 2027",
+    tagline: "Stanford's AI-first hackathon",
+    description: "TreeHacks pushes teams toward genuinely new machine learning. Compute credits and research mentors included.",
+    mode: "OFFLINE",
+    location: "Stanford, CA",
+    orgType: "EXTERNAL",
+    prizePool: 2000000,
+    deadlineInDays: 40,
+    startInDays: 55,
+    endInDays: 57,
+    techTags: ["AI/ML", "Rust", "iOS"],
+    minTeamSize: 2,
+    maxTeamSize: 4,
+  },
+  {
+    name: "EthIndia 2026",
+    tagline: "India's largest web3 hackathon",
+    description: "Build decentralised applications with Solidity and zk tooling. Bounties from 30+ protocols.",
+    mode: "OFFLINE",
+    location: "Bengaluru, KA",
+    orgType: "EXTERNAL",
+    prizePool: 1500000,
+    deadlineInDays: 60,
+    startInDays: 75,
+    endInDays: 77,
+    techTags: ["Web3", "Solidity", "React"],
+    minTeamSize: 2,
+    maxTeamSize: 4,
+  },
+  {
+    name: "HackBITS Pilani",
+    tagline: "Campus league opener",
+    description: "Internal 30-hour hackathon for BITS students. Design-heavy briefs, small teams, sharp judging.",
+    mode: "OFFLINE",
+    location: "BITS Pilani, RJ",
+    orgType: "INTERNAL",
+    prizePool: 150000,
+    deadlineInDays: 7,
+    startInDays: 11,
+    endInDays: 12,
+    techTags: ["React", "Figma", "UI/UX"],
+    minTeamSize: 2,
+    maxTeamSize: 4,
+    byOrganizer: true,
+  },
+  {
+    name: "MLH Global Hack Week",
+    tagline: "Five days of online build sessions",
+    description: "A free online week of workshops, challenges, and open-source contribution sprints. Beginner friendly.",
+    mode: "ONLINE",
+    location: null,
+    orgType: "EXTERNAL",
+    prizePool: 50000,
+    deadlineInDays: 3,
+    startInDays: 4,
+    endInDays: 9,
+    techTags: ["Python", "JavaScript", "Open Source"],
+    minTeamSize: 1,
+    maxTeamSize: 2,
+  },
+  {
+    name: "HackMIT 2027",
+    tagline: "Hardware, robotics, and computer vision",
+    description: "MIT's flagship hackathon, heavy on hardware. Lab access, soldering stations, and CV toolkits.",
+    mode: "OFFLINE",
+    location: "Cambridge, MA",
+    orgType: "EXTERNAL",
+    prizePool: 1200000,
+    deadlineInDays: 90,
+    startInDays: 110,
+    endInDays: 112,
+    techTags: ["Hardware", "Robotics", "Computer Vision"],
+    minTeamSize: 2,
+    maxTeamSize: 4,
+  },
+  {
+    name: "CodeSprint '25",
+    tagline: "Closed — archived external sprint",
+    description: "A past edition kept in the database to verify that CLOSED hackathons stay out of the discovery feed.",
+    mode: "ONLINE",
+    location: null,
+    orgType: "EXTERNAL",
+    prizePool: 100000,
+    deadlineInDays: -20,
+    startInDays: -15,
+    endInDays: -13,
+    techTags: ["JavaScript"],
+    minTeamSize: 1,
+    maxTeamSize: 3,
+    status: "CLOSED",
+  },
+  {
+    name: "NexHack 2027",
+    tagline: "Draft — not published yet",
+    description: "Work in progress draft posted by the organizer account.",
+    mode: "HYBRID",
+    location: "BITS Pilani, RJ",
+    orgType: "INTERNAL",
+    prizePool: 250000,
+    deadlineInDays: 50,
+    startInDays: 70,
+    endInDays: 72,
+    techTags: ["React", "Go"],
+    minTeamSize: 2,
+    maxTeamSize: 4,
+    status: "DRAFT",
+    byOrganizer: true,
+  },
+];
 
 async function main() {
   // Clean slate (dev only)
@@ -18,96 +251,208 @@ async function main() {
   await prisma.user.deleteMany();
 
   const passwordHash = await bcrypt.hash("password123", 10);
-  const d = (days: number) => new Date(Date.now() + days * 24 * 60 * 60 * 1000);
 
   const arjun = await prisma.user.create({
     data: {
-      email: "arjun@iiit.ac.in", passwordHash, name: "Arjun Mehta", verified: true,
-      primaryRole: "BACKEND", bio: "Full-stack dev who loves Go and PostgreSQL. 3 hackathons in.",
-      skills: skills("Go", "React", "PostgreSQL", "Docker"),
-      githubUrl: "https://github.com/arjunm", linkedinUrl: "https://linkedin.com/in/arjunm",
-      discordHandle: "arjunm#4412", availability: "AVAILABLE",
-    },
-  });
-  const priya = await prisma.user.create({
-    data: {
-      email: "priya@nitk.edu.in", passwordHash, name: "Priya Nair", verified: true,
-      primaryRole: "UIUX", bio: "Design engineer. Figma + motion. I make pixels behave.",
-      skills: skills("Figma", "React", "CSS", "Prototyping"),
-      portfolioUrl: "https://priya.design", discordHandle: "priya_n",
+      email: "arjun@iiit.ac.in",
+      passwordHash,
+      name: "Arjun Iyer",
+      verified: true,
+      primaryRole: "BACKEND",
+      bio: "Go + Postgres backend dev. I like boring infrastructure and fast APIs.",
+      skills: tags("Go", "PostgreSQL", "Docker", "Python", "Express"),
+      githubUrl: "https://github.com/arjun",
+      discordHandle: "arjun_iyer",
       availability: "AVAILABLE",
     },
   });
-  const rahul = await prisma.user.create({
+
+  const maya = await prisma.user.create({
     data: {
-      email: "rahul@iitm.ac.in", passwordHash, name: "Rahul Iyer", verified: true,
-      primaryRole: "AIML", bio: "ML student — PyTorch, RAG, and too much coffee.",
-      skills: skills("Python", "PyTorch", "FastAPI", "LangChain"),
-      githubUrl: "https://github.com/rahuli", whatsappNo: "+919876543210",
+      email: "maya@berkeley.edu",
+      passwordHash,
+      name: "Maya Chen",
+      verified: true,
+      primaryRole: "FRONTEND",
+      bio: "React + design systems. Building tactile interfaces that feel physical.",
+      skills: tags("React", "TypeScript", "Tailwind", "Figma"),
+      portfolioUrl: "https://maya.design",
+      availability: "AVAILABLE",
+    },
+  });
+
+  const ravi = await prisma.user.create({
+    data: {
+      email: "ravi@iitb.ac.in",
+      passwordHash,
+      name: "Ravi Nair",
+      verified: true,
+      primaryRole: "AIML",
+      bio: "Applied ML. RAG pipelines, evals, and occasionally robotics.",
+      skills: tags("Python", "PyTorch", "LangChain", "FastAPI"),
+      githubUrl: "https://github.com/ravi",
       availability: "BUSY",
     },
   });
 
-  const sih = await prisma.hackathon.create({
+  // Organizer account — owns the internal hackathons + the draft.
+  const organizer = await prisma.user.create({
     data: {
-      name: "Smart India Hackathon 2026",
-      tagline: "India's biggest hackathon — innovate for a billion people",
-      description:
-        "SIH is a nationwide flagship hackathon organized by AICTE. Solve real problems posed by ministries and industries in 36 hours.",
-      mode: "HYBRID", location: "Campus nodal centres", orgType: "INTERNAL",
-      prizePool: 100000, registrationDeadline: d(12), startDate: d(20), endDate: d(22),
-      techTags: skills("React", "Python", "IoT", "AI/ML"), minTeamSize: 4, maxTeamSize: 6,
-      url: "https://sih.gov.in",
-    },
-  });
-  const gdg = await prisma.hackathon.create({
-    data: {
-      name: "GDG Solution Challenge 2027",
-      tagline: "Build with Google tech, ship for social impact",
-      description:
-        "Solution Challenge invites students to build projects using Google technologies (Firebase, Flutter, AI APIs) solving local problems.",
-      mode: "ONLINE", orgType: "EXTERNAL", prizePool: 250000,
-      registrationDeadline: d(30), startDate: d(35), endDate: d(37),
-      techTags: skills("Flutter", "Firebase", "AI/ML", "React"), minTeamSize: 1, maxTeamSize: 4,
-      url: "https://developers.google.com/community/gdsc-solution-challenge",
-    },
-  });
-  await prisma.hackathon.create({
-    data: {
-      name: "HackVIT '26",
-      tagline: "48h sprint at VIT Vellore",
-      description: "In-person 48-hour hackathon with mentorship from industry engineers and on-the-spot prizes.",
-      mode: "OFFLINE", location: "VIT Vellore, TN", orgType: "EXTERNAL",
-      prizePool: 200000, registrationDeadline: d(-2), startDate: d(5), endDate: d(7),
-      techTags: skills("React", "Node.js", "AI/ML"), minTeamSize: 2, maxTeamSize: 5,
+      email: "priya@bits-pilani.ac.in",
+      passwordHash,
+      name: "Priya Sharma",
+      verified: true,
+      role: "ORGANIZER",
+      primaryRole: "PITCH",
+      bio: "Hackathon organizer at BITS Pilani. I run the campus league events.",
+      skills: tags("Community", "Event Ops", "Sponsorship"),
+      availability: "AVAILABLE",
     },
   });
 
-  // Arjun's recruiting team for SIH: needs a UIUX + an AIML
-  const team = await prisma.team.create({
+  const created = new Map<string, string>();
+  for (const h of HACKATHONS) {
+    const row = await prisma.hackathon.create({
+      data: {
+        name: h.name,
+        tagline: h.tagline,
+        description: h.description,
+        mode: h.mode,
+        location: h.location,
+        orgType: h.orgType,
+        prizePool: h.prizePool,
+        registrationDeadline: d(h.deadlineInDays),
+        startDate: d(h.startInDays),
+        endDate: d(h.endInDays),
+        techTags: tags(...h.techTags),
+        minTeamSize: h.minTeamSize,
+        maxTeamSize: h.maxTeamSize,
+        status: h.status ?? "PUBLISHED",
+        url: h.url ?? null,
+        organizerId: h.byOrganizer ? organizer.id : null,
+      },
+    });
+    HACKATHON_IDS[h.name] = row.id;
+  }
+
+  const sih = HACKATHON_IDS["Smart India Hackathon 2026"];
+  const calhacks = HACKATHON_IDS["CalHacks 11.0"];
+  const gdg = HACKATHON_IDS["GDG Solution Challenge 2027"];
+  const hackvit = HACKATHON_IDS["HackVIT '26"];
+
+  // Teams recruiting across a few hackathons
+  const kernelPanic = await prisma.team.create({
     data: {
-      hackathonId: sih.id, createdById: arjun.id,
-      name: "Kernel Panic", description: "Building a crop-disease detector for farmers. Go + React backend, need design & ML.",
-      openSlots: 2, requiredRoles: skills("UIUX", "AIML"), requiredSkills: skills("Figma", "PyTorch"),
-      contactChannel: "DISCORD", contactValue: "https://discord.gg/kernelpanic",
+      hackathonId: sih,
+      createdById: arjun.id,
+      name: "Kernel Panic",
+      description: "Crop-disease detection for smallholder farmers. Go + Postgres, need design and ML.",
+      openSlots: 2,
+      requiredRoles: tags("UIUX", "AIML"),
+      requiredSkills: tags("Figma", "PyTorch"),
+      contactChannel: "DISCORD",
+      contactValue: "https://discord.gg/kernelpanic",
     },
   });
   await prisma.teamMember.create({
-    data: { teamId: team.id, userId: arjun.id, role: "BACKEND", isLeader: true },
+    data: { teamId: kernelPanic.id, userId: arjun.id, role: "BACKEND", isLeader: true },
+  });
+  await prisma.teamMember.create({
+    data: { teamId: kernelPanic.id, userId: maya.id, role: "FRONTEND" },
   });
 
-  await prisma.soloPost.create({
+  const neuroFlow = await prisma.team.create({
     data: {
-      hackathonId: gdg.id, userId: priya.id,
-      pitch: "UI/UX + frontend, looking for a backend buddy and an ML friend for the Solution Challenge!",
+      hackathonId: calhacks,
+      createdById: ravi.id,
+      name: "NeuroFlow",
+      description: "Local-first EEG agent pipelines. On-device inference, no cloud round-trips.",
+      openSlots: 2,
+      requiredRoles: tags("AIML", "UIUX"),
+      requiredSkills: tags("PyTorch", "Design"),
+      contactChannel: "DISCORD",
+      contactValue: "https://discord.gg/neuroflow",
     },
   });
-  await prisma.bookmark.create({ data: { userId: arjun.id, hackathonId: gdg.id } });
+  await prisma.teamMember.create({
+    data: { teamId: neuroFlow.id, userId: ravi.id, role: "AIML", isLeader: true },
+  });
 
-  console.log(`Seeded 3 students, 3 hackathons, 1 team, 1 solo post.`);
-  console.log(`Demo login: arjun@iiit.ac.in / password123`);
+  const zkVote = await prisma.team.create({
+    data: {
+      hackathonId: calhacks,
+      createdById: maya.id,
+      name: "ZeroKnowledge Vote",
+      description: "Private verifiable campus governance. Rust circuits + a frontend people trust.",
+      openSlots: 1,
+      requiredRoles: tags("BACKEND"),
+      requiredSkills: tags("Rust"),
+      contactChannel: "EMAIL",
+      contactValue: "zkvote@hackmatch.dev",
+    },
+  });
+  await prisma.teamMember.create({
+    data: { teamId: zkVote.id, userId: maya.id, role: "FRONTEND", isLeader: true },
+  });
+
+  const ecoGrid = await prisma.team.create({
+    data: {
+      hackathonId: hackvit,
+      createdById: arjun.id,
+      name: "EcoGrid",
+      description: "Decentralized mesh power monitor for campus hostels.",
+      openSlots: 2,
+      requiredRoles: tags("DEVOPS", "FRONTEND"),
+      requiredSkills: tags("Hardware", "Swift"),
+      contactChannel: "WHATSAPP",
+      contactValue: "+919812345678",
+    },
+  });
+  await prisma.teamMember.create({
+    data: { teamId: ecoGrid.id, userId: arjun.id, role: "DEVOPS", isLeader: true },
+  });
+
+  // Solo builders
+  await prisma.soloPost.create({
+    data: {
+      hackathonId: gdg,
+      userId: maya.id,
+      pitch: "UI/UX + frontend looking for a backend buddy and an ML friend for the Solution Challenge.",
+    },
+  });
+  await prisma.soloPost.create({
+    data: {
+      hackathonId: calhacks,
+      userId: ravi.id,
+      pitch: "ML engineer, RAG + evals. Want to build something that actually ships.",
+    },
+  });
+  await prisma.soloPost.create({
+    data: {
+      hackathonId: sih,
+      userId: maya.id,
+      pitch: "Designer with a working prototype. Need two more builders who like deadlines.",
+    },
+  });
+
+  // Bookmark / reminder state
+  await prisma.bookmark.create({
+    data: { userId: arjun.id, hackathonId: gdg, remindAt: d(27) },
+  });
+  await prisma.bookmark.create({ data: { userId: arjun.id, hackathonId: calhacks } });
+  await prisma.bookmark.create({ data: { userId: maya.id, hackathonId: hackvit } });
+
+  console.log(
+    `Seeded ${[arjun, maya, ravi, organizer].length} users, ${HACKATHONS.length} hackathons, ` +
+      `4 teams, 3 solo posts, 3 bookmarks.`,
+  );
+  console.log(`Student login:    arjun@iiit.ac.in / password123`);
+  console.log(`Organizer login:  priya@bits-pilani.ac.in / password123`);
 }
 
 main()
-  .catch((e) => { console.error(e); process.exit(1); })
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
   .finally(() => prisma.$disconnect());

@@ -264,10 +264,20 @@ User 1─n Hackathon (posted by ORGANIZER/ADMIN)
 | GET | `/hackathons/:id` | Detail (includes team count) |
 | POST | `/hackathons` | Create (ORGANIZER/ADMIN) |
 | PATCH | `/hackathons/:id` | Update (owner/admin) |
-| DELETE | `/hackathons/:id` | Remove (admin) |
+| DELETE | `/hackathons/:id` | Remove (owner/admin) |
+| GET | `/hackathons/mine` | Organizer's own posts incl. drafts (ORGANIZER/ADMIN) |
 | POST | `/hackathons/:id/bookmark` | Bookmark / set reminder |
 | DELETE | `/hackathons/:id/bookmark` | Remove bookmark |
 | GET | `/bookmarks` | My bookmarked hackathons |
+
+**Implementation notes (Phase 3, live):**
+- Feed response shape: `{ items, page, pageSize, total, totalPages }`; each item is a card projection with `techTags: string[]`, `teamCount`, `soloPostCount`, `bookmarked`, `remindAt`.
+- Feed pagination defaults: `page=1`, `limit=12` (max `50`). `sort` is one of `deadline` (default) / `prize` / `recent`.
+- Only `status = PUBLISHED` is returned by default; `?includeClosed=true` includes DRAFT/CLOSED.
+- `from`/`to` bound **`registrationDeadline`**; `tech` is comma-separated and matches **any** selected tag (OR) — implemented in memory because SQLite stores tags as a JSON string (`PROD-NOTE` for Postgres `hasSome`).
+- `bookmarked`/`remindAt` are resolved with `optionalAuth`, so the same feed serves signed-out and signed-in users.
+- `POST /hackathons/:id/bookmark` is an idempotent upsert (unique `[userId, hackathonId]`); body optional `{ remindAt }`.
+- Authoring: `POST` requires ORGANIZER/ADMIN, `PATCH`/`DELETE` require the owner or ADMIN, and end date ≥ start date + max team size ≥ min team size are enforced.
 
 ### Teams & recruitment
 | Method | Route | Description |

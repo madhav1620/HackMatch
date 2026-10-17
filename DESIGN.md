@@ -2,7 +2,7 @@
 
 > **Status:** ✅ **FINALIZED** — Design selected: **"College Hackathon Team Finder"** (Stitch project `10121204597706454375`)
 > Design system name: **"Tactile Editorial Minimalist"** · Light-first with dark-mode screen variants.
-> Local screen exports: `design-reference/*.html` (8 screens, open in browser to preview).
+> Local screen exports: `design-reference/*.html` (**13 screens**, open in browser to preview). `design-reference/manifest.json` records the Stitch screen IDs for the 5 generated screens.
 
 ---
 
@@ -91,8 +91,13 @@ Scale (Tailwind mapping planned):
 | Squad Application Modal (Dark) | `design-reference/modal-dark.html` | — |
 | Student Profile (Read.cv Style) | `design-reference/profile-light.html` | `/profile/:id`, onboarding |
 | Student Profile (Dark) | `design-reference/profile-dark.html` | — |
+| Hackathon Detail | `design-reference/hackathon-detail.html` | `/hackathons/:id` (hero, countdown, about/tracks/judging/schedule, recruiting teams + solo builders) |
+| Feed Loading & Empty States | `design-reference/feed-states.html` | `/feed` skeleton cards + no-results state |
+| Post a Hackathon (Organizer) | `design-reference/post-hackathon.html` | `/admin/hackathons/new` (3-step form: basics → logistics → teams & tracks) |
+| Mobile Marketing Landing | `design-reference/landing.html` | `/` hero, live spotlight card, how-it-works, campus league, footer |
+| Auth Flow (Sign-in + OTP) | `design-reference/auth.html` | `/auth` sign-in frame + OTP verification modal |
 
-> **Gap note:** Stitch has no landing, auth/OTP, or admin-post screens yet. Options: (a) compose them from these primitives, or (b) generate additional screens in the Stitch project via `generate_screen_from_text` and re-export. Will ask before generating.
+Each screen also has a `.png` render alongside its `.html`.
 
 ---
 
@@ -111,16 +116,17 @@ AppShell (dot-matrix canvas #F9F9F8, max-w 1280px)
 ### Screen inventory
 | Route | Screen | Stitch ref |
 |---|---|---|
-| `/` | Landing (hero + college-email CTA) | composed* |
-| `/auth` | Sign-in + OTP entry | composed* |
+| `/` | Landing (hero + college-email CTA) | **landing** |
+| `/auth` | Sign-in + OTP entry | **auth** |
 | `/onboarding` | Role → skills → links → availability | profile-light |
 | `/feed` | Discovery: search, filter chips, HackathonCards, bookmark | **feed-light** |
-| `/hackathons/:id` | Detail + deadline countdown + tabs | **feed/board-light** |
+| `/hackathons/:id` | Detail: hero + countdown badge + About/Tracks/Judging/Schedule + Teams/Solo tabs | **hackathon-detail** |
 | `/hackathons/:id/teams/new` | Create team / post requirement | composed from board |
 | `/teams/:id` | Team detail + join requests accept/decline | **board-light** |
 | `/profile/:id` `/profile/me` | Read.cv-style profile | **profile-light** |
 | `/requests` | Sent/received requests | board rows |
-| `/admin/hackathons/new` | Organizer post form | composed* |
+| `/admin/hackathons/new` | Organizer post form (3-step) | **post-hackathon** |
+| `/feed` (loading / no results) | Skeletons + empty state | **feed-states** |
 
 ---
 
@@ -144,6 +150,12 @@ AppShell
     │   └── "Send Join Request" → SquadApplicationModal
     ├── SquadApplicationModal (Level-3 elevation): mini profile, message textarea, submit
     ├── SoloBuilderCard · ProfileCard · JoinRequestRow (list rows, hairline separated)
+    ├── [HackathonDetail] DetailHero (back · title · bookmark · share) · SpecGrid
+    │   └── SpecCell (label-caps + value: MODE / PRIZE POOL / TEAM SIZE / REG. CLOSES IN + live CountdownBadge)
+    │   ├── TrackPill `[ AI / AGENTS ]` · JudgingRow (label + mono %) · ScheduleRow (mono date/time + title)
+    │   └── RecruitingTeamRow (name · slots-left mono · skill pills · "Request to join →")
+    ├── [Organizer form] StepRail (01 BASICS / 02 LOGISTICS / 03 TEAMS) · Dropzone (dashed) · SegmentedControl (venue type) · Stepper (− / +)
+    ├── [Feed states] SkeletonCard (shimmer) · EmptyState (label-caps + dashed frame + "Clear filters" / "Notify me")
     └── ui/: Button (ink-filled / orange-accent / outline / ghost), Input, Textarea,
              PillTag, Badge (mint/amber), BentoCard, Modal, Avatar, Tabs,
              CountdownBadge, DashedSlot, EmptyState, Toast, Skeleton
@@ -160,10 +172,9 @@ AppShell
 
 ## 6. Animation & Motion Plan
 
-> **MCP status:** Animotion MCP (`animotion-mcp`) is **not connected** in this session — its 745+ CSS animations and 9,000+ icon library are unavailable right now.
-> **Interim plan (v1):** hand-authored CSS keyframes/transitions in `client/src/styles/animations.css`, written to Animotion's class-based conventions so Animotion CSS can be dropped in 1:1 once the MCP is configured.
+> **MCP status:** Animotion MCP (`animotion-mcp`) is **connected and verified** — 20 categories / 745 animations (`suggest_animation` returns real CSS) and 9,745 SVG icons across Lucide, Heroicons, Tabler and Bootstrap.
+> **Plan (v1):** interim hand-authored keyframes in `client/src/styles/animations.css` are written to Animotion's class-based conventions, so real Animotion CSS drops in 1:1. Phase 3–5 swaps in MCP-sourced animation CSS for the inventory below and replaces `lucide-react` glyphs with MCP-sourced SVG paths.
 > **Icons (interim):** `lucide-react` (real, versioned SVG icon set — no hallucinated paths).
-> **To enable Animotion later:** add the `animotion` MCP server to `~/.config/opencode/opencode.jsonc` and restart OpenCode; I'll then search/get real animation CSS and icons via the MCP.
 
 ### Motion inventory (all respect `prefers-reduced-motion`)
 | Moment | Animation | Timing |

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-canvas-paper" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Post a Hackathon · HackMatch</title>
+<!-- Typography & Material Icons -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-secondary-container": "#fefcff",
+            "surface-bright": "#fcf9f4",
+            "on-tertiary-container": "#f9ffed",
+            "on-primary-container": "#fffbff",
+            "on-primary": "#ffffff",
+            "border-subtle": "#E6E6E3",
+            "surface-tint": "#ad3300",
+            "error": "#ba1a1a",
+            "surface-container-highest": "#e5e2dd",
+            "surface-variant": "#e5e2dd",
+            "surface-container": "#f0ede8",
+            "primary-fixed-dim": "#ffb59e",
+            "tertiary": "#5d5c5a",
+            "inverse-surface": "#31302d",
+            "tertiary-fixed": "#e5e2e0",
+            "on-primary-fixed-variant": "#842500",
+            "error-container": "#ffdad6",
+            "primary": "#FF4F00",
+            "primary-dark": "#a93100",
+            "on-secondary": "#ffffff",
+            "badge-mint-bg": "#DCFCE7",
+            "primary-fixed": "#ffdbd0",
+            "on-tertiary-fixed": "#1c1c1a",
+            "surface-container-low": "#f6f3ee",
+            "secondary-container": "#316bf3",
+            "on-primary-fixed": "#3a0b00",
+            "badge-amber-text": "#92400E",
+            "on-error-container": "#93000a",
+            "background": "#fcf9f4",
+            "text-primary": "#141413",
+            "secondary": "#2563EB",
+            "on-surface-variant": "#5c4037",
+            "secondary-fixed-dim": "#b4c5ff",
+            "primary-container": "#d34000",
+            "outline-variant": "#e6beb2",
+            "on-tertiary": "#ffffff",
+            "surface-dim": "#dcdad5",
+            "on-secondary-fixed-variant": "#003ea8",
+            "surface": "#F9F9F8",
+            "text-secondary": "#686763",
+            "surface-card": "#FFFFFF",
+            "canvas-paper": "#F9F9F8",
+            "badge-amber-bg": "#FEF3C7",
+            "surface-container-high": "#ebe8e3",
+            "on-secondary-fixed": "#00174b",
+            "inverse-primary": "#ffb59e",
+            "surface-container-lowest": "#ffffff",
+            "outline": "#916f65",
+            "secondary-fixed": "#dbe1ff",
+            "tertiary-container": "#767473",
+            "on-error": "#ffffff",
+            "badge-mint-text": "#166534",
+            "inverse-on-surface": "#f3f0eb",
+            "on-surface": "#1c1c19",
+            "on-background": "#1c1c19",
+            "tertiary-fixed-dim": "#c9c6c4",
+            "on-tertiary-fixed-variant": "#474745",
+            "border-hairline": "#E4E4E0"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "fontFamily": {
+            "headline-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "label-code": ["JetBrains Mono", "monospace"],
+            "display-hero": ["Plus Jakarta Sans", "sans-serif"],
+            "body-md": ["Inter", "sans-serif"],
+            "body-lg": ["Inter", "sans-serif"],
+            "display-hero-mobile": ["Plus Jakarta Sans", "sans-serif"],
+            "body-sm": ["Inter", "sans-serif"],
+            "headline-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-lg-mobile": ["Plus Jakarta Sans", "sans-serif"],
+            "caption-caps": ["JetBrains Mono", "monospace"],
+            "label-mono-sm": ["JetBrains Mono", "monospace"],
+            "headline-md": ["Plus Jakarta Sans", "sans-serif"]
+          },
+          "fontSize": {
+            "headline-sm": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "label-code": ["13px", { "lineHeight": "18px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+            "display-hero": ["56px", { "lineHeight": "64px", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "22px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "body-lg": ["16px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "400" }],
+            "display-hero-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "body-sm": ["12px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "headline-lg-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "caption-caps": ["10px", { "lineHeight": "14px", "letterSpacing": "0.08em", "fontWeight": "600" }],
+            "label-mono-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .tactile-dot-matrix {
+      background-image: radial-gradient(rgba(20, 20, 19, 0.06) 1px, transparent 1px);
+      background-size: 16px 16px;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      box-shadow: 0 0 0 1px #141413;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-canvas-paper text-text-primary antialiased min-h-full flex justify-center selection:bg-primary selection:text-white">
+<!-- Mobile Simulator Frame (390px logical viewport) -->
+<main class="w-full max-w-[390px] min-h-screen bg-canvas-paper border-x border-border-hairline flex flex-col relative pb-28 tactile-dot-matrix">
+<!-- 1. Top Bar -->
+<header class="sticky top-0 z-40 bg-surface/90 backdrop-blur-md border-b border-border-hairline px-4 h-14 flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<button aria-label="Go back" class="w-8 h-8 rounded border border-border-hairline bg-surface-card flex items-center justify-center text-text-primary hover:bg-surface active:scale-95 transition-transform" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<h1 class="font-headline-sm text-headline-sm text-text-primary font-semibold tracking-tight">Post a Hackathon</h1>
+</div>
+<span class="font-label-mono-sm text-[11px] font-label-mono-sm tracking-wider uppercase bg-surface-container border border-border-hairline px-2 py-0.5 rounded text-text-secondary">
+        ORGANIZER
+      </span>
+</header>
+<!-- 2. Progress Rail -->
+<section class="px-4 py-3 bg-surface/70 border-b border-border-hairline backdrop-blur-sm flex items-center justify-between">
+<div class="flex items-center gap-2 font-label-mono-sm text-[11px] tracking-wider w-full justify-between">
+<span class="text-primary font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary inline-block"></span>
+          01 BASICS
+        </span>
+<span class="text-text-secondary opacity-40">—</span>
+<span class="text-text-secondary hover:text-text-primary transition-colors cursor-pointer">
+          02 LOGISTICS
+        </span>
+<span class="text-text-secondary opacity-40">—</span>
+<span class="text-text-secondary hover:text-text-primary transition-colors cursor-pointer">
+          03 TEAMS
+        </span>
+</div>
+</section>
+<!-- Vertical Content Container -->
+<div class="px-4 py-4 space-y-4">
+<!-- 3. Form Card: BASICS -->
+<section class="bg-surface-card border border-border-hairline rounded-lg p-4 space-y-3.5 shadow-[0_1px_2px_rgba(20,20,19,0.03)]">
+<div class="flex items-baseline justify-between border-b border-border-subtle pb-2">
+<span class="font-label-mono-sm text-label-mono-sm text-text-secondary tracking-wide uppercase">// 01 BASICS</span>
+<span class="font-label-mono-sm text-[10px] text-text-secondary opacity-60">REQUIRED *</span>
+</div>
+<!-- Hackathon Name -->
+<div class="space-y-1">
+<label class="block font-label-mono-sm text-[11px] uppercase tracking-wider text-text-secondary">
+            Hackathon name <span class="text-primary">*</span>
+</label>
+<input class="w-full bg-surface-card border border-border-hairline rounded px-3 py-2 font-label-code text-label-code text-text-primary placeholder:text-text-secondary/40 focus:border-text-primary transition-colors" placeholder="e.g. CalHacks 12.0" type="text" value="CalHacks 12.0"/>
+</div>
+<!-- Tagline -->
+<div class="space-y-1">
+<label class="block font-label-mono-sm text-[11px] uppercase tracking-wider text-text-secondary">
+            Tagline
+          </label>
+<input class="w-full bg-surface-card border border-border-hairline rounded px-3 py-2 font-label-code text-label-code text-text-primary placeholder:text-text-secondary/40 focus:border-text-primary transition-colors" placeholder="e.g. The world's largest collegiate hackathon" type="text"/>
+</div>
+<!-- Event URL -->
+<div class="space-y-1">
+<label class="block font-label-mono-sm text-[11px] uppercase tracking-wider text-text-secondary">
+            Event URL
+          </label>
+<div class="relative flex items-center">
+<span class="absolute left-3 text-text-secondary">
+<span class="material-symbols-outlined text-[15px] opacity-60">link</span>
+</span>
+<input class="w-full bg-surface-card border border-border-hairline rounded pl-8 pr-3 py-2 font-label-code text-label-code text-text-primary placeholder:text-text-secondary/40 focus:border-text-primary transition-colors" placeholder="https://calhacks.io" type="url"/>
+</div>
+</div>
+<!-- Dashed Upload Cell -->
+<div class="pt-1">
+<label class="block font-label-mono-sm text-[11px] uppercase tracking-wider text-text-secondary mb-1">
+            Identity &amp; Asset
+          </label>
+<div class="border border-dashed border-stone-300 rounded-md p-4 text-center bg-stone-50/50 hover:bg-stone-50 transition-colors cursor-pointer flex flex-col items-center justify-center gap-1 group">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-primary transition-colors text-[22px]">upload_file</span>
+<p class="font-label-mono-sm text-xs font-semibold text-text-primary tracking-tight">DROP LOGO HERE OR BROWSE</p>
+<p class="font-label-mono-sm text-[11px] text-text-secondary">PNG/SVG · 1024×1024</p>
+</div>
+</div>
+</section>
+<!-- 4. Card: FORMAT -->
+<section class="bg-surface-card border border-border-hairline rounded-lg p-4 space-y-3 shadow-[0_1px_2px_rgba(20,20,19,0.03)]">
+<div class="flex items-baseline justify-between border-b border-border-subtle pb-2">
+<span class="font-label-mono-sm text-label-mono-sm text-text-secondary tracking-wide uppercase">// FORMAT</span>
+<span class="font-label-mono-sm text-[10px] text-text-secondary opacity-60">VENUE TYPE</span>
+</div>
+<!-- Segmented Control -->
+<div class="grid grid-cols-3 border border-border-hairline rounded overflow-hidden divide-x divide-border-hairline bg-canvas-paper">
+<!-- Selected: IN-PERSON -->
+<button class="relative bg-surface-card py-2.5 px-2 text-center border-t-2 border-primary active:scale-98 transition-all" type="button">
+<span class="block font-label-mono-sm text-[11px] font-semibold text-text-primary tracking-wider uppercase">IN-PERSON</span>
+</button>
+<!-- Option: ONLINE -->
+<button class="bg-canvas-paper hover:bg-surface-card/60 py-2.5 px-2 text-center border-t-2 border-transparent active:scale-98 transition-all" type="button">
+<span class="block font-label-mono-sm text-[11px] font-medium text-text-secondary tracking-wider uppercase">ONLINE</span>
+</button>
+<!-- Option: HYBRID -->
+<button class="bg-canvas-paper hover:bg-surface-card/60 py-2.5 px-2 text-center border-t-2 border-transparent active:scale-98 transition-all" type="button">
+<span class="block font-label-mono-sm text-[11px] font-medium text-text-secondary tracking-wider uppercase">HYBRID</span>
+</button>
+</div>
+<div class="flex items-center gap-1.5 pt-0.5 text-text-secondary">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+<span class="font-label-mono-sm text-[11px]">San Francisco, CA · Palace of Fine Arts</span>
+</div>
+</section>
+<!-- 5. Card: LOGISTICS -->
+<section class="bg-surface-card border border-border-hairline rounded-lg p-4 space-y-3.5 shadow-[0_1px_2px_rgba(20,20,19,0.03)]">
+<div class="flex items-baseline justify-between border-b border-border-subtle pb-2">
+<span class="font-label-mono-sm text-label-mono-sm text-text-secondary tracking-wide uppercase">// 02 LOGISTICS</span>
+<span class="font-label-mono-sm text-[10px] text-text-secondary opacity-60">TIMELINE &amp; POOL</span>
+</div>
+<!-- Registration Deadline -->
+<div class="space-y-1">
+<label class="block font-label-mono-sm text-[11px] uppercase tracking-wider text-text-secondary">
+            Registration closes
+          </label>
+<div class="relative flex items-center">
+<input class="w-full bg-surface-card border border-border-hairline rounded px-3 py-2 font-label-code text-label-code text-text-primary focus:border-text-primary transition-colors" type="text" value="2026-11-02 23:59"/>
+<span class="absolute right-3 text-text-secondary pointer-events-none flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">schedule</span>
+</span>
+</div>
+</div>
+<!-- Start & End Date 2-Column Grid -->
+<div class="grid grid-cols-2 gap-2.5">
+<div class="space-y-1">
+<label class="block font-label-mono-sm text-[11px] uppercase tracking-wider text-text-secondary">
+              Start
+            </label>
+<div class="relative flex items-center">
+<input class="w-full bg-surface-card border border-border-hairline rounded px-3 py-2 font-label-code text-label-code text-text-primary focus:border-text-primary transition-colors" type="text" value="2026-11-14"/>
+<span class="absolute right-2.5 text-text-secondary pointer-events-none">
+<span class="material-symbols-outlined text-[15px]">calendar_today</span>
+</span>
+</div>
+</div>
+<div class="space-y-1">
+<label class="block font-label-mono-sm text-[11px] uppercase tracking-wider text-text-secondary">
+              End
+            </label>
+<div class="relative flex items-center">
+<input class="w-full bg-surface-card border border-border-hairline rounded px-3 py-2 font-label-code text-label-code text-text-primary focus:border-text-primary transition-colors" type="text" value="2026-11-16"/>
+<span class="absolute right-2.5 text-text-secondary pointer-events-none">
+<span class="material-symbols-outlined text-[15px]">calendar_today</span>
+</span>
+</div>
+</div>
+</div>
+<!-- Total Prize Pool -->
+<div class="space-y-1">
+<div class="flex justify-between items-center">
+<label class="block font-label-mono-sm text-[11px] uppercase tracking-wider text-text-secondary">
+              Total prize pool
+            </label>
+<span class="inline-flex items-center gap-1 font-label-mono-sm text-[10px] text-badge-mint-text bg-badge-mint-bg px-1.5 py-0.2 rounded border border-badge-mint-text/20">
+<span class="w-1 h-1 rounded-full bg-badge-mint-text"></span> VERIFIED
+            </span>
+</div>
+<div class="relative flex items-center">
+<span class="absolute left-3 font-label-code text-label-code text-primary font-semibold">$</span>
+<input class="w-full bg-surface-card border border-border-hairline rounded pl-7 pr-3 py-2 font-label-code text-label-code text-text-primary font-semibold focus:border-text-primary transition-colors" type="text" value="40,000"/>
+<span class="absolute right-3 font-label-mono-sm text-[11px] text-text-secondary">USD</span>
+</div>
+</div>
+</section>
+<!-- 6. Card: TEAMS -->
+<section class="bg-surface-card border border-border-hairline rounded-lg p-4 space-y-3.5 shadow-[0_1px_2px_rgba(20,20,19,0.03)]">
+<div class="flex items-baseline justify-between border-b border-border-subtle pb-2">
+<span class="font-label-mono-sm text-label-mono-sm text-text-secondary tracking-wide uppercase">// 03 TEAMS &amp; TRACKS</span>
+<span class="font-label-mono-sm text-[10px] text-text-secondary opacity-60">PARAM SPECS</span>
+</div>
+<!-- Tags / Tracks -->
+<div class="space-y-2">
+<label class="block font-label-mono-sm text-[11px] uppercase tracking-wider text-text-secondary">
+            TAGS
+          </label>
+<div class="flex flex-wrap items-center gap-1.5">
+<!-- AI Pill -->
+<span class="inline-flex items-center gap-1 bg-canvas-paper border border-border-hairline rounded-full px-2.5 py-1 font-label-mono-sm text-[11px] text-text-primary">
+              AI
+              <button aria-label="Remove AI tag" class="text-text-secondary hover:text-text-primary hover:bg-stone-200 rounded-full w-3.5 h-3.5 inline-flex items-center justify-center text-[10px] leading-none transition-colors" type="button">×</button>
+</span>
+<!-- ML Pill -->
+<span class="inline-flex items-center gap-1 bg-canvas-paper border border-border-hairline rounded-full px-2.5 py-1 font-label-mono-sm text-[11px] text-text-primary">
+              ML
+              <button aria-label="Remove ML tag" class="text-text-secondary hover:text-text-primary hover:bg-stone-200 rounded-full w-3.5 h-3.5 inline-flex items-center justify-center text-[10px] leading-none transition-colors" type="button">×</button>
+</span>
+<!-- WEB3 Pill -->
+<span class="inline-flex items-center gap-1 bg-canvas-paper border border-border-hairline rounded-full px-2.5 py-1 font-label-mono-sm text-[11px] text-text-primary">
+              WEB3
+              <button aria-label="Remove WEB3 tag" class="text-text-secondary hover:text-text-primary hover:bg-stone-200 rounded-full w-3.5 h-3.5 inline-flex items-center justify-center text-[10px] leading-none transition-colors" type="button">×</button>
+</span>
+<!-- Dashed Add Tag -->
+<button class="font-label-mono-sm text-xs border border-dashed border-stone-400 px-2.5 py-1 rounded text-stone-600 hover:text-stone-900 hover:border-stone-600 bg-stone-50/40 transition-colors flex items-center gap-0.5" type="button">
+<span>+</span> ADD TAG
+            </button>
+</div>
+</div>
+<!-- 2-Column Team Size Parameters -->
+<div class="grid grid-cols-2 gap-2.5 pt-1">
+<div class="space-y-1">
+<label class="block font-label-mono-sm text-[11px] uppercase tracking-wider text-text-secondary text-center">
+              MIN TEAM SIZE
+            </label>
+<div class="flex items-center bg-surface-card border border-border-hairline rounded px-2 py-1.5 focus-within:border-text-primary transition-colors">
+<button class="w-6 h-6 rounded flex items-center justify-center text-text-secondary hover:bg-stone-100 text-sm font-semibold active:scale-95" type="button">−</button>
+<input class="w-full text-center font-label-code text-label-code font-semibold text-text-primary bg-transparent border-0 p-0 focus:ring-0 focus:outline-none" type="text" value="3"/>
+<button class="w-6 h-6 rounded flex items-center justify-center text-text-secondary hover:bg-stone-100 text-sm font-semibold active:scale-95" type="button">+</button>
+</div>
+</div>
+<div class="space-y-1">
+<label class="block font-label-mono-sm text-[11px] uppercase tracking-wider text-text-secondary text-center">
+              MAX TEAM SIZE
+            </label>
+<div class="flex items-center bg-surface-card border border-border-hairline rounded px-2 py-1.5 focus-within:border-text-primary transition-colors">
+<button class="w-6 h-6 rounded flex items-center justify-center text-text-secondary hover:bg-stone-100 text-sm font-semibold active:scale-95" type="button">−</button>
+<input class="w-full text-center font-label-code text-label-code font-semibold text-text-primary bg-transparent border-0 p-0 focus:ring-0 focus:outline-none" type="text" value="5"/>
+<button class="w-6 h-6 rounded flex items-center justify-center text-text-secondary hover:bg-stone-100 text-sm font-semibold active:scale-95" type="button">+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- 7. Auto-save status footer note -->
+<div class="border border-dashed border-border-hairline rounded-md bg-stone-50/40 py-2.5 px-3 text-center">
+<p class="font-label-mono-sm text-xs text-text-secondary flex items-center justify-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+          // draft saves automatically
+        </p>
+</div>
+</div>
+<!-- 8. Sticky Bottom Action Bar -->
+<div class="fixed bottom-0 z-40 w-full max-w-[390px] bg-surface/95 backdrop-blur-md border-t border-border-hairline px-4 py-3 flex items-center gap-3">
+<!-- Save Draft -->
+<button class="bg-surface-card border border-border-hairline text-text-primary font-label-mono-sm font-medium text-xs px-4 py-2.5 rounded hover:bg-canvas-paper active:scale-95 transition-all" type="button">
+        Save draft
+      </button>
+<!-- Publish Button (Accent Primary #FF4F00) -->
+<button class="bg-primary text-white font-label-mono-sm font-medium text-xs px-5 py-2.5 rounded flex-1 text-center active:scale-95 hover:bg-primary-dark transition-all flex items-center justify-center gap-1.5 shadow-none" type="button">
+<span>Publish hackathon</span>
+<span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+</button>
+</div>
+</main>
+</body></html>

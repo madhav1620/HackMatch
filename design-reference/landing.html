@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HackMatch — College Hackathon Team Finder</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Plus Jakarta Sans, Inter, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <!-- Material Symbols for crisp iconography -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            canvas: '#F9F9F8',
+            surface: '#FFFFFF',
+            hairline: '#E4E4E0',
+            hairlineDark: '#D4D4CE',
+            ink: '#141413',
+            mutedInk: '#686763',
+            orangeAccent: '#FF4F00',
+            cobaltAccent: '#2563EB',
+            badgeMintBg: '#DCFCE7',
+            badgeMintText: '#166534',
+            badgeAmberBg: '#FEF3C7',
+            badgeAmberText: '#92400E',
+          },
+          fontFamily: {
+            heading: ['"Plus Jakarta Sans"', 'sans-serif'],
+            body: ['Inter', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Dot grid background pattern */
+    .bg-dot-pattern {
+      background-image: radial-gradient(#d5d5cf 1px, transparent 1px);
+      background-size: 16px 16px;
+    }
+    /* Subtle touch active scaling */
+    .btn-press:active {
+      transform: scale(0.98);
+    }
+  </style>
+</head>
+<body class="bg-canvas text-ink font-body antialiased min-h-screen flex justify-center selection:bg-orangeAccent selection:text-white">
+
+  <!-- Mobile Container (390px logical width) -->
+  <div class="w-full max-w-[390px] bg-canvas min-h-screen flex flex-col border-x border-hairline relative">
+
+    <!-- Sticky Top Bar -->
+    <header class="sticky top-0 z-50 bg-canvas/95 backdrop-blur-sm border-b border-hairline px-4 h-14 flex items-center justify-between transition-colors">
+      <!-- Left: Logo & Wordmark -->
+      <a href="#" class="flex items-center gap-2 group">
+        <!-- Orange Rocket Glyph Badge -->
+        <div class="w-7 h-7 rounded bg-orangeAccent text-white flex items-center justify-center font-mono font-bold text-sm shadow-sm group-hover:opacity-90 transition-opacity">
+          <span class="material-symbols-outlined text-[18px]">rocket_launch</span>
+        </div>
+        <span class="font-heading font-extrabold text-[17px] tracking-tight text-ink">HackMatch</span>
+      </a>
+
+      <!-- Right: Action Buttons -->
+      <div class="flex items-center gap-2">
+        <a href="#signin" class="px-3 py-1.5 text-xs font-mono font-medium rounded border border-hairline bg-surface hover:bg-slate-50 text-ink transition-colors btn-press">
+          Sign in
+        </a>
+        <a href="#get-started" class="px-3 py-1.5 text-xs font-mono font-semibold rounded bg-orangeAccent hover:bg-[#e04500] text-white transition-colors btn-press">
+          Get started
+        </a>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 flex flex-col">
+
+      <!-- HERO SECTION -->
+      <section class="px-5 pt-8 pb-7 bg-dot-pattern border-b border-hairline relative">
+        <!-- Eyebrow Tag -->
+        <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface border border-hairline mb-4">
+          <span class="w-1.5 h-1.5 rounded-full bg-orangeAccent"></span>
+          <span class="font-mono text-[11px] font-semibold tracking-wider text-mutedInk uppercase">
+            FOR COLLEGE HACKERS
+          </span>
+        </div>
+
+        <!-- Three-Line Oversized Headline -->
+        <h1 class="font-heading font-extrabold text-[32px] leading-[1.12] tracking-tight text-ink mb-3">
+          Find your hackathon.<br>
+          Build your squad.<br>
+          Win together.
+        </h1>
+
+        <!-- Supporting Paragraph -->
+        <p class="text-mutedInk text-[14px] leading-relaxed mb-6">
+          The verified collegiate matchmaking network. Connect with high-bandwidth developers, AI researchers, and designers across 340+ campuses.
+        </p>
+
+        <!-- CTAs: Full-width stacked buttons -->
+        <div class="flex flex-col gap-2.5 mb-5">
+          <a href="#signup" class="w-full py-3 px-4 rounded bg-orangeAccent hover:bg-[#e04500] text-white font-mono text-[13px] font-semibold text-center flex items-center justify-center gap-1.5 transition-colors shadow-none btn-press">
+            <span>Get started free</span>
+            <span class="material-symbols-outlined text-base">arrow_forward</span>
+          </a>
+          <a href="#explore" class="w-full py-3 px-4 rounded bg-surface hover:bg-slate-50 border border-hairline text-ink font-mono text-[13px] font-medium text-center transition-colors btn-press">
+            Browse hackathons
+          </a>
+        </div>
+
+        <!-- Centered Mono Trust Metric -->
+        <div class="pt-2 text-center">
+          <p class="font-mono text-[10.5px] font-semibold tracking-wider text-mutedInk uppercase">
+            12,480 VERIFIED STUDENTS · 340 CAMPUSES
+          </p>
+        </div>
+      </section>
+
+      <!-- PRODUCT BENTO CARD MOCK (Stack Effect) -->
+      <section class="px-5 py-8 bg-canvas border-b border-hairline overflow-hidden">
+        <!-- Section Sub-eyebrow -->
+        <div class="flex items-center justify-between mb-4">
+          <span class="font-mono text-[11px] font-semibold text-mutedInk uppercase tracking-wider">// LIVE OPPORTUNITY SPOTLIGHT</span>
+          <span class="inline-flex items-center gap-1 text-[11px] font-mono font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> MATCHING ACTIVE
+          </span>
+        </div>
+
+        <!-- Stack Container with overlapping background card -->
+        <div class="relative pt-2 pb-1">
+          <!-- Background Card (Stack illusion) -->
+          <div class="absolute inset-x-3 -top-0.5 h-full rounded-lg bg-[#EFEFEA] border border-hairlineDark -rotate-[1.5deg] scale-[0.98] transform-gpu pointer-events-none"></div>
+
+          <!-- Foreground Primary Hackathon Card -->
+          <div class="relative rounded-lg bg-surface border border-hairline p-4 shadow-none">
+            <!-- Header: Logo, Title & Verified Badge -->
+            <div class="flex items-start justify-between gap-3 mb-3">
+              <div class="flex items-center gap-3">
+                <!-- Event Logo Square -->
+                <div class="w-10 h-10 rounded border border-hairline bg-[#FAF9F6] flex items-center justify-center flex-shrink-0">
+                  <span class="font-mono font-bold text-xs text-orangeAccent tracking-tighter">CH<span class="text-[9px] text-mutedInk block text-center leading-none">12.0</span></span>
+                </div>
+                <div>
+                  <div class="flex items-center gap-1.5">
+                    <h3 class="font-heading font-bold text-[16px] text-ink leading-tight">CalHacks 2025</h3>
+                    <span class="material-symbols-outlined text-[15px] text-cobaltAccent">verified</span>
+                  </div>
+                  <span class="font-mono text-[11px] text-mutedInk">UC Berkeley · In-Person</span>
+                </div>
+              </div>
+              <!-- Status Pill -->
+              <span class="font-mono text-[10px] px-1.5 py-0.5 rounded bg-badgeAmberBg text-badgeAmberText font-medium border border-amber-200">
+                TIER 1
+              </span>
+            </div>
+
+            <!-- Two Grey Meta Bars (Simulating details/tags) -->
+            <div class="flex items-center gap-2 mb-4">
+              <div class="h-6 px-2 rounded bg-[#F4F4F1] border border-hairline flex items-center gap-1">
+                <span class="font-mono text-[10.5px] text-mutedInk">$40,000 PRIZE POOL</span>
+              </div>
+              <div class="h-6 px-2 rounded bg-[#F4F4F1] border border-hairline flex items-center gap-1">
+                <span class="font-mono text-[10.5px] text-mutedInk">3-5 BUILDERS</span>
+              </div>
+            </div>
+
+            <!-- Prominent JetBrains Mono Countdown -->
+            <div class="rounded border border-hairline bg-canvas p-2.5 mb-3">
+              <div class="text-[10px] font-mono uppercase tracking-wider text-mutedInk mb-1 flex items-center justify-between">
+                <span>Registration Closes In</span>
+                <span class="text-orangeAccent font-medium">Strict Devpost Lock</span>
+              </div>
+              <div class="font-mono font-bold text-[18px] tracking-tight text-orangeAccent">
+                06D 14H 22M 09S
+              </div>
+            </div>
+
+            <!-- Bottom Row: Signature Dashed Open-Slot Chip & Teammate avatars -->
+            <div class="pt-1 flex items-center justify-between gap-2 border-t border-hairline">
+              <!-- Dashed 'open slot' chip -->
+              <div class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded border border-dashed border-orangeAccent/70 bg-orange-50/50">
+                <span class="w-1.5 h-1.5 rounded-full bg-orangeAccent"></span>
+                <span class="font-mono text-[11px] font-semibold text-orangeAccent tracking-wide">
+                  1 TEAMMATE NEEDED
+                </span>
+              </div>
+
+              <!-- Quick action link -->
+              <span class="font-mono text-[11px] font-medium text-cobaltAccent hover:underline flex items-center gap-0.5">
+                View squad <span class="material-symbols-outlined text-[13px]">arrow_forward</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: HOW IT WORKS -->
+      <section class="px-5 py-8 bg-canvas border-b border-hairline">
+        <!-- Section Header -->
+        <div class="mb-5">
+          <span class="font-mono text-[11px] font-bold text-mutedInk uppercase tracking-wider block mb-1">
+            // HOW IT WORKS
+          </span>
+          <h2 class="font-heading font-extrabold text-[22px] tracking-tight text-ink">
+            From solo hacker to fully staffed squad in minutes.
+          </h2>
+        </div>
+
+        <!-- Three Stacked Hairline Cards -->
+        <div class="flex flex-col gap-3">
+          <!-- Step 01 -->
+          <div class="p-4 rounded-lg bg-surface border border-hairline transition-all hover:border-hairlineDark">
+            <div class="font-mono font-bold text-[22px] text-orangeAccent tracking-tight mb-1">
+              01
+            </div>
+            <h3 class="font-heading font-bold text-[15px] text-ink mb-1">
+              Verify with your college email
+            </h3>
+            <p class="text-[13px] text-mutedInk leading-relaxed">
+              We check your campus domain so everyone here is a real student. No recruiters, no stealth companies.
+            </p>
+          </div>
+
+          <!-- Step 02 -->
+          <div class="p-4 rounded-lg bg-surface border border-hairline transition-all hover:border-hairlineDark">
+            <div class="font-mono font-bold text-[22px] text-orangeAccent tracking-tight mb-1">
+              02
+            </div>
+            <h3 class="font-heading font-bold text-[15px] text-ink mb-1">
+              Tag your skills and availability
+            </h3>
+            <p class="text-[13px] text-mutedInk leading-relaxed">
+              Tell the algorithm what you build and when you are free. Match by exact tech stack: PyTorch, WASM, or UI craft.
+            </p>
+          </div>
+
+          <!-- Step 03 -->
+          <div class="p-4 rounded-lg bg-surface border border-hairline transition-all hover:border-hairlineDark">
+            <div class="font-mono font-bold text-[22px] text-orangeAccent tracking-tight mb-1">
+              03
+            </div>
+            <h3 class="font-heading font-bold text-[15px] text-ink mb-1">
+              Match with teams and start hacking
+            </h3>
+            <p class="text-[13px] text-mutedInk leading-relaxed">
+              Send a request, get accepted, hand off to Discord. Lock your roster before registration queues close.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: VERIFIED CAMPUS LEAGUE -->
+      <section class="px-5 py-8 bg-canvas border-b border-hairline">
+        <!-- Header -->
+        <div class="text-center mb-5">
+          <span class="font-mono text-[11px] font-bold text-mutedInk uppercase tracking-wider block mb-1">
+            // VERIFIED CAMPUS LEAGUE
+          </span>
+          <p class="text-[13px] text-mutedInk max-w-[280px] mx-auto">
+            Top builders coordinating across premier technological institutes.
+          </p>
+        </div>
+
+        <!-- Wrapping Centered Row of 6 Outlined Mono Chips -->
+        <div class="flex flex-wrap justify-center gap-2">
+          <div class="px-3 py-1.5 rounded border border-hairline bg-surface hover:bg-[#FAF9F6] transition-colors">
+            <span class="font-mono text-[11.5px] font-semibold text-ink tracking-tight">IIIT HYDERABAD</span>
+          </div>
+          <div class="px-3 py-1.5 rounded border border-hairline bg-surface hover:bg-[#FAF9F6] transition-colors">
+            <span class="font-mono text-[11.5px] font-semibold text-ink tracking-tight">IIT BOMBAY</span>
+          </div>
+          <div class="px-3 py-1.5 rounded border border-hairline bg-surface hover:bg-[#FAF9F6] transition-colors">
+            <span class="font-mono text-[11.5px] font-semibold text-ink tracking-tight">BITS PILANI</span>
+          </div>
+          <div class="px-3 py-1.5 rounded border border-hairline bg-surface hover:bg-[#FAF9F6] transition-colors">
+            <span class="font-mono text-[11.5px] font-semibold text-ink tracking-tight">NIT TRICHY</span>
+          </div>
+          <div class="px-3 py-1.5 rounded border border-hairline bg-surface hover:bg-[#FAF9F6] transition-colors">
+            <span class="font-mono text-[11.5px] font-semibold text-ink tracking-tight">VIT VELLORE</span>
+          </div>
+          <div class="px-3 py-1.5 rounded border border-hairline bg-surface hover:bg-[#FAF9F6] transition-colors">
+            <span class="font-mono text-[11.5px] font-semibold text-ink tracking-tight">IIIT DELHI</span>
+          </div>
+        </div>
+
+        <!-- Subtle callout for other universities -->
+        <div class="mt-4 text-center">
+          <a href="#request-campus" class="font-mono text-[11px] text-cobaltAccent hover:underline inline-flex items-center gap-1">
+            + Don't see your college? Request campus whitelist
+          </a>
+        </div>
+      </section>
+
+      <!-- PRE-FOOTER CTA CARD -->
+      <section class="px-5 py-6 bg-dot-pattern border-b border-hairline">
+        <div class="rounded-lg bg-surface border border-hairline p-5 text-center">
+          <span class="font-mono text-[10.5px] font-bold text-orangeAccent uppercase tracking-wider block mb-1">NEXT MAJOR SPRINT: CALHACKS & TREEHACKS</span>
+          <h3 class="font-heading font-extrabold text-[18px] text-ink mb-2">Ready to ship your hack?</h3>
+          <p class="text-xs text-mutedInk mb-4">Claim your verified hacker ID with college email in under 30 seconds.</p>
+          <a href="#signup" class="w-full py-2.5 px-4 rounded bg-orangeAccent hover:bg-[#e04500] text-white font-mono text-[12.5px] font-semibold text-center block transition-colors btn-press">
+            Register with .edu / .ac.in
+          </a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="px-5 pt-8 pb-10 bg-canvas border-t border-hairline flex flex-col gap-6">
+      <!-- Two Short Columns of Mono Links -->
+      <div class="grid grid-cols-2 gap-6">
+        <!-- Col 1: Product -->
+        <div>
+          <span class="font-mono text-[11px] font-bold text-ink uppercase tracking-wider block mb-2.5">
+            PRODUCT
+          </span>
+          <ul class="flex flex-col gap-2 font-mono text-[12px] text-mutedInk">
+            <li><a href="#hackathons" class="hover:text-cobaltAccent transition-colors">Hackathons</a></li>
+            <li><a href="#teammates" class="hover:text-cobaltAccent transition-colors">Teammates</a></li>
+            <li><a href="#squads" class="hover:text-cobaltAccent transition-colors">Squads</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 2: Company -->
+        <div>
+          <span class="font-mono text-[11px] font-bold text-ink uppercase tracking-wider block mb-2.5">
+            COMPANY
+          </span>
+          <ul class="flex flex-col gap-2 font-mono text-[12px] text-mutedInk">
+            <li><a href="#about" class="hover:text-cobaltAccent transition-colors">About</a></li>
+            <li><a href="#careers" class="hover:text-cobaltAccent transition-colors">Careers</a></li>
+            <li><a href="#privacy" class="hover:text-cobaltAccent transition-colors">Privacy</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Divider line -->
+      <div class="w-full h-px bg-hairline"></div>
+
+      <!-- Final Mono Line -->
+      <div class="flex flex-col gap-2 text-center">
+        <p class="font-mono text-[11px] font-medium text-mutedInk tracking-tight">
+          © 2026 HACKMATCH — BUILT FOR CAMPUS SQUADS
+        </p>
+        <p class="font-mono text-[10px] text-mutedInk/70">
+          ALL SYSTEMS OPERATIONAL · TACTILE EDITORIAL
+        </p>
+      </div>
+    </footer>
+
+  </div>
+
+</body>
+</html>

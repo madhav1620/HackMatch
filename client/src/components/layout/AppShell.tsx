@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { BadgeCheck, Compass, LogOut, MessagesSquare, Plus, Search, Terminal, User, Users } from "lucide-react";
+import { BadgeCheck, Bookmark, Compass, LogOut, MessagesSquare, Plus, Search, Terminal, User, Users } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 
 const TABS = [
@@ -10,67 +11,94 @@ const TABS = [
   { to: "/profile/me", label: "Profile", icon: User },
 ];
 
-/**
- * Authed chrome: top bar (Stitch profile-light) + bottom tab bar (mobile-first 390px design).
- * Feed/board/talent screens arrive in Phases 3–4; this shell is the shared frame.
- */
+/** Shared authed chrome: top bar (search + post + user) and mobile bottom tabs. */
 export function AppShell() {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
+  const [term, setTerm] = useState("");
 
-  async function handleLogout() {
-    await logout();
-    navigate("/auth");
-  }
+  const isOrganizer = user?.role === "ORGANIZER" || user?.role === "ADMIN";
+
+  const submitSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    navigate(term.trim() ? `/?search=${encodeURIComponent(term.trim())}` : "/");
+  };
 
   return (
-    <div className="bg-dotmatrix flex min-h-screen flex-col">
-      <header className="border-hairline bg-surface sticky top-0 z-30 border-b">
+    <div className="bg-dotmatrix min-h-screen">
+      <header className="border-hairline bg-surface/95 sticky top-0 z-30 border-b backdrop-blur">
         <div className="mx-auto flex max-w-[1280px] items-center gap-3 px-4 py-3 md:px-6">
-          <span className="font-display text-[17px] font-extrabold tracking-tight">HackMatch</span>
+          <NavLink to="/" className="font-display text-[17px] font-extrabold tracking-tight">
+            HackMatch
+          </NavLink>
           <span className="label-caps text-ink-muted border-hairline hidden rounded-sm border px-2 py-1 sm:inline-flex">
             Campus League
           </span>
-          <div className="ml-auto flex items-center gap-2">
-            <label className="border-hairline bg-surface-sunk hidden items-center gap-2 rounded-lg border px-3 py-2 md:flex">
+
+          <form onSubmit={submitSearch} className="ml-auto flex items-center gap-2">
+            <label className="border-hairline hidden items-center gap-2 rounded-lg border bg-surface-sunk px-3 py-2 md:flex">
               <Search className="text-ink-muted h-4 w-4" aria-hidden />
+              <span className="sr-only">Search hackathons</span>
               <input
+                value={term}
+                onChange={(e) => setTerm(e.target.value)}
                 className="label-mono-sm w-40 bg-transparent outline-none"
                 placeholder="Search hackathons, skills…"
-                aria-label="Search"
               />
             </label>
-            <button
-              className="press border-hairline inline-flex items-center gap-1 rounded-lg border px-3 py-2"
-              title="Post a team requirement (Phase 4)"
+
+            <NavLink
+              to="/saved"
+              className={({ isActive }) =>
+                `press border-hairline rounded-lg border px-3 py-2 ${isActive ? "bg-ink text-white" : "bg-surface"}`
+              }
+              title="Saved hackathons"
             >
-              <Plus className="h-4 w-4" aria-hidden />
-              <span className="label-mono-sm hidden sm:inline">Post</span>
-            </button>
-            <div className="border-hairline flex items-center gap-2 rounded-lg border px-3 py-2">
+              <Bookmark className="h-4 w-4" aria-hidden />
+              <span className="sr-only">Saved</span>
+            </NavLink>
+
+            {isOrganizer && (
+              <NavLink
+                to="/admin/hackathons/new"
+                className={({ isActive }) =>
+                  `press border-hairline hidden items-center gap-1.5 rounded-lg border px-3 py-2 sm:inline-flex ${
+                    isActive ? "bg-ink text-white" : "bg-surface"
+                  }`
+                }
+                title="Post a hackathon"
+              >
+                <Plus className="h-4 w-4" aria-hidden />
+                <span className="label-mono-sm">Post</span>
+              </NavLink>
+            )}
+
+            <NavLink
+              to="/profile/me"
+              className="press border-hairline flex items-center gap-2 rounded-lg border bg-surface px-3 py-2"
+            >
               <span className="label-mono-sm max-w-[110px] truncate">{user?.name ?? "Hacker"}</span>
               {user?.verified && <BadgeCheck className="text-link h-4 w-4" aria-label="Verified" />}
-            </div>
-            <button className="press text-ink-muted" onClick={handleLogout} aria-label="Sign out" title="Sign out">
-              <LogOut className="h-4 w-4" />
-            </button>
-          </div>
+            </NavLink>
+
+            <SignOut />
+          </form>
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-[1280px] flex-1 px-4 pb-24 pt-6 md:px-6">
+      <main className="mx-auto w-full max-w-[1280px] flex-1 px-4 pt-6 pb-24 md:px-6">
         <Outlet />
       </main>
 
-      <nav className="border-hairline bg-surface fixed bottom-0 left-0 right-0 z-30 border-t">
-        <div className="mx-auto flex max-w-[1280px] items-stretch justify-between px-2 md:justify-center md:gap-8">
+      <nav className="border-hairline bg-surface fixed inset-x-0 bottom-0 z-30 border-t md:hidden">
+        <div className="flex items-stretch justify-between px-2">
           {TABS.map(({ to, label, icon: Icon, end }) => (
             <NavLink
               key={to}
               to={to}
               end={end}
               className={({ isActive }) =>
-                `press flex flex-1 flex-col items-center gap-1 px-3 py-2 md:flex-none ${
+                `press flex flex-1 flex-col items-center gap-1 px-2 py-2 ${
                   isActive ? "text-accent" : "text-ink-muted"
                 }`
               }
@@ -82,5 +110,24 @@ export function AppShell() {
         </div>
       </nav>
     </div>
+  );
+}
+
+/** Isolated sign-out so the mutation/redirect logic isn't tangled with the shell. */
+function SignOut() {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+  return (
+    <button
+      className="press text-ink-muted p-2"
+      aria-label="Sign out"
+      title="Sign out"
+      onClick={async () => {
+        await logout();
+        navigate("/auth");
+      }}
+    >
+      <LogOut className="h-4 w-4" aria-hidden />
+    </button>
   );
 }

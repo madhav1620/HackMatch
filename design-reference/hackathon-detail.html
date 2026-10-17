@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HackMatch — CalHacks 2025</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Script -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "outline": "#916f65",
+          "secondary": "#0051d5",
+          "surface-variant": "#e5e2dd",
+          "on-secondary": "#ffffff",
+          "on-primary-container": "#fffbff",
+          "on-tertiary-container": "#f9ffed",
+          "surface-container-highest": "#e5e2dd",
+          "tertiary-fixed-dim": "#c9c6c4",
+          "border-hairline": "#E4E4E0",
+          "surface-container-low": "#f6f3ee",
+          "on-primary-fixed": "#3a0b00",
+          "surface": "#fcf9f4",
+          "badge-mint-text": "#166534",
+          "on-tertiary-fixed": "#1c1c1a",
+          "inverse-on-surface": "#f3f0eb",
+          "badge-amber-bg": "#FEF3C7",
+          "on-error-container": "#93000a",
+          "primary": "#a93100",
+          "surface-tint": "#ad3300",
+          "on-surface": "#1c1c19",
+          "secondary-fixed-dim": "#b4c5ff",
+          "on-background": "#1c1c19",
+          "border-subtle": "#E6E6E3",
+          "on-primary": "#ffffff",
+          "primary-container": "#d34000",
+          "inverse-surface": "#31302d",
+          "on-error": "#ffffff",
+          "badge-mint-bg": "#DCFCE7",
+          "on-secondary-fixed-variant": "#003ea8",
+          "tertiary-container": "#767473",
+          "primary-fixed-dim": "#ffb59e",
+          "text-secondary": "#686763",
+          "text-primary": "#141413",
+          "surface-card": "#FFFFFF",
+          "secondary-container": "#316bf3",
+          "error": "#ba1a1a",
+          "on-surface-variant": "#5c4037",
+          "on-secondary-container": "#fefcff",
+          "surface-container-lowest": "#ffffff",
+          "surface-container-high": "#ebe8e3",
+          "canvas-paper": "#F9F9F8",
+          "surface-container": "#f0ede8",
+          "badge-amber-text": "#92400E",
+          "on-secondary-fixed": "#00174b",
+          "background": "#fcf9f4",
+          "tertiary": "#5d5c5a",
+          "primary-fixed": "#ffdbd0",
+          "secondary-fixed": "#dbe1ff",
+          "error-container": "#ffdad6",
+          "inverse-primary": "#ffb59e",
+          "surface-bright": "#fcf9f4",
+          "on-tertiary": "#ffffff",
+          "on-primary-fixed-variant": "#842500",
+          "on-tertiary-fixed-variant": "#474745",
+          "outline-variant": "#e6beb2",
+          "tertiary-fixed": "#e5e2e0",
+          "surface-dim": "#dcdad5"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.125rem",
+          "lg": "0.25rem",
+          "xl": "0.5rem",
+          "full": "0.75rem"
+        },
+        "spacing": {
+          "gutter-desktop": "1.5rem",
+          "margin-tablet": "2rem",
+          "margin-desktop": "3rem",
+          "space-xs": "0.25rem",
+          "space-sm": "0.5rem",
+          "space-md": "1rem",
+          "space-lg": "1.5rem",
+          "gutter": "1rem",
+          "margin": "1rem",
+          "space-xl": "2.5rem"
+        },
+        "fontFamily": {
+          "display-hero": ["Plus Jakarta Sans"],
+          "body-lg": ["Inter"],
+          "headline-sm": ["Plus Jakarta Sans"],
+          "label-mono-sm": ["JetBrains Mono"],
+          "label-code": ["JetBrains Mono"],
+          "display-hero-mobile": ["Plus Jakarta Sans"],
+          "body-md": ["Inter"],
+          "headline-lg": ["Plus Jakarta Sans"],
+          "caption-caps": ["JetBrains Mono"],
+          "headline-md": ["Plus Jakarta Sans"],
+          "headline-lg-mobile": ["Plus Jakarta Sans"],
+          "body-sm": ["Inter"]
+        },
+        "fontSize": {
+          "display-hero": ["56px", { "lineHeight": "64px", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+          "body-lg": ["16px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "400" }],
+          "headline-sm": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+          "label-mono-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+          "label-code": ["13px", { "lineHeight": "18px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+          "display-hero-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+          "body-md": ["14px", { "lineHeight": "22px", "letterSpacing": "0em", "fontWeight": "400" }],
+          "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+          "caption-caps": ["10px", { "lineHeight": "14px", "letterSpacing": "0.08em", "fontWeight": "600" }],
+          "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+          "headline-lg-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+          "body-sm": ["12px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400" }]
+        }
+      }
+    }
+  }
+  </script>
+<style>
+    .tactile-dot-bg {
+      background-image: radial-gradient(rgba(20, 20, 19, 0.06) 1px, transparent 1px);
+      background-size: 16px 16px;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      display: none;
+    }
+    .custom-scroll {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-canvas-paper text-text-primary min-h-screen antialiased flex flex-col items-center select-none font-body-md text-body-md">
+<!-- Mobile Viewport Frame (390px logical width) -->
+<div class="w-full max-w-[390px] min-h-screen bg-canvas-paper tactile-dot-bg flex flex-col relative pb-28">
+<!-- Top Bar (TopAppBar execution from JSON Blueprint) -->
+<header class="sticky top-0 z-40 bg-surface dark:bg-surface border-b border-border-hairline dark:border-border-hairline flex justify-between items-center w-full px-space-md py-space-sm h-14">
+<div class="flex items-center gap-2">
+<button aria-label="Go back" class="w-8 h-8 rounded-lg flex items-center justify-center text-text-primary hover:bg-surface-container active:scale-[0.98] transition-transform duration-100">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+</button>
+<span class="text-headline-sm font-headline-sm text-on-surface dark:text-on-surface tracking-tight font-semibold">CalHacks 2025</span>
+</div>
+<div class="flex items-center gap-1">
+<button aria-label="Bookmark" class="w-8 h-8 rounded-lg flex items-center justify-center text-text-secondary hover:text-text-primary hover:bg-surface-container active:scale-[0.98] transition-transform duration-100">
+<span class="material-symbols-outlined text-[20px]">bookmark</span>
+</button>
+<button aria-label="Share" class="w-8 h-8 rounded-lg flex items-center justify-center text-text-secondary hover:text-text-primary hover:bg-surface-container active:scale-[0.98] transition-transform duration-100">
+<span class="material-symbols-outlined text-[20px]">share</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 px-4 pt-4 space-y-4">
+<!-- HERO Bento Card -->
+<section class="bg-surface-card border border-border-hairline rounded-xl p-4 shadow-[0_1px_2px_rgba(20,20,19,0.04)]">
+<!-- Top Section -->
+<div class="flex items-start gap-3 pb-3.5 border-b border-border-hairline">
+<div class="w-12 h-12 rounded-lg border border-border-hairline bg-surface flex flex-col items-center justify-center shrink-0">
+<span class="font-label-code text-label-code font-semibold tracking-tighter text-text-primary">CH</span>
+<span class="font-caption-caps text-caption-caps text-primary leading-none">11.0</span>
+</div>
+<div class="flex-1 min-w-0">
+<h1 class="font-headline-md text-headline-md tracking-tight text-text-primary truncate">CalHacks 2025</h1>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="text-body-sm font-body-sm text-text-secondary">UC Berkeley · 3 partners</span>
+<span class="material-symbols-outlined text-[15px] text-[#2563EB]" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<div class="font-label-mono-sm text-label-mono-sm text-text-secondary mt-1 tracking-tight">
+              BERKELEY, CA · NOV 14-16
+            </div>
+</div>
+</div>
+<!-- 2x2 Bento Stat Grid with Hairline Dividers -->
+<div class="grid grid-cols-2 divide-x divide-y divide-border-hairline border-b border-border-hairline -mx-4 px-4">
+<!-- Cell 1 -->
+<div class="py-3 pr-2">
+<div class="font-caption-caps text-caption-caps text-text-secondary uppercase">MODE</div>
+<div class="font-headline-sm text-headline-sm text-text-primary mt-0.5">In-person</div>
+<div class="font-body-sm text-body-sm text-text-secondary truncate">Pauley Ballroom</div>
+</div>
+<!-- Cell 2 -->
+<div class="py-3 pl-3">
+<div class="font-caption-caps text-caption-caps text-text-secondary uppercase">PRIZE POOL</div>
+<div class="font-headline-sm text-headline-sm text-text-primary mt-0.5">$40,000</div>
+<div class="font-body-sm text-body-sm text-text-secondary truncate">+ Compute Credits</div>
+</div>
+<!-- Cell 3 -->
+<div class="pt-3 pb-2 pr-2">
+<div class="font-caption-caps text-caption-caps text-text-secondary uppercase">TEAM SIZE</div>
+<div class="font-headline-sm text-headline-sm text-text-primary mt-0.5">3-5</div>
+<div class="font-body-sm text-body-sm text-text-secondary truncate">Cross-school OK</div>
+</div>
+<!-- Cell 4 (Live Cell) -->
+<div class="pt-3 pb-2 pl-3 bg-[rgba(255,79,0,0.02)]">
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-[#FF4F00] animate-pulse"></span>
+<span class="font-caption-caps text-caption-caps text-text-secondary uppercase">REG. CLOSES IN</span>
+</div>
+<div class="font-label-code text-label-code font-semibold text-[#FF4F00] mt-0.5 tracking-tight">
+              06D 14H 22M 09S
+            </div>
+<div class="font-caption-caps text-caption-caps text-text-secondary mt-0.5">144 SLOTS LEFT</div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="pt-3.5 space-y-2">
+<button class="w-full bg-[#FF4F00] hover:bg-primary-container text-white py-2.5 px-4 rounded-xl font-label-code text-label-code font-semibold flex items-center justify-center gap-2 active:scale-[0.98] transition-transform duration-100">
+<span>Find a Team</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+<div class="grid grid-cols-2 gap-2">
+<button class="w-full bg-surface-card hover:bg-canvas-paper border border-border-hairline text-text-primary py-2 px-3 rounded-xl font-label-code text-label-code flex items-center justify-center gap-1.5 active:scale-[0.98] transition-transform duration-100">
+<span class="material-symbols-outlined text-[16px] text-text-secondary">bookmark</span>
+<span>Bookmark</span>
+</button>
+<button class="w-full bg-surface-card hover:bg-canvas-paper border border-border-hairline text-text-primary py-2 px-3 rounded-xl font-label-code text-label-code flex items-center justify-center gap-1.5 active:scale-[0.98] transition-transform duration-100">
+<span class="material-symbols-outlined text-[16px] text-text-secondary">share</span>
+<span>Share Event</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Sticky-style Segmented Tab Row -->
+<nav class="flex border-b border-border-hairline font-label-mono-sm text-label-mono-sm tracking-wider uppercase bg-canvas-paper pt-1">
+<button class="flex-1 pb-2.5 text-center font-semibold text-text-primary border-b-2 border-[#FF4F00]">
+          ABOUT
+        </button>
+<button class="flex-1 pb-2.5 text-center text-text-secondary hover:text-text-primary transition-colors">
+          TEAMS (03)
+        </button>
+<button class="flex-1 pb-2.5 text-center text-text-secondary hover:text-text-primary transition-colors">
+          SCHEDULE
+        </button>
+</nav>
+<!-- Bento Section: About Hackathon -->
+<section class="bg-surface-card border border-border-hairline rounded-xl p-4 shadow-[0_1px_2px_rgba(20,20,19,0.04)] space-y-3">
+<div class="flex items-center justify-between border-b border-border-hairline pb-2">
+<span class="font-label-mono-sm text-label-mono-sm text-text-secondary">// 01 ABOUT THIS HACKATHON</span>
+<span class="font-caption-caps text-caption-caps text-primary font-semibold">EDITION 11</span>
+</div>
+<p class="font-body-md text-body-md text-text-primary leading-relaxed">
+          CalHacks 2025 brings together collegiate engineers, hardware hackers, and model researchers for 36 hours of relentless execution at UC Berkeley. Build deep frontier tech with access to high-bandwidth compute clusters and venture partners.
+        </p>
+</section>
+<!-- Bento Section: Tracks -->
+<section class="bg-surface-card border border-border-hairline rounded-xl p-4 shadow-[0_1px_2px_rgba(20,20,19,0.04)] space-y-3">
+<div class="flex items-center justify-between border-b border-border-hairline pb-2">
+<span class="font-label-mono-sm text-label-mono-sm text-text-secondary">// 02 TRACKS</span>
+<span class="font-caption-caps text-caption-caps text-text-secondary">6 CATEGORIES</span>
+</div>
+<div class="flex flex-wrap gap-1.5 pt-1">
+<span class="px-2.5 py-1 rounded-full bg-canvas-paper border border-border-hairline font-label-mono-sm text-label-mono-sm text-text-primary font-medium">[ AI / AGENTS ]</span>
+<span class="px-2.5 py-1 rounded-full bg-canvas-paper border border-border-hairline font-label-mono-sm text-label-mono-sm text-text-primary font-medium">[ FINTECH ]</span>
+<span class="px-2.5 py-1 rounded-full bg-canvas-paper border border-border-hairline font-label-mono-sm text-label-mono-sm text-text-primary font-medium">[ HEALTH &amp; BIO ]</span>
+<span class="px-2.5 py-1 rounded-full bg-canvas-paper border border-border-hairline font-label-mono-sm text-label-mono-sm text-text-primary font-medium">[ WEB3 INFRA ]</span>
+<span class="px-2.5 py-1 rounded-full bg-canvas-paper border border-border-hairline font-label-mono-sm text-label-mono-sm text-text-primary font-medium">[ CLIMATE &amp; GRID ]</span>
+<span class="px-2.5 py-1 rounded-full bg-canvas-paper border border-border-hairline font-label-mono-sm text-label-mono-sm text-text-primary font-medium">[ DEVELOPER TOOLS ]</span>
+</div>
+</section>
+<!-- Bento Section: Judging Criteria -->
+<section class="bg-surface-card border border-border-hairline rounded-xl p-4 shadow-[0_1px_2px_rgba(20,20,19,0.04)] space-y-2">
+<div class="flex items-center justify-between border-b border-border-hairline pb-2">
+<span class="font-label-mono-sm text-label-mono-sm text-text-secondary">// 03 JUDGING CRITERIA</span>
+<span class="font-caption-caps text-caption-caps text-text-secondary">EVALUATION MATRIX</span>
+</div>
+<div class="divide-y divide-border-hairline pt-1">
+<div class="py-2.5 flex items-center justify-between">
+<span class="font-body-md text-body-md text-text-primary">Technical Ambition &amp; Architecture</span>
+<span class="font-label-code text-label-code font-semibold text-text-primary ml-2">35%</span>
+</div>
+<div class="py-2.5 flex items-center justify-between">
+<span class="font-body-md text-body-md text-text-primary">Practical Utility &amp; Real Impact</span>
+<span class="font-label-code text-label-code font-semibold text-text-primary ml-2">25%</span>
+</div>
+<div class="py-2.5 flex items-center justify-between">
+<span class="font-body-md text-body-md text-text-primary">Product Polish &amp; Tactile Craft</span>
+<span class="font-label-code text-label-code font-semibold text-text-primary ml-2">20%</span>
+</div>
+<div class="py-2.5 flex items-center justify-between">
+<span class="font-body-md text-body-md text-text-primary">Completeness &amp; Live Demo</span>
+<span class="font-label-code text-label-code font-semibold text-text-primary ml-2">20%</span>
+</div>
+</div>
+</section>
+<!-- Bento Section: Schedule -->
+<section class="bg-surface-card border border-border-hairline rounded-xl p-4 shadow-[0_1px_2px_rgba(20,20,19,0.04)] space-y-3">
+<div class="flex items-center justify-between border-b border-border-hairline pb-2">
+<span class="font-label-mono-sm text-label-mono-sm text-text-secondary">// 04 SCHEDULE</span>
+<span class="font-caption-caps text-caption-caps text-text-secondary">PACIFIC TIME (PT)</span>
+</div>
+<div class="relative pl-4 space-y-4 pt-1 before:absolute before:left-1 before:top-2 before:bottom-2 before:w-[1px] before:bg-border-hairline">
+<!-- Item 1 -->
+<div class="relative pl-3">
+<span class="absolute -left-[15px] top-1.5 w-2 h-2 rounded-full border border-border-hairline bg-surface-card"></span>
+<div class="font-label-mono-sm text-label-mono-sm text-text-secondary">Oct 01 · 10:00 AM</div>
+<div class="font-body-md text-body-md text-text-primary font-medium mt-0.5">Registration opens</div>
+</div>
+<!-- Item 2 -->
+<div class="relative pl-3">
+<span class="absolute -left-[15px] top-1.5 w-2 h-2 rounded-full border border-border-hairline bg-surface-card"></span>
+<div class="font-label-mono-sm text-label-mono-sm text-text-secondary">Nov 07 · 11:59 PM</div>
+<div class="font-body-md text-body-md text-text-primary font-medium mt-0.5">Registration closes</div>
+</div>
+<!-- Item 3 (Active highlighted) -->
+<div class="relative pl-3 bg-[rgba(255,79,0,0.03)] -mr-2 pr-2 py-1 rounded">
+<span class="absolute -left-[15px] top-2.5 w-2 h-2 rounded-full bg-[#FF4F00] ring-2 ring-[rgba(255,79,0,0.2)]"></span>
+<div class="font-label-mono-sm text-label-mono-sm font-semibold text-[#FF4F00]">Nov 14 · 06:00 PM</div>
+<div class="font-body-md text-body-md text-text-primary font-semibold mt-0.5">Opening ceremony &amp; Team lock</div>
+</div>
+<!-- Item 4 -->
+<div class="relative pl-3">
+<span class="absolute -left-[15px] top-1.5 w-2 h-2 rounded-full border border-border-hairline bg-surface-card"></span>
+<div class="font-label-mono-sm text-label-mono-sm text-text-secondary">Nov 16 · 09:00 AM</div>
+<div class="font-body-md text-body-md text-text-primary font-medium mt-0.5">Submissions due to Devpost</div>
+</div>
+<!-- Item 5 -->
+<div class="relative pl-3">
+<span class="absolute -left-[15px] top-1.5 w-2 h-2 rounded-full border border-border-hairline bg-surface-card"></span>
+<div class="font-label-mono-sm text-label-mono-sm text-text-secondary">Nov 16 · 01:30 PM</div>
+<div class="font-body-md text-body-md text-text-primary font-medium mt-0.5">Demo day &amp; Podium awards</div>
+</div>
+</div>
+</section>
+<!-- Section: Recruiting Teams -->
+<section class="space-y-2 pt-2">
+<div class="flex items-center justify-between px-1">
+<div class="flex items-center gap-2">
+<span class="font-caption-caps text-caption-caps font-semibold text-text-primary tracking-wider uppercase">RECRUITING TEAMS</span>
+<span class="px-1.5 py-0.5 rounded bg-text-primary text-white font-label-mono-sm text-[10px] leading-tight">03</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-[#FF4F00] animate-ping"></span>
+<span class="font-caption-caps text-caption-caps text-text-secondary">LIVE FEED</span>
+</div>
+</div>
+<div class="bg-surface-card border border-border-hairline rounded-xl divide-y divide-border-hairline shadow-[0_1px_2px_rgba(20,20,19,0.04)]">
+<!-- Row 1 -->
+<div class="p-3.5 space-y-2 hover:bg-[rgba(20,20,19,0.015)] transition-colors">
+<div class="flex items-center justify-between">
+<div class="font-headline-sm text-headline-sm text-text-primary">NeuroFlow</div>
+<span class="px-2 py-0.5 rounded bg-badge-mint-bg text-badge-mint-text border border-[rgba(22,101,52,0.15)] font-label-mono-sm text-label-mono-sm">
+                2 slots open
+              </span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="font-label-mono-sm text-label-mono-sm text-text-secondary">[ ML ]</span>
+<span class="font-label-mono-sm text-label-mono-sm text-text-secondary">[ DESIGN ]</span>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="font-body-sm text-body-sm text-text-secondary">Building local EEG agent pipelines</span>
+<a class="font-label-code text-label-code font-semibold text-[#FF4F00] hover:underline flex items-center gap-0.5" href="#">
+                Request to join →
+              </a>
+</div>
+</div>
+<!-- Row 2 -->
+<div class="p-3.5 space-y-2 hover:bg-[rgba(20,20,19,0.015)] transition-colors">
+<div class="flex items-center justify-between">
+<div class="font-headline-sm text-headline-sm text-text-primary">ZeroKnowledge Vote</div>
+<span class="px-2 py-0.5 rounded bg-badge-amber-bg text-badge-amber-text border border-[rgba(146,64,14,0.15)] font-label-mono-sm text-label-mono-sm">
+                1 slot open
+              </span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="font-label-mono-sm text-label-mono-sm text-text-secondary">[ RUST ]</span>
+<span class="font-label-mono-sm text-label-mono-sm text-text-secondary">[ FRONTEND ]</span>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="font-body-sm text-body-sm text-text-secondary">Private verifiable governance</span>
+<a class="font-label-code text-label-code font-semibold text-[#FF4F00] hover:underline flex items-center gap-0.5" href="#">
+                Request to join →
+              </a>
+</div>
+</div>
+<!-- Row 3 -->
+<div class="p-3.5 space-y-2 hover:bg-[rgba(20,20,19,0.015)] transition-colors">
+<div class="flex items-center justify-between">
+<div class="font-headline-sm text-headline-sm text-text-primary">EcoGrid</div>
+<span class="px-2 py-0.5 rounded bg-badge-mint-bg text-badge-mint-text border border-[rgba(22,101,52,0.15)] font-label-mono-sm text-label-mono-sm">
+                2 slots open
+              </span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="font-label-mono-sm text-label-mono-sm text-text-secondary">[ HARDWARE ]</span>
+<span class="font-label-mono-sm text-label-mono-sm text-text-secondary">[ SWIFT ]</span>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="font-body-sm text-body-sm text-text-secondary">Decentralized mesh power monitor</span>
+<a class="font-label-code text-label-code font-semibold text-[#FF4F00] hover:underline flex items-center gap-0.5" href="#">
+                Request to join →
+              </a>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Solo Builders -->
+<section class="space-y-2 pt-2">
+<div class="flex items-center justify-between px-1">
+<span class="font-caption-caps text-caption-caps font-semibold text-text-primary tracking-wider uppercase">SOLO BUILDERS</span>
+<span class="font-caption-caps text-caption-caps text-text-secondary">12 AVAIL</span>
+</div>
+<div class="bg-surface-card border border-border-hairline rounded-xl divide-y divide-border-hairline shadow-[0_1px_2px_rgba(20,20,19,0.04)]">
+<!-- Builder 1 -->
+<div class="p-3 flex items-center justify-between gap-3">
+<div class="flex items-center gap-2.5 min-w-0">
+<img class="w-9 h-9 rounded-full object-cover border border-border-hairline shrink-0" data-alt="Close-up editorial studio portrait of a young female software engineer wearing minimal dark attire against a neutral soft-lit architectural background, natural light, high craft detail." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwDCg3Jyv5OxweDSUAFZLuq8Wb2atfMU9xV1lTbB8_xHQz6PJl2iQtINBy6mqSV6skY1wHRGPQJZ5LCbjvV9yNgegKbLpt3wspDZvh5xTP-CQ4p_7Rpf1Bk0XPu7SM1rW0G9c9cvPIVYmkxkqC8T3vtVJWx2-2WFeG8_uvfHEyVPAK2kdO1wXf9K3o5QZKhkQZY73UqwxI-a8FNx9avm4triSLPYJ3l0X1j-ZhjVpa7Dva_1cU3GO1vAhBIh89KV8P9Z_tvslLjVKQ"/>
+<div class="min-w-0">
+<div class="font-headline-sm text-[15px] leading-snug text-text-primary font-semibold truncate">Elena Rostova</div>
+<div class="font-label-mono-sm text-label-mono-sm text-text-secondary truncate">MIT '26 · PyTorch, C++</div>
+</div>
+</div>
+<button class="px-3 py-1 rounded-lg border border-border-hairline font-label-code text-label-code hover:bg-canvas-paper active:scale-[0.98] transition-all shrink-0">
+              Invite
+            </button>
+</div>
+<!-- Builder 2 -->
+<div class="p-3 flex items-center justify-between gap-3">
+<div class="flex items-center gap-2.5 min-w-0">
+<img class="w-9 h-9 rounded-full object-cover border border-border-hairline shrink-0" data-alt="High contrast editorial portrait of an East Asian male product designer in a clean white studio workspace with sharp rim lighting, refined aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAe0qv-Ji3A_ot-MuTqYRJUDJbX0BvuIs9mzpovO6ffFyylDLYMReCq1-rux6aRPkq_DYKygqvaWvgyN0dnz5Hb587y4gL4dVZW9hh3gYZPtqyAV5jwh1Gj-PBsYEWtPE3_Rg3TOTYCXPxchyNlYwIwLnYYCQEVhHc5Ck2qoILngF-LsBe3xNU6lQXTdBKfTUuaqJ_QxGII16hIzErCZEofoZK9ZqGVdiyj4IXP-vXOqv0gk7TR_7PBXiYMeR1hm61dr-OyGNoCNprX"/>
+<div class="min-w-0">
+<div class="font-headline-sm text-[15px] leading-snug text-text-primary font-semibold truncate">David Kim</div>
+<div class="font-label-mono-sm text-label-mono-sm text-text-secondary truncate">Stanford '25 · Figma, React</div>
+</div>
+</div>
+<button class="px-3 py-1 rounded-lg border border-border-hairline font-label-code text-label-code hover:bg-canvas-paper active:scale-[0.98] transition-all shrink-0">
+              Invite
+            </button>
+</div>
+</div>
+</section>
+<!-- Open Slot CTA Cell (Recessed Dashed Motif) -->
+<section class="border border-dashed border-border-hairline bg-[rgba(20,20,19,0.015)] rounded-xl p-4 text-center cursor-pointer hover:bg-[rgba(20,20,19,0.03)] transition-colors active:scale-[0.99]">
+<div class="font-label-code text-label-code font-semibold text-text-primary">+ Post your own need</div>
+<div class="font-body-sm text-body-sm text-text-secondary mt-0.5">Find the missing piece for your squad</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar (Execution from JSON Blueprint) -->
+<!-- Destination labels array: ["DISCOVER", "TALENT", "SQUADS", "CHATS", "PROFILE"] -->
+<!-- Active Destination determined: DISCOVER (Hackathon Details / Finder Screen) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-space-sm py-space-xs bg-surface dark:bg-surface border-t border-border-hairline dark:border-border-hairline max-w-[390px] mx-auto right-0">
+<!-- Destination 1: DISCOVER (ACTIVE) -->
+<button class="flex flex-col items-center justify-center text-primary dark:text-primary gap-0.5 py-1 active:scale-[0.98] transition-transform duration-100 flex-1">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">explore</span>
+<span class="text-caption-caps font-caption-caps uppercase">DISCOVER</span>
+</button>
+<!-- Destination 2: TALENT -->
+<button class="flex flex-col items-center justify-center text-text-secondary dark:text-text-secondary gap-0.5 py-1 hover:text-on-surface dark:hover:text-on-surface active:scale-[0.98] transition-transform duration-100 flex-1">
+<span class="material-symbols-outlined text-[20px]">group</span>
+<span class="text-caption-caps font-caption-caps uppercase">TALENT</span>
+</button>
+<!-- Destination 3: SQUADS -->
+<button class="flex flex-col items-center justify-center text-text-secondary dark:text-text-secondary gap-0.5 py-1 hover:text-on-surface dark:hover:text-on-surface active:scale-[0.98] transition-transform duration-100 flex-1">
+<span class="material-symbols-outlined text-[20px]">diversity_3</span>
+<span class="text-caption-caps font-caption-caps uppercase">SQUADS</span>
+</button>
+<!-- Destination 4: CHATS -->
+<button class="flex flex-col items-center justify-center text-text-secondary dark:text-text-secondary gap-0.5 py-1 hover:text-on-surface dark:hover:text-on-surface active:scale-[0.98] transition-transform duration-100 flex-1">
+<span class="material-symbols-outlined text-[20px]">chat_bubble</span>
+<span class="text-caption-caps font-caption-caps uppercase">CHATS</span>
+</button>
+<!-- Destination 5: PROFILE -->
+<button class="flex flex-col items-center justify-center text-text-secondary dark:text-text-secondary gap-0.5 py-1 hover:text-on-surface dark:hover:text-on-surface active:scale-[0.98] transition-transform duration-100 flex-1">
+<span class="material-symbols-outlined text-[20px]">account_circle</span>
+<span class="text-caption-caps font-caption-caps uppercase">PROFILE</span>
+</button>
+</nav>
+</div>
+</body></html>

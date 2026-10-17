@@ -9,3 +9,6 @@ build/
 # Local dev database (SQLite) — recreated via `prisma migrate dev` + `prisma db seed`
 *.db
 *.db-journal
+
+# Raw Stitch MCP responses (intermediate; the exported HTML lives in design-reference/)
+scripts/out/

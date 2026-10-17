@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HackMatch — Mobile Specimen Sheet (Loading & Empty States)</title>
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<!-- Tailwind CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "canvas-paper": "#F9F9F8",
+          "surface-card": "#FFFFFF",
+          "border-hairline": "#E4E4E0",
+          "border-subtle": "#E6E6E3",
+          "text-primary": "#141413",
+          "text-secondary": "#686763",
+          "primary": "#FF4F00",
+          "secondary": "#2563EB",
+          "shimmer-base": "#EAEAE6",
+          "shimmer-highlight": "#F5F5F3",
+        },
+        fontFamily: {
+          "sans": ["Inter", "sans-serif"],
+          "heading": ["Plus Jakarta Sans", "sans-serif"],
+          "mono": ["JetBrains Mono", "monospace"],
+        },
+        borderRadius: {
+          "DEFAULT": "0.125rem",
+          "sm": "0.25rem",
+          "md": "0.375rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+        }
+      }
+    }
+  }
+</script>
+<style>
+  .tactile-dot-bg {
+    background-image: radial-gradient(rgba(20, 20, 19, 0.055) 1px, transparent 1px);
+    background-size: 16px 16px;
+  }
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+  .skeleton-shimmer {
+    background: linear-gradient(90deg, #ECECE9 25%, #F5F5F2 50%, #ECECE9 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.8s infinite ease-in-out;
+  }
+</style>
+</head>
+<body class="bg-[#ECECE8] text-text-primary min-h-screen antialiased flex flex-col items-center py-6 px-2 sm:px-4 font-sans select-none">
+
+<!-- Mobile Specimen Viewport Frame (390px logical width) -->
+<div class="w-full max-w-[390px] bg-canvas-paper tactile-dot-bg border border-border-hairline rounded-2xl shadow-[0_4px_24px_rgba(20,20,19,0.06)] overflow-hidden flex flex-col">
+
+  <!-- Specimen Top Header Bar -->
+  <header class="bg-surface-card border-b border-border-hairline px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <div class="w-6 h-6 rounded bg-text-primary text-white flex items-center justify-center font-mono font-bold text-xs tracking-tighter">
+        HM
+      </div>
+      <div class="flex items-baseline gap-1.5">
+        <span class="font-heading font-bold text-sm tracking-tight text-text-primary">HackMatch</span>
+        <span class="font-mono text-[10px] text-text-secondary tracking-wider uppercase">SPECIMEN // v1.2</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-1.5 bg-canvas-paper border border-border-hairline px-2 py-0.5 rounded text-[10px] font-mono text-text-secondary">
+      <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+      <span>MOBILE 390PX</span>
+    </div>
+  </header>
+
+  <!-- Specimen Content Stack -->
+  <main class="flex-1 p-4 space-y-8">
+
+    <!-- ========================================== -->
+    <!-- FRAME A: LOADING SKELETON STATE             -->
+    <!-- ========================================== -->
+    <section class="space-y-3">
+      <!-- Section Header -->
+      <div class="flex items-baseline justify-between border-b border-border-hairline pb-1.5">
+        <div class="flex items-baseline gap-2">
+          <h2 class="font-mono font-bold text-xs tracking-wider uppercase text-text-primary">
+            FIG. A — LOADING
+          </h2>
+          <span class="font-mono text-[11px] text-text-secondary lowercase">
+            skeleton cards
+          </span>
+        </div>
+        <span class="font-mono text-[10px] text-text-secondary uppercase">
+          03 ITEMS PENDING
+        </span>
+      </div>
+
+      <!-- Hairline Filter Bar -->
+      <div class="flex items-center justify-between gap-1.5 pt-0.5 pb-1">
+        <div class="flex items-center gap-1.5">
+          <!-- Filter Chip: DATE -->
+          <button class="bg-surface-card border border-border-hairline px-2.5 py-1 rounded font-mono text-[11px] font-medium text-text-primary flex items-center gap-1 hover:border-text-secondary active:scale-[0.98] transition-all">
+            <span>DATE</span>
+            <span class="material-symbols-outlined text-[13px] text-text-secondary">keyboard_arrow_down</span>
+          </button>
+          <!-- Filter Chip: MODE (Active) -->
+          <button class="bg-surface-card border border-text-primary px-2.5 py-1 rounded font-mono text-[11px] font-semibold text-text-primary flex items-center gap-1 shadow-[0_1px_1px_rgba(20,20,19,0.04)]">
+            <span>MODE</span>
+            <span class="w-1 h-1 rounded-full bg-primary"></span>
+          </button>
+          <!-- Filter Chip: PRIZE -->
+          <button class="bg-surface-card border border-border-hairline px-2.5 py-1 rounded font-mono text-[11px] font-medium text-text-primary flex items-center gap-1 hover:border-text-secondary active:scale-[0.98] transition-all">
+            <span>PRIZE</span>
+            <span class="material-symbols-outlined text-[13px] text-text-secondary">keyboard_arrow_down</span>
+          </button>
+        </div>
+        <!-- Active Filter Badge -->
+        <div class="bg-canvas-paper border border-border-hairline px-2 py-0.5 rounded font-mono text-[10px] font-medium text-primary tracking-tight shrink-0">
+          2 ACTIVE
+        </div>
+      </div>
+
+      <!-- Vertical Stack of 3 Identical Hackathon Skeleton Cards -->
+      <div class="space-y-3">
+
+        <!-- Skeleton Card 1 -->
+        <article class="bg-surface-card border border-border-hairline rounded-xl overflow-hidden p-3.5 space-y-3">
+          <!-- Top Row: Logo Slot + Text Slots -->
+          <div class="flex items-start gap-3">
+            <!-- Grey Rounded Square Logo Slot -->
+            <div class="w-11 h-11 rounded-lg skeleton-shimmer shrink-0 border border-border-hairline/60"></div>
+            <!-- Title & Meta Slots -->
+            <div class="flex-1 space-y-2 pt-0.5">
+              <!-- Wide soft-grey title slot -->
+              <div class="h-3.5 w-3/4 rounded skeleton-shimmer"></div>
+              <!-- Two shorter grey bars (meta slots) -->
+              <div class="flex items-center gap-2">
+                <div class="h-2.5 w-2/5 rounded skeleton-shimmer"></div>
+                <div class="h-2.5 w-1/4 rounded skeleton-shimmer"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Full-width hairline divider -->
+          <div class="border-t border-border-hairline -mx-3.5"></div>
+
+          <!-- Bottom Row: Pill + Button Slot -->
+          <div class="flex items-center justify-between pt-0.5">
+            <!-- Left small grey pill slot (countdown / status) -->
+            <div class="h-5 w-20 rounded-full skeleton-shimmer border border-border-hairline/40"></div>
+            <!-- Right grey rounded rectangle button slot -->
+            <div class="h-7 w-28 rounded-lg skeleton-shimmer border border-border-hairline/50"></div>
+          </div>
+        </article>
+
+        <!-- Skeleton Card 2 -->
+        <article class="bg-surface-card border border-border-hairline rounded-xl overflow-hidden p-3.5 space-y-3">
+          <!-- Top Row: Logo Slot + Text Slots -->
+          <div class="flex items-start gap-3">
+            <div class="w-11 h-11 rounded-lg skeleton-shimmer shrink-0 border border-border-hairline/60"></div>
+            <div class="flex-1 space-y-2 pt-0.5">
+              <div class="h-3.5 w-4/5 rounded skeleton-shimmer"></div>
+              <div class="flex items-center gap-2">
+                <div class="h-2.5 w-1/3 rounded skeleton-shimmer"></div>
+                <div class="h-2.5 w-1/3 rounded skeleton-shimmer"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Full-width hairline divider -->
+          <div class="border-t border-border-hairline -mx-3.5"></div>
+
+          <!-- Bottom Row: Pill + Button Slot -->
+          <div class="flex items-center justify-between pt-0.5">
+            <div class="h-5 w-24 rounded-full skeleton-shimmer border border-border-hairline/40"></div>
+            <div class="h-7 w-28 rounded-lg skeleton-shimmer border border-border-hairline/50"></div>
+          </div>
+        </article>
+
+        <!-- Skeleton Card 3 -->
+        <article class="bg-surface-card border border-border-hairline rounded-xl overflow-hidden p-3.5 space-y-3">
+          <!-- Top Row: Logo Slot + Text Slots -->
+          <div class="flex items-start gap-3">
+            <div class="w-11 h-11 rounded-lg skeleton-shimmer shrink-0 border border-border-hairline/60"></div>
+            <div class="flex-1 space-y-2 pt-0.5">
+              <div class="h-3.5 w-2/3 rounded skeleton-shimmer"></div>
+              <div class="flex items-center gap-2">
+                <div class="h-2.5 w-2/5 rounded skeleton-shimmer"></div>
+                <div class="h-2.5 w-1/5 rounded skeleton-shimmer"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Full-width hairline divider -->
+          <div class="border-t border-border-hairline -mx-3.5"></div>
+
+          <!-- Bottom Row: Pill + Button Slot -->
+          <div class="flex items-center justify-between pt-0.5">
+            <div class="h-5 w-16 rounded-full skeleton-shimmer border border-border-hairline/40"></div>
+            <div class="h-7 w-28 rounded-lg skeleton-shimmer border border-border-hairline/50"></div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Structural Hairline Frame Separator with Tactile Label -->
+    <div class="relative py-2 flex items-center justify-center">
+      <div class="absolute inset-0 flex items-center">
+        <div class="w-full border-t border-dashed border-border-hairline"></div>
+      </div>
+      <div class="relative bg-canvas-paper px-3 py-1 rounded border border-border-hairline font-mono text-[10px] text-text-secondary uppercase tracking-widest">
+        SECTION BREAK // SPECIMEN BOUNDARY
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- FRAME B: EMPTY / NO RESULTS STATE          -->
+    <!-- ========================================== -->
+    <section class="space-y-3">
+      <!-- Section Header -->
+      <div class="flex items-baseline justify-between border-b border-border-hairline pb-1.5">
+        <div class="flex items-baseline gap-2">
+          <h2 class="font-mono font-bold text-xs tracking-wider uppercase text-text-primary">
+            FIG. B — EMPTY
+          </h2>
+          <span class="font-mono text-[11px] text-text-secondary lowercase">
+            no results
+          </span>
+        </div>
+        <span class="font-mono text-[10px] text-text-secondary uppercase">
+          COUNT: 00
+        </span>
+      </div>
+
+      <!-- Single Tall White Bento Card with Generous Padding -->
+      <article class="bg-surface-card border border-border-hairline rounded-xl p-6 text-center flex flex-col items-center justify-center">
+        
+        <!-- Thin hairline-line illustration of a calendar with diagonal slash (SVG) -->
+        <div class="w-16 h-16 rounded-xl border border-border-hairline bg-canvas-paper flex items-center justify-center mb-4">
+          <svg class="w-8 h-8 text-text-secondary" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Calendar Frame -->
+            <rect x="4" y="6" width="24" height="22" rx="3" stroke="currentColor"/>
+            <!-- Top Header Line -->
+            <line x1="4" y1="12" x2="28" y2="12" stroke="currentColor"/>
+            <!-- Binder Rings -->
+            <line x1="9" y1="3" x2="9" y2="7" stroke="currentColor"/>
+            <line x1="23" y1="3" x2="23" y2="7" stroke="currentColor"/>
+            <!-- Calendar grid dots -->
+            <circle cx="10" cy="17" r="0.75" fill="currentColor"/>
+            <circle cx="16" cy="17" r="0.75" fill="currentColor"/>
+            <circle cx="22" cy="17" r="0.75" fill="currentColor"/>
+            <circle cx="10" cy="22" r="0.75" fill="currentColor"/>
+            <circle cx="16" cy="22" r="0.75" fill="currentColor"/>
+            <!-- Crisp diagonal slash with hairline precision -->
+            <line x1="3" y1="29" x2="29" y2="3" stroke="#FF4F00" stroke-width="1.5"/>
+          </svg>
+        </div>
+
+        <!-- Centered Mono Caps Caption -->
+        <h3 class="font-mono font-bold text-xs sm:text-[13px] tracking-wider uppercase text-text-primary leading-tight">
+          NO HACKATHONS MATCH THESE FILTERS
+        </h3>
+
+        <!-- Smaller Muted Sentence -->
+        <p class="font-sans text-xs text-text-secondary mt-1.5 max-w-[240px] leading-relaxed">
+          Try widening the date range or removing a filter.
+        </p>
+
+        <!-- Dashed "Open Slot" Motif Cell (Signature brand accent) -->
+        <div class="mt-4 w-full py-2 px-3 border border-dashed border-border-hairline rounded-lg bg-[rgba(20,20,19,0.015)] flex items-center justify-between text-left">
+          <div class="flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#FF4F00]"></span>
+            <span class="font-mono text-[10px] text-text-secondary uppercase">ACTIVE QUERY</span>
+          </div>
+          <span class="font-mono text-[10px] text-text-primary font-medium">[ IN-PERSON + &gt;$50K ]</span>
+        </div>
+
+        <!-- Row of Two Buttons Centered -->
+        <div class="flex items-center justify-center gap-2.5 mt-5 w-full">
+          <!-- Bordered 'Clear filters' -->
+          <button class="flex-1 bg-surface-card hover:bg-canvas-paper border border-border-hairline text-text-primary py-2 px-3 rounded-lg font-mono text-xs font-medium active:scale-[0.98] transition-transform duration-100 flex items-center justify-center gap-1.5">
+            <span class="material-symbols-outlined text-[15px] text-text-secondary">filter_alt_off</span>
+            <span>Clear filters</span>
+          </button>
+          <!-- Solid Orange 'Notify me' -->
+          <button class="flex-1 bg-primary hover:bg-[#E04500] text-white py-2 px-3 rounded-lg font-mono text-xs font-semibold active:scale-[0.98] transition-transform duration-100 flex items-center justify-center gap-1.5 shadow-[0_1px_2px_rgba(255,79,0,0.2)]">
+            <span class="material-symbols-outlined text-[15px]">notifications</span>
+            <span>Notify me</span>
+          </button>
+        </div>
+
+      </article>
+
+      <!-- Contextual Suggestion Bento Card -->
+      <aside class="bg-surface-card border border-border-hairline rounded-xl p-3.5 flex items-center justify-between">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="w-7 h-7 rounded border border-border-hairline bg-canvas-paper flex items-center justify-center text-text-secondary shrink-0">
+            <span class="material-symbols-outlined text-[16px]">school</span>
+          </div>
+          <div class="min-w-0">
+            <div class="font-mono text-[11px] font-semibold text-text-primary truncate">Looking for campus squads?</div>
+            <div class="font-sans text-[11px] text-text-secondary truncate">18 solo builders searching this week</div>
+          </div>
+        </div>
+        <a href="#" class="font-mono text-[11px] font-semibold text-primary hover:underline shrink-0 ml-2">
+          View Pool →
+        </a>
+      </aside>
+
+    </section>
+
+  </main>
+
+  <!-- Specimen Footer Bar -->
+  <footer class="bg-surface-card border-t border-border-hairline px-4 py-2.5 flex items-center justify-between font-mono text-[10px] text-text-secondary">
+    <span>SYSTEM // TACTILE EDITORIAL</span>
+    <span class="text-text-primary font-medium">FIG. A + FIG. B</span>
+  </footer>
+
+</div>
+
+</body>
+</html>

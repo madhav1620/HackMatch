@@ -1,24 +1,5 @@
-import "dotenv/config";
-import express from "express";
-import cors from "cors";
-import cookieParser from "cookie-parser";
+import app from "./app.js";
 import { env } from "./config/env.js";
-import { authRouter } from "./routes/auth.routes.js";
-import { errorHandler } from "./middleware/auth.js";
-
-const app = express();
-
-app.use(cors({ origin: env.clientUrl, credentials: true }));
-app.use(express.json());
-app.use(cookieParser());
-
-app.get("/api/health", (_req, res) => {
-  res.json({ ok: true, service: "hackmatch-server", time: new Date().toISOString() });
-});
-
-app.use("/api/auth", authRouter);
-
-app.use(errorHandler);
 
 app.listen(env.port, () => {
   console.log(`[server] HackMatch API listening on http://localhost:${env.port}`);

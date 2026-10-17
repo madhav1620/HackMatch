@@ -4,9 +4,12 @@ import { AppShell } from "./components/layout/AppShell";
 import { ProtectedRoute } from "./components/features/auth/ProtectedRoute";
 import AuthPage from "./pages/AuthPage";
 import DiscoverPage from "./pages/DiscoverPage";
+import HackathonDetailPage from "./pages/HackathonDetailPage";
 import OnboardingPage from "./pages/OnboardingPage";
 import PlaceholderPage from "./pages/PlaceholderPage";
+import PostHackathonPage from "./pages/PostHackathonPage";
 import ProfilePage from "./pages/ProfilePage";
+import SavedPage from "./pages/SavedPage";
 
 export default function Router() {
   return (
@@ -21,6 +24,9 @@ export default function Router() {
         }
       >
         <Route path="/" element={<DiscoverPage />} />
+        <Route path="/hackathons/:id" element={<HackathonDetailPage />} />
+        <Route path="/saved" element={<SavedPage />} />
+        <Route path="/admin/hackathons/new" element={<PostHackathonPage />} />
         <Route path="/onboarding" element={<OnboardingPage />} />
         <Route path="/profile/me" element={<ProfilePage />} />
         <Route path="/profile/:id" element={<ProfilePage />} />

@@ -1,45 +1,32 @@
 import React from "react";
 
+type Variant = "ink" | "accent" | "outline" | "ghost";
+type Size = "sm" | "md";
+
+const VARIANTS: Record<Variant, string> = {
+  ink: "bg-ink text-white border border-transparent hover:bg-ink/90",
+  accent: "bg-accent text-white border border-transparent hover:bg-primary-container",
+  outline: "bg-surface text-ink border border-hairline hover:border-ink/40",
+  ghost: "bg-transparent text-ink-muted border border-transparent hover:text-ink",
+};
+
+const SIZES: Record<Size, string> = {
+  sm: "px-3 py-1.5 text-xs",
+  md: "px-4 py-2 text-sm",
+};
+
+/**
+ * Tactile button. `accent` is reserved for conversion actions only
+ * (design system rule: orange = primary focal CTA).
+ */
 export const Button: React.FC<
-  React.ButtonHTMLAttributes<HTMLButtonElement> & { loading?: boolean }
-> = ({ children, className = "", loading, disabled, ...props }) => (
+  React.ButtonHTMLAttributes<HTMLButtonElement> & { loading?: boolean; variant?: Variant; size?: Size }
+> = ({ children, className = "", loading, disabled, variant = "ink", size = "md", ...props }) => (
   <button
-    className={`press inline-flex items-center justify-center rounded-lg bg-ink px-4 py-2 text-sm font-medium text-white disabled:opacity-60 ${className}`}
+    className={`press inline-flex items-center justify-center gap-1.5 rounded-lg font-medium disabled:opacity-60 disabled:cursor-not-allowed ${VARIANTS[variant]} ${SIZES[size]} ${className}`}
     disabled={disabled || loading}
     {...props}
   >
     {loading ? "…" : children}
   </button>
 );
-
-export const Input: React.FC<React.InputHTMLAttributes<HTMLInputElement>> = ({
-  className = "",
-  ...props
-}) => (
-  <input
-    className={`w-full rounded-lg border border-hairline bg-surface px-3 py-2 text-sm outline-none focus:ring-0 ${className}`}
-    {...props}
-  />
-);
-
-export const Modal: React.FC<{
-  open: boolean;
-  title: string;
-  children: React.ReactNode;
-  onClose: () => void;
-}> = ({ open, title, children, onClose }) => {
-  if (!open) return null;
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
-      <div className="border-hairline bg-surface rounded-xl border shadow-modal w-full max-w-sm p-6">
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-semibold">{title}</h2>
-          <button className="text-sm text-ink-muted" onClick={onClose} aria-label="Close">
-            Close
-          </button>
-        </div>
-        {children}
-      </div>
-    </div>
-  );
-};

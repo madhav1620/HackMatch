@@ -1,12 +1,14 @@
 /* ═══════════════════════════════════════════════════════════════
-   Interim animation layer (DESIGN.md §6)
-   Written to Animotion's class-based conventions so real Animotion
-   MCP assets can replace these 1:1 once the MCP server is connected.
+   Motion layer — SOURCED FROM ANIMOTION MCP (DESIGN.md §6)
+   Keyframes/classes below are Animotion assets verbatim (ids in comments).
+   App-level aliases (.press / .lift / .stagger / .skeleton / .animate-*)
+   map onto them so components never hand-roll motion.
    All motion respects prefers-reduced-motion.
    ═══════════════════════════════════════════════════════════════ */
 
-/* ── Keyframes ─────────────────────────────────────────── */
-@keyframes fade-up {
+/* ── Animotion: Entrance ─────────────────────────────────
+   E03 Fade In Up · E01 Fade In                                 */
+@keyframes animotion-fadeInUp {
   from {
     opacity: 0;
     transform: translateY(16px);
@@ -17,83 +19,82 @@
   }
 }
 
-@keyframes scale-in {
+@keyframes animotion-fadeIn {
   from {
     opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animotion-fade-in-up {
+  animation: animotion-fadeInUp 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animotion-fade-in {
+  animation: animotion-fadeIn 0.2s ease-out both;
+}
+
+/* ── Animotion MI24 — Modal Open ───────────────────────── */
+@keyframes animotion-modalOpen {
+  from {
     transform: scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes slide-up {
-  from {
     opacity: 0;
-    transform: translateY(24px);
   }
   to {
+    transform: scale(1);
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
-@keyframes shimmer {
+.animotion-modal-open {
+  animation: animotion-modalOpen 0.22s ease-out both;
+}
+
+/* ── Animotion MI22 — Snackbar Slide (toasts) ──────────── */
+@keyframes animotion-snackbarSlide {
   from {
-    background-position: -200% 0;
+    transform: translateY(100%);
+    opacity: 0;
   }
   to {
-    background-position: 200% 0;
+    transform: translateY(0);
+    opacity: 1;
   }
 }
 
-@keyframes soft-pulse {
-  0%,
-  100% {
-    opacity: 1;
+.animotion-snackbar-slide {
+  animation: animotion-snackbarSlide 0.24s ease-out both;
+}
+
+/* ── Animotion A03 — Pulse (urgency / deadline < 24h) ──── */
+@keyframes animotion-pulse {
+  0% {
+    transform: scale(1);
   }
   50% {
-    opacity: 0.55;
-  }
-}
-
-@keyframes pop-in {
-  0% {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  70% {
     transform: scale(1.04);
   }
-  100% {
-    opacity: 1;
+  to {
     transform: scale(1);
   }
 }
 
-/* ── Utility classes ───────────────────────────────────── */
-.animate-fade-up {
-  animation: fade-up 320ms ease-out both;
+.animotion-pulse {
+  animation: animotion-pulse 2s ease-in-out infinite;
 }
 
-.animate-scale-in {
-  animation: scale-in 220ms ease-out both;
+/* ── Animotion C13 — Shimmer Loading (skeletons) ───────── */
+@keyframes animotion-shimmerLoading {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
 }
 
-.animate-slide-up {
-  animation: slide-up 240ms ease-out both;
-}
-
-.animate-pop-in {
-  animation: pop-in 280ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
-}
-
-.animate-soft-pulse {
-  animation: soft-pulse 2s ease-in-out infinite;
-}
-
-/* Skeleton shimmer for bento cells */
 .skeleton {
   background: linear-gradient(
     90deg,
@@ -102,26 +103,63 @@
     rgba(20, 20, 19, 0.04) 75%
   );
   background-size: 200% 100%;
-  animation: shimmer 1.4s linear infinite;
+  animation: animotion-shimmerLoading 1.5s linear infinite;
 }
 
-/* Feed/board card stagger — apply with inline --stagger index */
-.stagger > * {
-  animation: fade-up 320ms ease-out both;
-  animation-delay: calc(var(--stagger, 0) * 40ms);
+/* ── Animotion BT40 — Button Press (micro-tactility) ───── */
+@keyframes animotion-btnPress {
+  from {
+    transform: translateY(0) scale(1);
+  }
+  to {
+    transform: translateY(1px) scale(0.98);
+  }
 }
 
-/* Micro-tactile press (design system: scale(0.98) on active) */
+.press {
+  transition: transform 120ms ease-out;
+}
 .press:active {
-  transform: scale(0.98);
-  transition: transform 90ms ease-out;
+  animation: animotion-btnPress 0.09s ease-in both;
+}
+
+/* ── App aliases over the Animotion layer ──────────────── */
+.animate-fade-up {
+  animation: animotion-fadeInUp 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-fade-in {
+  animation: animotion-fadeIn 0.2s ease-out both;
+}
+
+.animate-scale-in {
+  animation: animotion-modalOpen 0.22s ease-out both;
+}
+
+.animate-slide-up {
+  animation: animotion-snackbarSlide 0.24s ease-out both;
+}
+
+.animate-pop-in {
+  animation: animotion-modalOpen 0.24s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.animate-soft-pulse {
+  animation: animotion-pulse 2s ease-in-out infinite;
+}
+
+/* Feed/board card stagger — apply with an inline --stagger index */
+.stagger > * {
+  animation: animotion-fadeInUp 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--stagger, 0) * 40ms);
 }
 
 /* Card hover micro-lift (elevation L1 → L2) */
 .lift {
   transition:
     box-shadow 160ms ease-out,
-    border-color 160ms ease-out;
+    border-color 160ms ease-out,
+    transform 160ms ease-out;
 }
 .lift:hover {
   box-shadow: var(--shadow-lift);
@@ -130,7 +168,13 @@
 
 /* ── Accessibility: honor reduced motion ───────────────── */
 @media (prefers-reduced-motion: reduce) {
+  .animotion-fade-in-up,
+  .animotion-fade-in,
+  .animotion-modal-open,
+  .animotion-snackbar-slide,
+  .animotion-pulse,
   .animate-fade-up,
+  .animate-fade-in,
   .animate-scale-in,
   .animate-slide-up,
   .animate-pop-in,
@@ -139,7 +183,8 @@
   .stagger > * {
     animation: none !important;
   }
-  .press:active {
+  .press:active,
+  .lift:hover {
     transform: none;
   }
 }

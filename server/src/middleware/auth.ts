@@ -25,6 +25,19 @@ export function requireAuth(req: Request, _res: Response, next: NextFunction): v
   }
 }
 
+/** Attaches req.auth when a valid token is present; never rejects (public feeds). */
+export function optionalAuth(req: Request, _res: Response, next: NextFunction): void {
+  const header = req.headers.authorization;
+  if (header?.startsWith("Bearer ")) {
+    try {
+      req.auth = verifyAccess(header.slice(7));
+    } catch {
+      // ignore invalid/expired token on public routes
+    }
+  }
+  next();
+}
+
 /** Role gate — use after requireAuth. */
 export function requireRole(...roles: string[]) {
   return (req: Request, _res: Response, next: NextFunction): void => {
