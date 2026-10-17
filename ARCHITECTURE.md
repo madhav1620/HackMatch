@@ -26,6 +26,14 @@
 3. Login returns a short-lived **access token** (15 min, `Authorization: Bearer`) and a **refresh token** (30 d, httpOnly cookie).
 4. Roles: `STUDENT` (default), `ORGANIZER` (can post hackathons), `ADMIN` (full moderation).
 
+### Auth implementation notes (Phase 2, as built)
+- **Dev database:** SQLite (`server/prisma/dev.db`) — no local Postgres available. SQLite lacks array columns, so `User.skills`, `Hackathon.techTags`, `Team.requiredRoles/requiredSkills` are JSON-string columns with typed helpers (`server/src/lib/jsonArrays.ts`). Every such column is marked `PROD-NOTE` in `schema.prisma`; switching to Postgres = change `provider` and convert those to `String[]`.
+- **Token transport:** the access token is returned in the response body and kept in `localStorage`; the refresh token is an httpOnly cookie (`hm_refresh`, `path=/api/auth`, `sameSite=lax`). `POST /auth/refresh` rotates it and returns a **new access token** in the body.
+- **Overseen-in-testing rules (do not regress):**
+  - Controllers must own the response. `issueTokens()` only mints tokens + sets the cookie and returns the string — it must never write to `res`.
+  - All async route handlers are wrapped in `asyncHandler()` (`server/src/middleware/asyncHandler.ts`); Express 4 does not catch rejected promises and an unwrapped throw kills the process.
+  - User responses go through the explicit `publicUser()` projection — never spread a Prisma row (`passwordHash`, `otpCode`, `otpExpiresAt` must never reach the client).
+
 ---
 
 ## 2. High-Level System Diagram

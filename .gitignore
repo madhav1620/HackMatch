@@ -5,3 +5,7 @@ build/
 .env
 .env.local
 .DS_Store
+
+# Local dev database (SQLite) — recreated via `prisma migrate dev` + `prisma db seed`
+*.db
+*.db-journal

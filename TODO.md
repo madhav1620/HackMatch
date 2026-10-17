@@ -1,7 +1,7 @@
 # TODO.md — Development Board
 
 > **Rule:** Mark items `- [x]` immediately when done and note the next task under "Currently working on".
-> **Currently working on:** Phase 1 → repo init & scaffold at `D:\MADDY\HackMatch`.
+> **Currently working on:** Phase 2 ✅ complete → starting **Phase 3 (Discovery Hub)**.
 
 ---
 
@@ -16,16 +16,19 @@
 - [x] Initialize git repository + npm workspaces in `D:\MADDY\HackMatch`
 - [x] Scaffold `client/` (Vite + React + TS + Tailwind v4) and `server/` (Express + TS); verified `npm run dev` → API :4000, app :5173, proxy OK, production build OK
 - [x] Export Stitch tokens → `client/src/index.css` (`@theme` tokens — Tailwind v4 is CSS-configured, no tailwind.config.ts) + `client/src/styles/animations.css`
-- [ ] Animotion MCP: currently **not connected** — add `animotion` server to opencode config + restart (user action), then replace interim CSS animations/icons with MCP assets. *Proceeding with interim hand-authored CSS + lucide-react icons meanwhile.*
+- [x] Animotion MCP connected & verified — `list_categories` returns 20 categories / 745 animations; `suggest_animation` and icon search working (9,745 SVG icons across Lucide, Heroicons, Tabler, Bootstrap). Will replace interim CSS + swap lucide-react icons for MCP-sourced SVGs during Phase 3 UI build.
 
 ## Phase 2 — Database & Authentication
-- [ ] Define Prisma schema (Users, Hackathons, Teams, TeamMembers, JoinRequests, Bookmark, SoloPost)
-- [ ] Run first migration + seed script (demo users, sample hackathons)
-- [ ] Auth endpoints: register (college-domain check) → OTP verify → login → refresh → logout
-- [ ] OTP email delivery (Nodemailer; console transport in dev)
-- [ ] Frontend auth flow: sign-in page, OTP entry, AuthContext, protected routes
-- [ ] Onboarding wizard: primary role → skill tags → GitHub/LinkedIn/Portfolio links → availability badge
-- [ ] Profile page (Read.cv style, per Stitch ref) + edit profile
+- [x] Define Prisma schema (Users, Hackathons, Teams, TeamMembers, JoinRequests, Bookmark, SoloPost) — **SQLite dev** (no local Postgres; skill lists as JSON-string columns, `PROD-NOTE` markers for the Postgres switch)
+- [x] Run first migration (✅ `dev.db`, 7 tables); seed script next
+- [x] Auth endpoints: register (college-domain check) → OTP verify → login → refresh → logout; ✅ **verified via live smoke tests (no leaks: no passwordHash/OTP in responses)**
+- [x] OTP email delivery (Nodemailer; console transport in dev) — console output visible in server logs; ready for SMTP
+- [x] Frontend auth flow: sign-in page, OTP entry, AuthContext (localStorage access token + httpOnly refresh cookie with silent rotation), protected routes — ✅ verified in a real browser
+- [x] Onboarding wizard: primary role → skill tags → GitHub/LinkedIn/Portfolio links → availability badge — ✅ 4-step rail, verified end-to-end (role/skills/links/availability persist)
+- [x] Profile page (Read.cv style, per Stitch ref) + inline edit profile — ✅ HACKER ID / Verified / 01 Core Tech / 02 Track Record / 03 Looking to Build / 04 Repos; edits persist to DB
+- [x] App shell: top bar (search, Post, user chip, sign out) + mobile bottom tab bar (Discover/Talent/Squads/Chats/Profile); Phase 3–4 destinations stubbed as placeholders
+- [x] **Bug fixes found by live testing:** (1) `ERR_HTTP_HEADERS_SENT` — `issueTokens()` wrote the response *and* the controller wrote again on every login/verify-otp/refresh; (2) same root cause masked a missing `{accessToken, user}` body; (3) `passwordHash`+OTP fields leaked in `/me` responses — now stripped via an explicit `publicUser()` projection.
+- [x] Vite dev server pinned to `5173` with `strictPort: true` (was silently drifting to 5174)
 
 ## Phase 3 — Hackathon Discovery Hub
 - [ ] Hackathon Feed UI built from Stitch components (`design-reference/feed-light.html`)
@@ -58,4 +61,5 @@
 |---|---|
 | 2026-10-18 | Board created; Phase 1 docs written; Stitch MCP verified. |
 | 2026-10-18 | Design selected: **College Hackathon Team Finder** → "Tactile Editorial Minimalist". 8 screens exported to `design-reference/`. Project relocated to `D:\MADDY\HackMatch`. Animotion MCP not connected — interim CSS animations + lucide-react icons planned. Next: git init + scaffold client/server. |
-| 2026-10-18 | **Phase 1 complete.** Git repo + npm workspaces initialized; Vite/React/TS/Tailwind-v4 client + Express/TS server scaffolded; Stitch tokens + interim animation layer exported; verified: API health :4000 ✅, Vite proxy ✅, production build ✅. Next: **Phase 2** — Prisma schema + college-email OTP auth. |
+| 2026-10-18 | **Phase 2 auth backend complete.** SQLite schema + seed running; register/login/verify-otp/resend-otp/refresh/logout + /me implemented; college-domain gate tested; leak-fixed (no passwordHash/OTP in responses); OTP console delivery working. Next: frontend auth (sign-in, OTP, AuthContext, protected routes) + onboarding + Read.cv profile. |
+| 2026-10-18 | **Phase 2 COMPLETE.** Frontend: sign-in + OTP modal, `AuthContext` (access token in localStorage, refresh in httpOnly cookie w/ silent rotation), `ProtectedRoute`, 4-step onboarding wizard, Read.cv-style profile with inline edit, app shell + bottom tab bar. Fixed 3 live-test bugs (`ERR_HTTP_HEADERS_SENT` double-response on login/verify/refresh; missing `{accessToken,user}`; sensitive-field leak in `/me`). Verified end-to-end in a real browser + against the DB. Screenshot: `docs/phase2-profile.png`. **Next: Phase 3 — Discovery Hub** (feed, filters, bookmarks, hackathon detail). |
