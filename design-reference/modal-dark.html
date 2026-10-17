@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#131315;color:#e5e1e4;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=JetBrains+Mono:wght@100..900&amp;family=Plus+Jakarta+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "on-primary-container": "#511500",
+          "on-tertiary": "#00325a",
+          "secondary-container": "#0566d9",
+          "outline-variant": "#5c4037",
+          "surface-bright": "#39393b",
+          "surface-container-lowest": "#0e0e10",
+          "surface-container-low": "#1b1b1d",
+          "tertiary-fixed": "#d2e4ff",
+          "on-error-container": "#ffdad6",
+          "primary-fixed-dim": "#ffb59c",
+          "on-primary-fixed-variant": "#822700",
+          "on-tertiary-fixed": "#001c37",
+          "surface-variant": "#353437",
+          "secondary-fixed": "#d8e2ff",
+          "outline": "#ac897e",
+          "secondary": "#adc6ff",
+          "error-container": "#93000a",
+          "surface-dim": "#131315",
+          "on-secondary-fixed": "#001a42",
+          "surface-container-high": "#2a2a2c",
+          "on-tertiary-fixed-variant": "#004880",
+          "secondary-fixed-dim": "#adc6ff",
+          "on-surface": "#e5e1e4",
+          "surface": "#131315",
+          "tertiary-fixed-dim": "#a1c9ff",
+          "on-secondary": "#002e6a",
+          "tertiary": "#a1c9ff",
+          "on-error": "#690005",
+          "primary-fixed": "#ffdbcf",
+          "on-secondary-fixed-variant": "#004395",
+          "inverse-on-surface": "#303032",
+          "background": "#131315",
+          "surface-tint": "#ffb59c",
+          "on-secondary-container": "#e6ecff",
+          "on-primary-fixed": "#390c00",
+          "inverse-primary": "#aa3600",
+          "on-background": "#e5e1e4",
+          "surface-container": "#201f21",
+          "primary": "#ffb59c",
+          "inverse-surface": "#e5e1e4",
+          "primary-container": "#ff5708",
+          "on-surface-variant": "#e5beb2",
+          "surface-container-highest": "#353437",
+          "tertiary-container": "#0494fc",
+          "error": "#ffb4ab",
+          "on-primary": "#5c1900",
+          "on-tertiary-container": "#002b4f"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.125rem",
+          "lg": "0.25rem",
+          "xl": "0.5rem",
+          "full": "0.75rem"
+        },
+        "spacing": {
+          "gutter-desktop": "1.5rem",
+          "space-xs": "0.25rem",
+          "gutter": "1rem",
+          "space-md": "1rem",
+          "space-xl": "2.5rem",
+          "margin": "1rem",
+          "margin-tablet": "2rem",
+          "space-lg": "1.5rem",
+          "space-sm": "0.5rem",
+          "margin-desktop": "3rem"
+        },
+        "fontFamily": {
+          "headline-xl-mobile": ["Plus Jakarta Sans"],
+          "label-md": ["JetBrains Mono"],
+          "body-sm": ["Inter"],
+          "body-lg": ["Inter"],
+          "headline-xl": ["Plus Jakarta Sans"],
+          "headline-lg": ["Plus Jakarta Sans"],
+          "headline-lg-mobile": ["Plus Jakarta Sans"],
+          "headline-sm": ["Plus Jakarta Sans"],
+          "body-md": ["Inter"],
+          "headline-md": ["Plus Jakarta Sans"],
+          "label-sm": ["JetBrains Mono"]
+        },
+        "fontSize": {
+          "headline-xl-mobile": ["2rem", { "lineHeight": "2.5rem", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+          "label-md": ["0.8125rem", { "lineHeight": "1rem", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+          "body-sm": ["0.75rem", { "lineHeight": "1.25rem", "letterSpacing": "0em", "fontWeight": "400" }],
+          "body-lg": ["1rem", { "lineHeight": "1.625rem", "letterSpacing": "-0.011em", "fontWeight": "400" }],
+          "headline-xl": ["3rem", { "lineHeight": "3.5rem", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+          "headline-lg": ["2.25rem", { "lineHeight": "2.75rem", "letterSpacing": "-0.025em", "fontWeight": "600" }],
+          "headline-lg-mobile": ["1.75rem", { "lineHeight": "2.25rem", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+          "headline-sm": ["1.125rem", { "lineHeight": "1.625rem", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+          "body-md": ["0.875rem", { "lineHeight": "1.5rem", "letterSpacing": "-0.006em", "fontWeight": "400" }],
+          "headline-md": ["1.5rem", { "lineHeight": "2rem", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+          "label-sm": ["0.6875rem", { "lineHeight": "0.875rem", "letterSpacing": "0.02em", "fontWeight": "500" }]
+        }
+      },
+    },
+  }
+</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style></head><body class="bg-surface font-body-md text-body-md text-on-surface min-h-screen flex flex-col antialiased selection:bg-primary-container selection:text-white"><header class="fixed top-0 w-full z-50 bg-[#131315]/90 backdrop-blur-xl border-b border-[#27272a]/60 pt-safe shadow-[0_1px_12px_rgba(0,0,0,0.5)]"><div class="h-16 px-margin flex items-center justify-between"><div class="flex items-center gap-space-sm"><button class="w-10 h-10 -ml-2 rounded-lg flex items-center justify-center text-on-surface/80 hover:text-on-surface hover:bg-[#201f21] active:scale-95 transition-all" onclick="history.back()" type="button"><span class="material-symbols-outlined text-[20px]">arrow_back</span></button><img alt="HackMatch Geometric Monogram Logo" class="h-8 w-auto object-contain rounded brightness-110" src="https://lh3.googleusercontent.com/aida/AEtjO1W-XGb4WM_0f8nN68jOU_5rpL3EkWMft0Q0psvY8QiHYrLtOjl3O0gRaRwNVPSVtRvHFmZ5Ja3rBB8aG0x3gULizeXEcJs3WrhApOEQU8kVzRK3UEfjd1_BXCrAmsbAqnNd96VWIOF1e5UowGymlXZTBNcVeyrmDB0GzmBQFuW1wODXcLKONx45FVe0_JH1Fy5LBMzDA8yFTrpWIwP-vjap7ZsEno9FytC2NaVnzuy18yyUkRq_rcRlmlXy"/><h1 class="font-headline-sm text-headline-sm font-semibold tracking-tight text-on-surface truncate max-w-[160px]">Squad Application</h1></div><div class="flex items-center gap-space-sm"><div class="w-8 h-8 rounded-full bg-primary-container/20 border border-primary-container/40 flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-primary text-[18px]">person</span></div></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 pb-safe bg-surface"><div class="flex flex-col w-full pb-8">
+<div class="px-margin pt-space-md flex flex-col gap-space-md">
+<!-- Top Telemetry & Context Card -->
+<div class="bg-[#18181b] rounded-xl p-space-md border border-[#27272a] shadow-md relative overflow-hidden">
+<div class="flex items-center justify-between gap-space-sm mb-space-xs">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-950/70 border border-emerald-500/30 text-emerald-400 font-label-sm text-label-sm tracking-wide">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          RECRUITING NOW
+        </span>
+<span class="font-label-sm text-label-sm text-on-surface/50 tracking-wider">
+          CALHACKS 11.0 · SAN FRANCISCO
+        </span>
+</div>
+<div class="flex items-start justify-between gap-space-md mt-space-sm">
+<div class="min-w-0">
+<p class="font-label-sm text-label-sm uppercase text-on-surface/50 tracking-wider font-medium">Target Squad</p>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile font-semibold text-on-surface tracking-tight truncate">
+            NeuroFlow
+          </h2>
+<p class="font-body-sm text-body-sm text-on-surface/70 mt-0.5 line-clamp-1">
+            Real-time EEG cognitive load mapping with non-invasive BCI.
+          </p>
+</div>
+<div class="w-12 h-12 rounded-xl bg-primary-container/15 border border-primary-container/30 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-[24px]">psychology</span>
+</div>
+</div>
+<!-- Active Selected Role Pill Highlight -->
+<div class="mt-space-md p-space-sm bg-[#121214] border border-[#27272a] rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-7 h-7 rounded-md bg-primary-container text-white flex items-center justify-center shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[16px]">draw</span>
+</div>
+<div class="min-w-0">
+<p class="font-label-sm text-label-sm text-primary uppercase font-bold tracking-wider">Applying For Vacant Slot</p>
+<p class="font-label-md text-label-md text-on-surface font-medium truncate">+ UI/UX Designer &amp; Frontend</p>
+</div>
+</div>
+<span class="px-2 py-1 rounded bg-[#201f21] border border-[#353437] text-on-surface/80 font-label-sm text-label-sm shrink-0">
+          Tier 1 Match
+        </span>
+</div>
+</div>
+<!-- Existing Team Bento Snippet -->
+<div class="bg-[#18181b] rounded-xl p-space-md border border-[#27272a]">
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface/50 font-medium">Roster Breakdown</span>
+<span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-[#2a2a2c] text-on-surface/80 border border-[#353437]">2/4 Filled</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface/50">2 Slots Open</span>
+</div>
+<!-- Member Pill Avatars -->
+<div class="grid grid-cols-2 gap-space-sm">
+<!-- Member 1 -->
+<div class="bg-[#121214] p-space-sm rounded-lg flex items-center gap-space-sm min-w-0 border border-[#27272a]">
+<img class="w-9 h-9 rounded-md object-cover shrink-0 grayscale-[20%]" data-alt="Close-up studio monochrome portrait of a young Asian male machine learning developer wearing tortoiseshell glasses, neutral background, editorial lighting, warm tone" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGMV4GPLzAPfIitrXgeXIPnOMQ0E8EISBJPOjLpYTDq3VHorSYa_q3zQk7hlnOd-OvlMtjZ5Z_tqVl4UsARo9bZ7GdFbPVYAcT2lw4P0dESd7sNVGgU3E9HqeB4PRz1JlHIhJJK-we69BfMNcBMQFKUE7q4pzEJFcrxpKJWML4V3FN4aLPnBhuJYtp_Z-dKF0zIegiw7Q7njEgDNnvB1vAztg5-sUwgYDVDrnoicqqD_Sliovv69nrYQ"/>
+<div class="min-w-0">
+<p class="font-body-md text-body-md font-semibold text-on-surface truncate">Alex C.</p>
+<p class="font-label-sm text-label-sm text-on-surface/50 truncate">Lead · UC Berkeley</p>
+</div>
+</div>
+<!-- Member 2 -->
+<div class="bg-[#121214] p-space-sm rounded-lg flex items-center gap-space-sm min-w-0 border border-[#27272a]">
+<img class="w-9 h-9 rounded-md object-cover shrink-0 grayscale-[20%]" data-alt="Monochrome environmental portrait of a female hardware robotics engineer tinkering with microcontrollers, subtle warm tungsten backlight, modern workspace" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBu21FMYM3m_FGW1dMG9oGySHx0nsVa8o3jA2BxWeLRFCWEWV1QYfWlToQ_9-PioXPQzv-qKzshYaGaQpDqEkUuaGMcE6D1ryWNSFjvADDOcZsqm8EubXuaN48ruWEm5rewBYH3qDrP0ZRguuNp_T8_aLPuGU25Lga2V6VJoQxHzy6NxisxdrphoSKsS3-2BsLspkvL8JhYDOB4hW3zX2ehsOeHU1rgxaWzvYFr3Mg2HN0PGy2xC9V4oA"/>
+<div class="min-w-0">
+<p class="font-body-md text-body-md font-semibold text-on-surface truncate">Sarah K.</p>
+<p class="font-label-sm text-label-sm text-on-surface/50 truncate">EE · Stanford '25</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Application Form Card -->
+<div class="bg-[#18181b] rounded-xl p-space-md border border-[#27272a] shadow-md flex flex-col gap-space-lg">
+<!-- Input 1: Segmented Radio Selection -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<label class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface/60 font-medium">
+            Primary Role Slot Target
+          </label>
+<span class="font-label-sm text-label-sm text-primary">Required</span>
+</div>
+<div class="grid grid-cols-1 gap-2 pt-1" id="role-selector">
+<!-- Option A (Active) -->
+<div class="role-card p-space-sm rounded-lg bg-[#201f21] border border-[#ff5708]/50 cursor-pointer transition-all flex items-center justify-between" onclick="selectRole(this)">
+<div class="flex items-center gap-3 min-w-0">
+<div class="radio-indicator w-4 h-4 rounded-full border border-primary flex items-center justify-center shrink-0">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+</div>
+<div class="min-w-0">
+<p class="font-body-md text-body-md font-medium text-on-surface truncate">UI/UX Designer</p>
+<p class="font-label-sm text-label-sm text-on-surface/50">Figma, Design Systems, Prototyping</p>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-emerald-400 bg-emerald-950/60 border border-emerald-500/30 px-2 py-0.5 rounded">High Need</span>
+</div>
+<!-- Option B -->
+<div class="role-card p-space-sm rounded-lg bg-[#121214] border border-[#27272a] cursor-pointer transition-all flex items-center justify-between opacity-75 hover:opacity-100" onclick="selectRole(this)">
+<div class="flex items-center gap-3 min-w-0">
+<div class="radio-indicator w-4 h-4 rounded-full border border-[#353437] flex items-center justify-center shrink-0">
+<div class="w-2 h-2 rounded-full bg-transparent"></div>
+</div>
+<div class="min-w-0">
+<p class="font-body-md text-body-md font-medium text-on-surface truncate">Fullstack / React Native</p>
+<p class="font-label-sm text-label-sm text-on-surface/50">TypeScript, WebSockets, Tailwind</p>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface/40">Backup</span>
+</div>
+</div>
+</div>
+<!-- Input 2: Pitch & Great Fit Textarea -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<label class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface/60 font-medium" for="pitch-input">
+            Why you're a great fit
+          </label>
+<span class="font-label-sm text-label-sm text-on-surface/40" id="char-counter">
+            0/280
+          </span>
+</div>
+<div class="relative bg-[#121214] border border-[#2e2e33] rounded-lg p-space-sm focus-within:border-primary-container focus-within:ring-1 focus-within:ring-primary-container/30 transition-all">
+<textarea class="w-full bg-transparent font-body-md text-body-md text-on-surface placeholder:text-on-surface/30 focus:outline-none resize-none leading-relaxed" id="pitch-input" maxlength="280" oninput="updateCount(this)" placeholder="Designed 3 real-time dashboard apps at CalHacks '23. Deeply familiar with streaming data viz, WebGL charts, and rapid front-end polish in Next.js..." rows="4"></textarea>
+</div>
+</div>
+<!-- Input 3: Portfolio / Project Link -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface/60 font-medium" for="portfolio-input">
+          Portfolio or Relevant Project
+        </label>
+<div class="flex items-center rounded-lg bg-[#121214] border border-[#2e2e33] focus-within:border-primary-container focus-within:ring-1 focus-within:ring-primary-container/30 px-space-sm py-2 transition-all">
+<span class="font-label-md text-label-md text-on-surface/40 select-none shrink-0 pr-1">
+            read.cv/
+          </span>
+<input class="w-full bg-transparent font-body-md text-body-md text-on-surface placeholder:text-on-surface/30 focus:outline-none" id="portfolio-input" placeholder="johndoe" type="text"/>
+<button class="text-on-surface/40 hover:text-on-surface p-1 transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">link</span>
+</button>
+</div>
+</div>
+<!-- Input 4: Hours Committed Sprint Pill Selector -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<label class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface/60 font-medium">
+            Hackathon Commitment Window
+          </label>
+<span class="font-label-sm text-label-sm text-on-surface/40">EST Weekend</span>
+</div>
+<div class="flex items-center gap-2 pt-1" id="hours-selector">
+<button class="hours-pill flex-1 py-2 px-2.5 rounded-lg bg-[#e5e1e4] text-[#131315] font-label-sm text-label-sm text-center font-semibold shadow-xs transition-all active:scale-95" onclick="selectPill(this)" type="button">
+            Full 36h Sprint
+          </button>
+<button class="hours-pill flex-1 py-2 px-2.5 rounded-lg bg-[#121214] border border-[#2e2e33] text-on-surface/75 font-label-sm text-label-sm text-center font-medium transition-all hover:bg-[#201f21] hover:text-on-surface active:scale-95" onclick="selectPill(this)" type="button">
+            24–30h
+          </button>
+<button class="hours-pill flex-1 py-2 px-2.5 rounded-lg bg-[#121214] border border-[#2e2e33] text-on-surface/75 font-label-sm text-label-sm text-center font-medium transition-all hover:bg-[#201f21] hover:text-on-surface active:scale-95" onclick="selectPill(this)" type="button">
+            Flexible
+          </button>
+</div>
+</div>
+<!-- Live Teammate Vouch Notification Pill -->
+<div class="p-3 bg-[#121214] border border-[#27272a] rounded-lg flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0">verified_user</span>
+<p class="font-body-sm text-body-sm text-on-surface/70">
+          Applications are private. The squad lead will review within <strong class="text-on-surface font-semibold">3 hours</strong> of submission.
+        </p>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-col gap-space-sm pt-space-xs">
+<button class="w-full py-3.5 px-space-md rounded-lg bg-[#ff5708] hover:bg-[#ff6e28] text-white font-headline-sm text-headline-sm font-semibold flex items-center justify-center gap-2 shadow-[0_2px_12px_rgba(255,87,8,0.35)] transition-all active:scale-[0.98]" id="submit-btn" onclick="handleApplicationSubmit()" type="button">
+<span class="material-symbols-outlined text-[20px]">send</span>
+<span>Send Team Application</span>
+</button>
+<button class="w-full py-2.5 px-space-md rounded-lg bg-transparent text-on-surface/60 font-label-md text-label-md flex items-center justify-center gap-2 hover:text-on-surface hover:bg-[#201f21]/60 transition-colors" onclick="handleDraftSave()" type="button">
+<span class="material-symbols-outlined text-[16px]">bookmark_border</span>
+<span>Save as Draft</span>
+</button>
+<!-- Command Shortcut Hint -->
+<p class="text-center font-label-sm text-label-sm text-on-surface/40 tracking-wider">
+          PRESS ⌘ + ENTER TO SUBMIT APPLICATION
+        </p>
+</div>
+</div>
+<!-- Squad Mission Brief Card -->
+<div class="bg-[#18181b] rounded-xl p-space-md flex flex-col gap-space-sm border border-[#27272a]">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface/50 text-[18px]">terminal</span>
+<h3 class="font-label-sm text-label-sm uppercase text-on-surface/50 tracking-wider font-medium">Tech Stack Alignment</h3>
+</div>
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2.5 py-1 rounded-full bg-[#121214] border border-[#27272a] text-on-surface/85 font-label-sm text-label-sm">PyTorch</span>
+<span class="px-2.5 py-1 rounded-full bg-[#121214] border border-[#27272a] text-on-surface/85 font-label-sm text-label-sm">Next.js 14</span>
+<span class="px-2.5 py-1 rounded-full bg-[#121214] border border-[#27272a] text-on-surface/85 font-label-sm text-label-sm">WebAudio API</span>
+<span class="px-2.5 py-1 rounded-full bg-[#121214] border border-[#27272a] text-on-surface/85 font-label-sm text-label-sm">OpenBCI Cyton</span>
+<span class="px-2.5 py-1 rounded-full bg-[#121214] border border-[#27272a] text-on-surface/85 font-label-sm text-label-sm">Tailwind CSS</span>
+</div>
+</div>
+</div>
+<!-- Toast Notification Container -->
+<div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 transition-opacity duration-200" id="toast">
+<div class="px-4 py-2.5 rounded-lg bg-[#201f21] border border-[#353437] text-on-surface font-label-md text-label-md shadow-2xl flex items-center gap-2">
+<span class="material-symbols-outlined text-emerald-400 text-[18px]">check_circle</span>
+<span id="toast-text">Application transmitted to NeuroFlow</span>
+</div>
+</div>
+</div>
+<script>
+  function updateCount(el) {
+    const counter = document.getElementById('char-counter');
+    if (counter) {
+      counter.innerText = el.value.length + '/280';
+      if (el.value.length >= 260) {
+        counter.classList.add('text-primary');
+      } else {
+        counter.classList.remove('text-primary');
+      }
+    }
+  }
+
+  function selectRole(element) {
+    const cards = document.querySelectorAll('.role-card');
+    cards.forEach(card => {
+      card.classList.remove('bg-[#201f21]', 'border-[#ff5708]/50');
+      card.classList.add('bg-[#121214]', 'border-[#27272a]', 'opacity-75');
+      const radio = card.querySelector('.radio-indicator');
+      if (radio) {
+        radio.classList.remove('border-primary');
+        radio.classList.add('border-[#353437]');
+        radio.firstElementChild.classList.add('bg-transparent');
+        radio.firstElementChild.classList.remove('bg-primary');
+      }
+    });
+
+    element.classList.remove('bg-[#121214]', 'border-[#27272a]', 'opacity-75');
+    element.classList.add('bg-[#201f21]', 'border-[#ff5708]/50');
+    const activeRadio = element.querySelector('.radio-indicator');
+    if (activeRadio) {
+      activeRadio.classList.remove('border-[#353437]');
+      activeRadio.classList.add('border-primary');
+      activeRadio.firstElementChild.classList.remove('bg-transparent');
+      activeRadio.firstElementChild.classList.add('bg-primary');
+    }
+  }
+
+  function selectPill(button) {
+    const pills = document.querySelectorAll('.hours-pill');
+    pills.forEach(pill => {
+      pill.classList.remove('bg-[#e5e1e4]', 'text-[#131315]', 'font-semibold');
+      pill.classList.add('bg-[#121214]', 'border', 'border-[#2e2e33]', 'text-on-surface/75', 'font-medium');
+    });
+    button.classList.remove('bg-[#121214]', 'border', 'border-[#2e2e33]', 'text-on-surface/75', 'font-medium');
+    button.classList.add('bg-[#e5e1e4]', 'text-[#131315]', 'font-semibold');
+  }
+
+  function showToast(message) {
+    const toast = document.getElementById('toast');
+    const toastText = document.getElementById('toast-text');
+    if (toast && toastText) {
+      toastText.innerText = message;
+      toast.classList.remove('opacity-0');
+      toast.classList.add('opacity-100');
+      setTimeout(() => {
+        toast.classList.remove('opacity-100');
+        toast.classList.add('opacity-0');
+      }, 2600);
+    }
+  }
+
+  function handleApplicationSubmit() {
+    const btn = document.getElementById('submit-btn');
+    if (btn) {
+      btn.innerHTML = `<span class="material-symbols-outlined animate-spin text-[20px]">progress_activity</span><span>Dispatching...</span>`;
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.innerHTML = `<span class="material-symbols-outlined text-[20px]">check</span><span>Application Sent</span>`;
+        btn.classList.remove('bg-[#ff5708]', 'hover:bg-[#ff6e28]');
+        btn.classList.add('bg-emerald-600');
+        showToast("Application transmitted to Alex C. & squad!");
+      }, 800);
+    }
+  }
+
+  function handleDraftSave() {
+    showToast("Application draft saved to device.");
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+      e.preventDefault();
+      handleApplicationSubmit();
+    }
+  });
+</script></main></body></html>

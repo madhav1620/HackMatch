@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#131315;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=JetBrains+Mono:wght@100..900&amp;family=Plus+Jakarta+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "on-primary-container": "#511500",
+          "on-tertiary": "#00325a",
+          "secondary-container": "#0566d9",
+          "outline-variant": "#27272a",
+          "surface-bright": "#39393b",
+          "surface-container-lowest": "#0e0e10",
+          "surface-container-low": "#18181b",
+          "tertiary-fixed": "#d2e4ff",
+          "on-error-container": "#ffdad6",
+          "primary-fixed-dim": "#ffb59c",
+          "on-primary-fixed-variant": "#822700",
+          "on-tertiary-fixed": "#001c37",
+          "surface-variant": "#27272a",
+          "secondary-fixed": "#d8e2ff",
+          "outline": "#3f3f46",
+          "secondary": "#adc6ff",
+          "error-container": "#93000a",
+          "surface-dim": "#131315",
+          "on-secondary-fixed": "#001a42",
+          "surface-container-high": "#27272a",
+          "on-tertiary-fixed-variant": "#004880",
+          "secondary-fixed-dim": "#adc6ff",
+          "on-surface": "#f4f4f5",
+          "surface": "#121214",
+          "tertiary-fixed-dim": "#a1c9ff",
+          "on-secondary": "#002e6a",
+          "tertiary": "#a1c9ff",
+          "on-error": "#690005",
+          "primary-fixed": "#ffdbcf",
+          "on-secondary-fixed-variant": "#004395",
+          "inverse-on-surface": "#303032",
+          "background": "#0f0f11",
+          "surface-tint": "#ffb59c",
+          "on-secondary-container": "#e6ecff",
+          "on-primary-fixed": "#390c00",
+          "inverse-primary": "#aa3600",
+          "on-background": "#f4f4f5",
+          "surface-container": "#1c1c20",
+          "primary": "#ff5500",
+          "inverse-surface": "#e5e1e4",
+          "primary-container": "#ff5708",
+          "on-surface-variant": "#a1a1aa",
+          "surface-container-highest": "#353437",
+          "tertiary-container": "#0494fc",
+          "error": "#ffb4ab",
+          "on-primary": "#ffffff",
+          "on-tertiary-container": "#002b4f",
+          "text-primary": "#f4f4f5",
+          "text-secondary": "#9ca3af",
+          "surface-card": "#18181b",
+          "canvas-paper": "#141416",
+          "border-hairline": "#222226",
+          "border-subtle": "#27272a"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.125rem",
+          "lg": "0.25rem",
+          "xl": "0.5rem",
+          "full": "0.75rem"
+        },
+        "spacing": {
+          "gutter-desktop": "1.5rem",
+          "space-xs": "0.25rem",
+          "gutter": "1rem",
+          "space-md": "1rem",
+          "space-xl": "2.5rem",
+          "margin": "1rem",
+          "margin-tablet": "2rem",
+          "space-lg": "1.5rem",
+          "space-sm": "0.5rem",
+          "margin-desktop": "3rem"
+        },
+        "fontFamily": {
+          "headline-xl-mobile": ["Plus Jakarta Sans"],
+          "label-md": ["JetBrains Mono"],
+          "body-sm": ["Inter"],
+          "body-lg": ["Inter"],
+          "headline-xl": ["Plus Jakarta Sans"],
+          "headline-lg": ["Plus Jakarta Sans"],
+          "headline-lg-mobile": ["Plus Jakarta Sans"],
+          "headline-sm": ["Plus Jakarta Sans"],
+          "body-md": ["Inter"],
+          "headline-md": ["Plus Jakarta Sans"],
+          "label-sm": ["JetBrains Mono"],
+          "label-mono-sm": ["JetBrains Mono"],
+          "label-code": ["JetBrains Mono"],
+          "caption-caps": ["JetBrains Mono"]
+        },
+        "fontSize": {
+          "headline-xl-mobile": ["2rem", { "lineHeight": "2.5rem", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+          "label-md": ["0.8125rem", { "lineHeight": "1rem", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+          "body-sm": ["0.75rem", { "lineHeight": "1.25rem", "letterSpacing": "0em", "fontWeight": "400" }],
+          "body-lg": ["1rem", { "lineHeight": "1.625rem", "letterSpacing": "-0.011em", "fontWeight": "400" }],
+          "headline-xl": ["3rem", { "lineHeight": "3.5rem", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+          "headline-lg": ["2.25rem", { "lineHeight": "2.75rem", "letterSpacing": "-0.025em", "fontWeight": "600" }],
+          "headline-lg-mobile": ["1.75rem", { "lineHeight": "2.25rem", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+          "headline-sm": ["1.125rem", { "lineHeight": "1.625rem", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+          "body-md": ["0.875rem", { "lineHeight": "1.5rem", "letterSpacing": "-0.006em", "fontWeight": "400" }],
+          "headline-md": ["1.5rem", { "lineHeight": "2rem", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+          "label-sm": ["0.6875rem", { "lineHeight": "0.875rem", "letterSpacing": "0.02em", "fontWeight": "500" }],
+          "label-mono-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+          "label-code": ["13px", { "lineHeight": "18px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+          "caption-caps": ["10px", { "lineHeight": "14px", "letterSpacing": "0.08em", "fontWeight": "600" }]
+        }
+      }
+    }
+  }
+</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head><body class="bg-[#0f0f11] font-body-md text-body-md text-text-primary min-h-screen flex flex-col antialiased selection:bg-primary/30 selection:text-white"><header class="fixed top-0 w-full z-50 bg-[#0f0f11]/90 backdrop-blur-xl pt-safe border-b border-[#222226] shadow-[0_1px_12px_rgba(0,0,0,0.4)]"><div class="h-32 px-margin flex flex-col justify-between py-space-sm"><div class="flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm"><img alt="HackMatch Geometric Monogram Logo" class="h-8 w-auto object-contain brightness-110" src="https://lh3.googleusercontent.com/aida/AEtjO1W-XGb4WM_0f8nN68jOU_5rpL3EkWMft0Q0psvY8QiHYrLtOjl3O0gRaRwNVPSVtRvHFmZ5Ja3rBB8aG0x3gULizeXEcJs3WrhApOEQU8kVzRK3UEfjd1_BXCrAmsbAqnNd96VWIOF1e5UowGymlXZTBNcVeyrmDB0GzmBQFuW1wODXcLKONx45FVe0_JH1Fy5LBMzDA8yFTrpWIwP-vjap7ZsEno9FytC2NaVnzuy18yyUkRq_rcRlmlXy"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm font-bold tracking-tight text-white leading-none">HackMatch</span><span class="font-caption-caps text-caption-caps uppercase tracking-wider text-text-secondary mt-0.5">Campus League</span></div></div><div class="flex items-center gap-space-sm"><a class="h-9 px-space-md bg-white text-[#0f0f11] font-label-code text-label-code font-semibold rounded-xl flex items-center gap-1 active:scale-95 transition-transform hover:bg-[#ededed] shadow-sm" data-path="create-listing" href="#"><span class="material-symbols-outlined text-[16px]">add</span><span>Post</span></a><div class="w-8 h-8 rounded-full bg-[#ff5500] flex items-center justify-center shrink-0 shadow-sm"><span class="material-symbols-outlined text-white text-[18px]">person</span></div></div></div><div class="flex items-center justify-between gap-space-sm"><div class="flex bg-[#18181b] p-0.5 rounded-xl border border-[#27272a]"><button class="px-3 py-1 font-label-mono-sm text-label-mono-sm bg-[#27272a] text-white font-medium rounded-lg shadow-sm" type="button">Hackathons</button><button class="px-3 py-1 font-label-mono-sm text-label-mono-sm text-text-secondary hover:text-white transition-colors" type="button">Teammates</button></div><button class="flex items-center gap-1.5 px-3 py-1 bg-[#18181b] border border-[#27272a] rounded-xl text-text-secondary font-label-mono-sm text-label-mono-sm hover:text-text-primary hover:border-[#3f3f46] transition-colors" type="button"><span class="material-symbols-outlined text-[14px]">search</span><span>Search</span><kbd class="font-label-mono-sm text-[10px] bg-[#27272a] text-[#a1a1aa] px-1 py-0.5 rounded border border-[#3f3f46]/50">⌘K</kbd></button></div></div></header><main class="flex-1 flex flex-col relative w-full pt-32 pb-24 bg-[#0f0f11]"><div class="flex flex-col w-full">
+<!-- Subtle Dot Matrix Decorative Header Bar -->
+<section class="w-full px-margin pt-space-md pb-space-sm">
+<div class="flex items-end justify-between">
+<div>
+<div class="flex items-center gap-space-xs text-text-secondary mb-0.5">
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-[#ff5500] animate-pulse"></span>
+<span class="font-caption-caps text-caption-caps uppercase tracking-wider text-text-secondary">Fall Season 2024</span>
+</div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile font-bold tracking-tight text-white">
+          Hackathon Hub
+        </h1>
+</div>
+<div class="flex items-center gap-1.5 bg-[#18181b] border border-[#27272a] px-2.5 py-1 rounded-xl">
+<span class="font-label-mono-sm text-label-mono-sm font-semibold text-white">18</span>
+<span class="font-caption-caps text-caption-caps uppercase text-text-secondary">Active</span>
+</div>
+</div>
+</section>
+<!-- Sticky Tactical Filter Rail -->
+<section class="sticky top-32 z-30 bg-[#0f0f11]/95 backdrop-blur-md py-space-xs px-margin mb-space-sm border-b border-[#222226]/60">
+<div class="flex items-center gap-space-xs overflow-x-auto no-scrollbar scroll-smooth">
+<button class="filter-chip active shrink-0 px-3 py-1.5 rounded-xl bg-white text-[#0f0f11] font-label-mono-sm text-label-mono-sm font-semibold shadow-sm flex items-center gap-1 transition-all" type="button">
+<span>All</span>
+<span class="bg-[#0f0f11]/15 px-1 py-0.2 rounded font-mono text-[10px]">18</span>
+</button>
+<button class="filter-chip shrink-0 px-3 py-1.5 rounded-xl bg-[#18181b] border border-[#27272a] text-text-primary font-label-mono-sm text-label-mono-sm flex items-center gap-1 transition-all hover:border-[#3f3f46] hover:bg-[#1c1c20] active:scale-95" type="button">
+<span class="material-symbols-outlined text-[14px] text-text-secondary">apartment</span>
+<span>Offline / Campus</span>
+</button>
+<button class="filter-chip shrink-0 px-3 py-1.5 rounded-xl bg-[#18181b] border border-[#27272a] text-text-primary font-label-mono-sm text-label-mono-sm flex items-center gap-1 transition-all hover:border-[#3f3f46] hover:bg-[#1c1c20] active:scale-95" type="button">
+<span class="material-symbols-outlined text-[14px] text-text-secondary">wifi</span>
+<span>Remote</span>
+</button>
+<button class="filter-chip shrink-0 px-3 py-1.5 rounded-xl bg-[#18181b] border border-[#27272a] text-text-primary font-label-mono-sm text-label-mono-sm flex items-center gap-1 transition-all hover:border-[#3f3f46] hover:bg-[#1c1c20] active:scale-95" type="button">
+<span class="material-symbols-outlined text-[14px] text-text-secondary">arrow_back_ios_new</span>
+<span>Beginner</span>
+</button>
+<button class="filter-chip shrink-0 px-3 py-1.5 rounded-xl bg-[#18181b] border border-[#27272a] text-text-primary font-label-mono-sm text-label-mono-sm flex items-center gap-1 transition-all hover:border-[#3f3f46] hover:bg-[#1c1c20] active:scale-95" type="button">
+<span class="material-symbols-outlined text-[14px] text-[#ff5500]">timer</span>
+<span>Closing Soon</span>
+</button>
+</div>
+</section>
+<!-- Bento Feed Grid -->
+<section class="flex flex-col gap-space-md px-margin pb-space-lg">
+<!-- Card 1: Featured Hackathon - CalHacks 11.0 -->
+<article class="bg-[#18181b] border border-[#27272a] rounded-xl p-space-md shadow-[0_2px_10px_rgba(0,0,0,0.3)] hover:border-[#3f3f46] transition-all flex flex-col justify-between relative overflow-hidden">
+<!-- Subtle top tint banner -->
+<div class="flex items-start justify-between gap-space-sm mb-space-sm">
+<div class="flex flex-wrap items-center gap-1.5">
+<span class="bg-[#27272a] border border-[#3f3f46]/60 px-2 py-0.5 rounded-lg font-label-mono-sm text-label-mono-sm text-[#ededed] flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-[#ff5500]"></span>
+            On-Campus • UC Berkeley
+          </span>
+<span class="bg-[#ff5500]/15 text-[#ff8040] border border-[#ff5500]/30 px-2 py-0.5 rounded-lg font-caption-caps text-caption-caps uppercase font-bold tracking-wider">Featured Tier</span>
+</div>
+<div class="bg-[#2e1c07] border border-[#78350f]/60 text-[#fcd34d] px-2 py-0.5 rounded-lg font-label-mono-sm text-label-mono-sm shrink-0 font-medium">
+          ⏳ 4d left
+        </div>
+</div>
+<!-- Main info -->
+<div class="mb-space-md">
+<div class="flex items-baseline justify-between mb-1">
+<h2 class="font-headline-md text-headline-md font-bold text-white tracking-tight">
+            CalHacks 11.0
+          </h2>
+<span class="font-label-code text-label-code font-bold text-[#ff8040]">
+            $75,000 Pool
+          </span>
+</div>
+<div class="font-label-mono-sm text-label-mono-sm text-text-secondary mb-space-sm">
+          Oct 25–27, 2024 • San Francisco Bay
+        </div>
+<p class="font-body-md text-body-md text-[#9ca3af] leading-relaxed">
+          The world's largest collegiate hackathon focused on autonomous agents &amp; developer tooling. 36 hours of builds with senior engineers.
+        </p>
+</div>
+<!-- Tech stack pills -->
+<div class="flex flex-wrap gap-1.5 mb-space-md">
+<span class="px-2.5 py-1 rounded-full bg-[#27272a] border border-[#3f3f46] text-[#e4e4e7] font-label-mono-sm text-label-mono-sm">
+          #AI/ML
+        </span>
+<span class="px-2.5 py-1 rounded-full bg-[#27272a] border border-[#3f3f46] text-[#e4e4e7] font-label-mono-sm text-label-mono-sm">
+          #Web3
+        </span>
+<span class="px-2.5 py-1 rounded-full bg-[#27272a] border border-[#3f3f46] text-[#e4e4e7] font-label-mono-sm text-label-mono-sm">
+          #Hardware
+        </span>
+<span class="px-2.5 py-1 rounded-full bg-[#27272a] border border-[#3f3f46] text-[#e4e4e7] font-label-mono-sm text-label-mono-sm">
+          #Rust
+        </span>
+</div>
+<!-- Social proof & tactile Action CTA -->
+<div class="pt-space-sm flex flex-col gap-space-sm bg-[#121214] border border-[#27272a] p-space-sm rounded-xl">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<!-- 4 student avatar stack -->
+<div class="flex -space-x-2 overflow-hidden">
+<img alt="Hacker 1" class="inline-block h-6 w-6 rounded-full object-cover ring-2 ring-[#121214]" data-alt="Close up modern portrait headshot of collegiate software engineering student smiling softly with warm natural sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZDhFpq0s6JNHtJglWbVpNupyeAFzUU2VWb16ZCALuS-bZ8RlF14O8vNMQQTVEfbLV0T8i2dyOo-2BVTY_kCelOzDVtWE5xFjkTyNT6IMqdd9n6d6y5m0DthRVMouw1U39kDOTkbcHFBjEvfSBVFuZ9QdEUFKcbTQbVcRxbBPzU4c3tgBbok8feeIwoxRnafMdFJ5N6hEJDXnYSYioY6aN9yaetE4nDKxMUZVynh6ttFafiglC6a_2Rw"/>
+<img alt="Hacker 2" class="inline-block h-6 w-6 rounded-full object-cover ring-2 ring-[#121214]" data-alt="Portrait headshot of student product designer with stylish eyeglasses in modern design studio setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMNjuGNjTpNgJh5d-bjBjjlfonXB2VFjjRYaNsT0whot0zNNzORyGQncer-FqIy9dkyCB6EQ6m3TEc8Brs8_d2SfTILGWS33blG1aVnafzZIbrckn5rrafODQTP5FK3i0ZH3DpCpiJUrk5c4yAK16CZET_ymf72GDV4avegyDiGlYiwmkWLZOa7ycdox9tu_ynkaXRkVQfT_0GsrwkHoZiaMDHiW-GizQAZNqvTB7pyOhmc8H4Cz7Qww"/>
+<img alt="Hacker 3" class="inline-block h-6 w-6 rounded-full object-cover ring-2 ring-[#121214]" data-alt="Young female machine learning researcher focused in library with soft neutral background lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD20UOZhXO3UMTU_8tBETwtXr1Z-BWlhQn9kQOP-T2cv8fZgkYA5Y9248QWm2iTYf0pZgH1hGcpEII3hugGv7Cp_aklWVLaDxV6mIpSnJtxE2nBasmsvzdbMg-ijFXjdyVpTQGOHkqRs1_LOz4HcZZgGqnvNpviTQELXACKb8f6n_v0XsRsNPDQsTRt8-pkMSRyUdiac7F3qSn9WU483jKQcj_QoiGsA9PColCb8VDes1l_PBo8r0Ymew"/>
+<img alt="Hacker 4" class="inline-block h-6 w-6 rounded-full object-cover ring-2 ring-[#121214]" data-alt="Computer science student hacker wearing minimal beanie and dark sweatshirt looking directly at camera" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDB_fffVWlb0tGa0wiDl37R0kBjjPbSkuMkUYxBdV32uNjce5_-Q_Z2xGMgbpqF-DF7TdDzgoK35Fqr1D9xbgmM-stXrOEICw-slb290BEs5NeSQp1NAOtaRfteTw0fjWEmUSZXNXfwukvRH0yXmRJ5rxQLFKiQOPUXjcYXMwmFEamRs4BtJCGu65kcFX0FRAAGtD7Y5gKnEDBfYQD6RioiI6NOqxR3jET-dXckZu44tpBa_ADKljbXdQ"/>
+</div>
+<span class="bg-[#064e3b] border border-[#059669]/40 text-[#6ee7b7] px-2 py-0.5 rounded-lg font-label-mono-sm text-label-mono-sm font-semibold">
+              +14 looking for squad
+            </span>
+</div>
+<span class="font-caption-caps text-caption-caps text-text-secondary uppercase">22 Squads Live</span>
+</div>
+<a class="w-full h-10 px-space-md bg-white text-[#0f0f11] font-label-code text-label-code font-semibold rounded-xl flex items-center justify-between active:scale-[0.98] transition-transform hover:bg-[#ededed]" data-path="teammate-pool" href="#">
+<span class="font-medium">Find Teammates</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Card 2: HackMIT 2024 -->
+<article class="bg-[#18181b] border border-[#27272a] rounded-xl p-space-md shadow-[0_2px_10px_rgba(0,0,0,0.3)] hover:border-[#3f3f46] transition-all flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="bg-[#27272a] border border-[#3f3f46]/60 px-2 py-0.5 rounded-lg font-label-mono-sm text-label-mono-sm text-[#ededed]">
+            Hybrid • Cambridge MA
+          </span>
+<span class="bg-[#2e1c07] border border-[#78350f]/60 text-[#fcd34d] px-2 py-0.5 rounded-lg font-label-mono-sm text-label-mono-sm font-medium">
+            ⏳ 9d left
+          </span>
+</div>
+<div class="flex items-baseline justify-between mt-space-xs mb-1">
+<h2 class="font-headline-md text-headline-md font-bold text-white tracking-tight">
+            HackMIT 2024
+          </h2>
+<span class="font-label-code text-label-code font-bold text-white">
+            $50,000 Pool
+          </span>
+</div>
+<p class="font-label-mono-sm text-label-mono-sm text-text-secondary mb-space-sm">
+          Sep 14–15, 2024 • MIT Campus Center
+        </p>
+<p class="font-body-md text-body-md text-[#9ca3af] mb-space-md leading-relaxed">
+          MIT's premier undergraduate hackathon tackling real challenges in robotics, systems, and algorithmic bio-engineering.
+        </p>
+<!-- Seeker Callout Pill -->
+<div class="bg-[#1c1c20] border border-[#27272a] px-3 py-2 rounded-xl flex items-center gap-space-xs mb-space-md">
+<span class="material-symbols-outlined text-[16px] text-[#ff5500]">person_search</span>
+<span class="font-label-mono-sm text-label-mono-sm text-[#e4e4e7] font-medium">
+            8 students looking for frontend &amp; UI/UX
+          </span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm pt-space-xs">
+<a class="flex-1 h-10 px-space-md bg-white text-[#0f0f11] font-label-code text-label-code font-semibold rounded-xl flex items-center justify-center gap-1 active:scale-[0.98] transition-transform hover:bg-[#ededed]" data-path="teammate-pool" href="#">
+<span>Find Teammates</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+<button aria-label="Save HackMIT" class="h-10 w-10 bg-[#1c1c20] border border-[#27272a] rounded-xl flex items-center justify-center text-text-secondary hover:text-white hover:border-[#3f3f46] active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">bookmark</span>
+</button>
+</div>
+</article>
+<!-- Two-Column Bento Row for Compact Hackathons -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+<!-- Card 3: TreeHacks (Stanford) -->
+<article class="bg-[#18181b] border border-[#27272a] rounded-xl p-space-md shadow-[0_2px_10px_rgba(0,0,0,0.3)] hover:border-[#3f3f46] transition-all flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="bg-[#27272a] border border-[#3f3f46]/60 px-2 py-0.5 rounded-lg font-label-mono-sm text-label-mono-sm text-[#ededed]">
+              On-Campus
+            </span>
+<span class="font-label-mono-sm text-label-mono-sm text-text-secondary">
+              ⏳ 16d left
+            </span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-white tracking-tight mt-1 mb-0.5">
+            TreeHacks
+          </h3>
+<div class="font-caption-caps text-caption-caps text-text-secondary mb-2">
+            Stanford Univ • Feb 14–16
+          </div>
+<div class="font-label-code text-label-code font-bold text-[#ff8040] mb-space-sm">
+            $100,000 Pool
+          </div>
+<div class="flex flex-col gap-1.5 mb-space-md">
+<div class="flex items-center gap-1.5 text-text-secondary font-label-mono-sm text-label-mono-sm">
+<span class="material-symbols-outlined text-[14px] text-[#6ee7b7]">check_circle</span>
+<span>Beginner Track Available</span>
+</div>
+<div class="flex items-center gap-1.5 text-text-secondary font-label-mono-sm text-label-mono-sm">
+<span class="material-symbols-outlined text-[14px] text-[#6ee7b7]">flight</span>
+<span>Travel Grants Open</span>
+</div>
+</div>
+</div>
+<a class="w-full h-9 bg-[#27272a] border border-[#3f3f46] text-[#ededed] font-label-code text-label-code rounded-xl flex items-center justify-center gap-1 hover:bg-[#35353a] hover:text-white active:scale-[0.98] transition-all" data-path="teammate-pool" href="#">
+<span>Join Squads</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</article>
+<!-- Card 4: PennApps XXV (UPenn) -->
+<article class="bg-[#18181b] border border-[#27272a] rounded-xl p-space-md shadow-[0_2px_10px_rgba(0,0,0,0.3)] hover:border-[#3f3f46] transition-all flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="bg-[#27272a] border border-[#3f3f46]/60 px-2 py-0.5 rounded-lg font-label-mono-sm text-label-mono-sm text-[#ededed]">
+              Remote &amp; In-Person
+            </span>
+<span class="bg-[#064e3b] border border-[#059669]/40 text-[#6ee7b7] px-1.5 py-0.5 rounded font-label-mono-sm text-label-mono-sm font-semibold">
+              Open
+            </span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-white tracking-tight mt-1 mb-0.5">
+            PennApps XXV
+          </h3>
+<div class="font-caption-caps text-caption-caps text-text-secondary mb-2">
+            UPenn • Philadelphia
+          </div>
+<div class="font-label-code text-label-code font-bold text-white mb-space-sm">
+            Sep 20–22 • Free HW Lab
+          </div>
+<p class="font-body-sm text-body-sm text-[#9ca3af] mb-space-md leading-relaxed">
+            The nation's original collegiate hackathon with dedicated hardware kits and on-demand GPU clusters.
+          </p>
+</div>
+<a class="w-full h-9 bg-[#27272a] border border-[#3f3f46] text-[#ededed] font-label-code text-label-code rounded-xl flex items-center justify-center gap-1 hover:bg-[#35353a] hover:text-white active:scale-[0.98] transition-all" data-path="teammate-pool" href="#">
+<span>View Roster</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</article>
+</div>
+<!-- Recessed Tactical Dropzone / Post Request Slot -->
+<div class="p-space-md rounded-xl bg-[#141416] border border-[#222226] flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-xl bg-[#1c1c20] border border-[#27272a] flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px] text-[#ff5500]">add_location_alt</span>
+</div>
+<div>
+<div class="font-label-code text-label-code font-bold text-white leading-tight">
+            Hosting on campus?
+          </div>
+<div class="font-body-sm text-body-sm text-text-secondary">
+            Publish your university hackathon to 42,000+ hackers.
+          </div>
+</div>
+</div>
+<a class="shrink-0 px-3 py-1.5 bg-[#18181b] border border-[#27272a] text-[#ededed] font-label-mono-sm text-label-mono-sm rounded-lg shadow-sm hover:border-[#3f3f46] hover:bg-[#27272a] transition-colors" data-path="create-listing" href="#">
+        Submit →
+      </a>
+</div>
+</section>
+</div>
+<script>
+  // Simple micro-interaction for filter pill toggles
+  document.querySelectorAll('.filter-chip').forEach(button => {
+    button.addEventListener('click', () => {
+      document.querySelectorAll('.filter-chip').forEach(btn => {
+        btn.classList.remove('bg-white', 'text-[#0f0f11]', 'font-semibold', 'shadow-sm');
+        btn.classList.add('bg-[#18181b]', 'border', 'border-[#27272a]', 'text-text-primary');
+      });
+      button.classList.add('bg-white', 'text-[#0f0f11]', 'font-semibold', 'shadow-sm');
+      button.classList.remove('bg-[#18181b]', 'border', 'border-[#27272a]', 'text-text-primary');
+    });
+  });
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-[#0f0f11]/90 backdrop-blur-xl border-t border-[#222226] shadow-[0_-1px_12px_rgba(0,0,0,0.5)]" data-active-classes="text-white font-bold"><div class="flex justify-around items-center h-16 px-space-sm"><a aria-current="page" class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[44px] transition-colors text-white font-bold" data-path="hackathon-discovery" href="#"><span class="material-symbols-outlined text-[20px] text-white">grid_view</span><span class="font-label-mono-sm text-label-mono-sm text-white">Discover</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[44px] text-text-secondary hover:text-white transition-colors" data-path="teammate-pool" href="#"><span class="material-symbols-outlined text-[20px]">group</span><span class="font-label-mono-sm text-label-mono-sm">Talent</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[44px] text-text-secondary hover:text-white transition-colors" data-path="active-squads" href="#"><span class="material-symbols-outlined text-[20px]">terminal</span><span class="font-label-mono-sm text-label-mono-sm">Squads</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[44px] text-text-secondary hover:text-white transition-colors" data-path="hacker-messages" href="#"><span class="material-symbols-outlined text-[20px]">chat_bubble</span><span class="font-label-mono-sm text-label-mono-sm">Chats</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[44px] text-text-secondary hover:text-white transition-colors" data-path="hacker-profile" href="#"><span class="material-symbols-outlined text-[20px]">badge</span><span class="font-label-mono-sm text-label-mono-sm">Profile</span></a></div></nav></body></html>

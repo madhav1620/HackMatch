@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#0f0f11;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=JetBrains+Mono:wght@100..900&amp;family=Plus+Jakarta+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "on-primary-container": "#511500",
+          "on-tertiary": "#00325a",
+          "secondary-container": "#0566d9",
+          "outline-variant": "#27272a",
+          "surface-bright": "#39393b",
+          "surface-container-lowest": "#0e0e10",
+          "surface-container-low": "#18181b",
+          "tertiary-fixed": "#d2e4ff",
+          "on-error-container": "#ffdad6",
+          "primary-fixed-dim": "#ffb59c",
+          "on-primary-fixed-variant": "#822700",
+          "on-tertiary-fixed": "#001c37",
+          "surface-variant": "#222226",
+          "secondary-fixed": "#d8e2ff",
+          "outline": "#3f3f46",
+          "secondary": "#adc6ff",
+          "error-container": "#93000a",
+          "surface-dim": "#131315",
+          "on-secondary-fixed": "#001a42",
+          "surface-container-high": "#27272a",
+          "on-tertiary-fixed-variant": "#004880",
+          "secondary-fixed-dim": "#adc6ff",
+          "on-surface": "#f4f4f5",
+          "surface": "#0f0f11",
+          "tertiary-fixed-dim": "#a1c9ff",
+          "on-secondary": "#002e6a",
+          "tertiary": "#a1c9ff",
+          "on-error": "#690005",
+          "primary-fixed": "#ffdbcf",
+          "on-secondary-fixed-variant": "#004395",
+          "inverse-on-surface": "#303032",
+          "background": "#0f0f11",
+          "surface-tint": "#ff5708",
+          "on-secondary-container": "#e6ecff",
+          "on-primary-fixed": "#390c00",
+          "inverse-primary": "#aa3600",
+          "on-background": "#f4f4f5",
+          "surface-container": "#18181b",
+          "primary": "#ff5708",
+          "inverse-surface": "#e5e1e4",
+          "primary-container": "#ff5708",
+          "on-surface-variant": "#a1a1aa",
+          "surface-container-highest": "#353437",
+          "tertiary-container": "#0494fc",
+          "error": "#ffb4ab",
+          "on-primary": "#ffffff",
+          "on-tertiary-container": "#002b4f",
+          "badge-amber-text": "#f59e0b",
+          "badge-amber-bg": "rgba(245, 158, 11, 0.15)",
+          "badge-mint-text": "#34d399",
+          "badge-mint-bg": "rgba(52, 211, 153, 0.15)",
+          "text-primary": "#f4f4f5",
+          "text-secondary": "#9ca3af",
+          "surface-card": "#18181b"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.125rem",
+          "lg": "0.25rem",
+          "xl": "0.5rem",
+          "full": "0.75rem"
+        },
+        "spacing": {
+          "gutter-desktop": "1.5rem",
+          "space-xs": "0.25rem",
+          "gutter": "1rem",
+          "space-md": "1rem",
+          "space-xl": "2.5rem",
+          "margin": "1rem",
+          "margin-tablet": "2rem",
+          "space-lg": "1.5rem",
+          "space-sm": "0.5rem",
+          "margin-desktop": "3rem"
+        },
+        "fontFamily": {
+          "headline-xl-mobile": ["Plus Jakarta Sans"],
+          "label-md": ["JetBrains Mono"],
+          "body-sm": ["Inter"],
+          "body-lg": ["Inter"],
+          "headline-xl": ["Plus Jakarta Sans"],
+          "headline-lg": ["Plus Jakarta Sans"],
+          "headline-lg-mobile": ["Plus Jakarta Sans"],
+          "headline-sm": ["Plus Jakarta Sans"],
+          "body-md": ["Inter"],
+          "headline-md": ["Plus Jakarta Sans"],
+          "label-sm": ["JetBrains Mono"],
+          "label-mono-sm": ["JetBrains Mono"],
+          "caption-caps": ["JetBrains Mono"],
+          "label-code": ["JetBrains Mono"]
+        },
+        "fontSize": {
+          "label-mono-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+          "caption-caps": ["10px", { "lineHeight": "14px", "letterSpacing": "0.08em", "fontWeight": "600" }],
+          "body-sm": ["12px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400" }],
+          "headline-sm": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+          "body-lg": ["16px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "400" }],
+          "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+          "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+          "body-md": ["14px", { "lineHeight": "22px", "letterSpacing": "0em", "fontWeight": "400" }],
+          "label-code": ["13px", { "lineHeight": "18px", "letterSpacing": "-0.01em", "fontWeight": "500" }]
+        }
+      }
+    }
+  };
+</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head><body class="bg-[#0f0f11] font-body-md text-body-md text-[#f4f4f5] min-h-screen flex flex-col antialiased selection:bg-primary/20"><header class="fixed top-0 w-full z-50 bg-[#0f0f11]/90 backdrop-blur-xl pt-safe border-b border-[#222226] shadow-[0_1px_12px_rgba(0,0,0,0.5)]"><div class="h-32 px-margin flex flex-col justify-between py-space-sm"><div class="flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm"><img alt="HackMatch Geometric Monogram Logo" class="h-8 w-auto object-contain filter invert hue-rotate-180 brightness-110" src="https://lh3.googleusercontent.com/aida/AEtjO1W-XGb4WM_0f8nN68jOU_5rpL3EkWMft0Q0psvY8QiHYrLtOjl3O0gRaRwNVPSVtRvHFmZ5Ja3rBB8aG0x3gULizeXEcJs3WrhApOEQU8kVzRK3UEfjd1_BXCrAmsbAqnNd96VWIOF1e5UowGymlXZTBNcVeyrmDB0GzmBQFuW1wODXcLKONx45FVe0_JH1Fy5LBMzDA8yFTrpWIwP-vjap7ZsEno9FytC2NaVnzuy18yyUkRq_rcRlmlXy"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm font-bold tracking-tight text-[#f4f4f5] leading-none">HackMatch</span><span class="font-caption-caps text-caption-caps uppercase tracking-wider text-[#9ca3af] mt-0.5">Campus League</span></div></div><div class="flex items-center gap-space-sm"><a class="h-9 px-space-md bg-[#f4f4f5] text-[#0f0f11] font-label-code text-label-code rounded-xl flex items-center gap-1 active:scale-95 transition-transform font-semibold shadow-sm hover:bg-[#e4e4e7]" data-path="create-listing" href="#"><span class="material-symbols-outlined text-[16px]">add</span><span>Post</span></a><div class="w-8 h-8 rounded-full bg-[#ff5708] flex items-center justify-center shrink-0 ring-1 ring-white/10"><span class="material-symbols-outlined text-white text-[18px]">person</span></div></div></div><div class="flex items-center justify-between gap-space-sm"><div class="flex bg-[#18181b] p-0.5 rounded-xl border border-[#27272a]"><button class="px-3 py-1 font-label-mono-sm text-label-mono-sm bg-[#27272a] text-[#f4f4f5] rounded-lg shadow-sm" type="button">Hackathons</button><button class="px-3 py-1 font-label-mono-sm text-label-mono-sm text-[#9ca3af] hover:text-[#f4f4f5] transition-colors" type="button">Teammates</button></div><button class="flex items-center gap-1.5 px-3 py-1 bg-[#18181b] border border-[#27272a] rounded-xl text-[#9ca3af] hover:text-[#f4f4f5] hover:border-[#3f3f46] font-label-mono-sm text-label-mono-sm transition-colors" type="button"><span class="material-symbols-outlined text-[14px]">search</span><span>Search</span><kbd class="font-label-mono-sm text-[10px] bg-[#27272a] text-[#a1a1aa] px-1 py-0.5 rounded border border-[#3f3f46]/40">⌘K</kbd></button></div></div></header><main class="flex-1 flex flex-col relative w-full pt-32 pb-24 bg-[#0f0f11]"><div class="flex flex-col w-full px-margin pb-space-xl">
+<!-- Interactive Matchmaking Header / Telemetry Bar -->
+<div class="w-full flex flex-col gap-space-sm mb-space-md">
+<!-- Live Campus Telemetry Strip -->
+<div class="flex items-center justify-between px-space-md py-space-xs bg-[#18181b]/80 border border-[#27272a] rounded-xl">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.6)]"></span>
+<span class="font-caption-caps text-caption-caps uppercase text-[#9ca3af]">League Matchmaking Active</span>
+</div>
+<div class="flex items-center gap-1.5 font-label-mono-sm text-label-mono-sm text-[#9ca3af]">
+<span>65 open slots</span>
+<span class="opacity-40">•</span>
+<span class="text-[#ff5708] font-bold">Fall '24</span>
+</div>
+</div>
+<!-- Segmented Main Mode Switcher -->
+<div class="w-full p-1 bg-[#18181b] border border-[#27272a] rounded-xl flex items-center justify-between" id="mode-switcher">
+<button class="w-1/2 py-2 px-space-sm bg-[#27272a] rounded-lg shadow-sm flex items-center justify-center gap-1.5 transition-all text-[#f4f4f5] active:scale-[0.99] border border-white/5" data-tab="recruiting" type="button">
+<span class="material-symbols-outlined text-[16px] text-[#ff5708]">groups</span>
+<span class="font-headline-sm text-label-code font-bold">Teams Recruiting</span>
+<span class="font-label-mono-sm text-caption-caps bg-[#18181b] px-1.5 py-0.5 rounded text-[#a1a1aa] border border-white/5">24</span>
+</button>
+<button class="w-1/2 py-2 px-space-sm rounded-lg flex items-center justify-center gap-1.5 transition-all text-[#9ca3af] hover:text-[#f4f4f5] active:scale-[0.99]" data-tab="solo" type="button">
+<span class="material-symbols-outlined text-[16px]">person_search</span>
+<span class="font-headline-sm text-label-code font-bold">Solo Students</span>
+<span class="font-label-mono-sm text-caption-caps bg-[#27272a] px-1.5 py-0.5 rounded text-[#9ca3af]">41</span>
+</button>
+</div>
+<!-- Horizontal Pill Filter Rail -->
+<div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 -mx-margin px-margin">
+<button class="shrink-0 px-3 py-1.5 rounded-full bg-[#f4f4f5] text-[#0f0f11] font-label-mono-sm text-label-mono-sm shadow-sm transition-transform active:scale-95 flex items-center gap-1 font-semibold">
+<span>All Roles</span>
+<span class="font-caption-caps opacity-75">24</span>
+</button>
+<button class="shrink-0 px-3 py-1.5 rounded-full bg-[#18181b] border border-[#27272a] text-[#9ca3af] hover:text-[#f4f4f5] hover:border-[#3f3f46] font-label-mono-sm text-label-mono-sm shadow-sm transition-transform active:scale-95">
+        Need Backend
+      </button>
+<button class="shrink-0 px-3 py-1.5 rounded-full bg-[#18181b] border border-[#27272a] text-[#9ca3af] hover:text-[#f4f4f5] hover:border-[#3f3f46] font-label-mono-sm text-label-mono-sm shadow-sm transition-transform active:scale-95">
+        Need Design
+      </button>
+<button class="shrink-0 px-3 py-1.5 rounded-full bg-[#18181b] border border-[#27272a] text-[#9ca3af] hover:text-[#f4f4f5] hover:border-[#3f3f46] font-label-mono-sm text-label-mono-sm shadow-sm transition-transform active:scale-95">
+        Need ML/AI
+      </button>
+<button class="shrink-0 px-3 py-1.5 rounded-full bg-[#18181b] border border-[#065f46]/60 text-emerald-400 font-label-mono-sm text-label-mono-sm shadow-sm transition-transform active:scale-95 flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">spark</span>
+<span>First-Timers Welcome</span>
+</button>
+</div>
+</div>
+<!-- Bento Recruitment Deck -->
+<div class="flex flex-col gap-space-md w-full">
+<!-- Card 1: NeuroFlow -->
+<article class="bg-[#18181b] border border-[#27272a] rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm relative transition-all active:shadow-md hover:border-[#3f3f46]">
+<!-- Card Sub-header & Event Meta -->
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<h3 class="font-headline-sm text-headline-sm text-[#f4f4f5] tracking-tight">Squad "NeuroFlow"</h3>
+<span class="px-2 py-0.5 rounded-full bg-amber-950/50 border border-amber-600/30 text-amber-300 font-label-mono-sm text-caption-caps">2/4 Filled</span>
+</div>
+<span class="font-caption-caps text-caption-caps uppercase text-[#9ca3af] mt-0.5">Applied AI • Bio-Sensing Track</span>
+</div>
+<div class="shrink-0 px-2.5 py-1 rounded-full bg-[#27272a] border border-[#3f3f46]/40 text-[#f4f4f5] font-label-mono-sm text-label-mono-sm shadow-sm flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-[#ff5708]"></span>
+<span>CalHacks 11.0</span>
+</div>
+</div>
+<!-- Pitch -->
+<p class="font-body-md text-body-md text-[#a1a1aa] leading-relaxed">
+        Building real-time neural EEG attention visualizer for neurodivergent focus tracking in classroom settings.
+      </p>
+<!-- Existing Crew Cell -->
+<div class="bg-[#121214] border border-[#222226] rounded-lg p-2.5 flex flex-col gap-2">
+<span class="font-caption-caps text-caption-caps text-[#9ca3af] uppercase">Confirmed Teammates</span>
+<div class="flex flex-col gap-1.5">
+<!-- Member 1 -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 min-w-0">
+<img class="w-6 h-6 rounded-full object-cover shrink-0 ring-1 ring-[#3f3f46]" data-alt="Portrait photo of Alex Chen, male university student hacker smiling in a cozy library holding an electronics prototype board" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBCaCBvEfhp1QNWEGBQJ1GOzRd0CcG79341xlDEYCL2z42VfkaEXA1bCc6-Ggod0lfoV1_dS37kiWtgjyei-yyLxR127UcnHPB7Sow1c_s7hygHw5K6LovSeQTG786bnhpkMk0vwD-5JBzNkP9xOLz1SsuedKTbEHVcuGPqBK0M0FT_idV6Z4_zcFadrjlmHBLGbt6BfJ1IgWe90VhRAxZdLcHAse8fsFryQGNvKC5Oni_ipucM889xA"/>
+<div class="flex items-center gap-1.5 min-w-0 truncate">
+<span class="font-body-sm text-body-sm text-[#f4f4f5] font-medium truncate">Alex C.</span>
+<span class="font-label-mono-sm text-caption-caps bg-[#ff5708]/15 border border-[#ff5708]/30 px-1.5 py-0.5 rounded text-[#ff8042]">Squad Lead</span>
+</div>
+</div>
+<span class="font-label-code text-label-mono-sm text-[#9ca3af] shrink-0">ML / PyTorch</span>
+</div>
+<!-- Member 2 -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 min-w-0">
+<img class="w-6 h-6 rounded-full object-cover shrink-0 ring-1 ring-[#3f3f46]" data-alt="Portrait photo of Sarah Kim, female student researcher wearing glasses and a minimalist beige collegiate hoodie" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZiGT6WYpCi0HyNvCfKEox7G4SN0j78_2csACnAyaonHD9pdJ0TeQ00e7m7JcvQmnOf-W3HLXHF9_lcaFsLRXvtZu9k8PsuLAZa9BJRAoDINpCVg66j24-ZqgmnUklF8Cx1Nhx8JCdRy_idkexzlotjFE4_PxUg3ucFKHq_SqphTQPCL08tLJfO5NHG56VYn9_d5HQgr9FX7E86Y0l9u2P85s0C6mqVnAEDJseQjHvhHJQci_Gb6Vd3Q"/>
+<span class="font-body-sm text-body-sm text-[#f4f4f5] font-medium truncate">Sarah K.</span>
+</div>
+<span class="font-label-code text-label-mono-sm text-[#9ca3af] shrink-0">Hardware / IoT</span>
+</div>
+</div>
+</div>
+<!-- Dash-Style Open Role Recruitment Slots -->
+<div class="flex flex-col gap-1.5 pt-1">
+<span class="font-caption-caps text-caption-caps text-[#9ca3af] uppercase tracking-wider">Open Tactical Roles (Tap to Pitch)</span>
+<!-- Slot A -->
+<button class="w-full text-left p-2.5 rounded-lg bg-[#121214] border border-[#27272a] hover:border-[#3f3f46] hover:bg-[#18181b] active:bg-[#202024] transition-all flex items-center justify-between group" type="button">
+<div class="flex items-center gap-2 min-w-0">
+<span class="font-label-code text-label-code text-[#ff5708] font-bold">+</span>
+<div class="flex flex-col min-w-0">
+<span class="font-label-code text-label-code text-[#f4f4f5] font-medium truncate">Need UI/UX Designer</span>
+<span class="font-body-sm text-caption-caps text-[#9ca3af]">Figma, Design Systems &amp; Canvas API</span>
+</div>
+</div>
+<span class="font-label-mono-sm text-caption-caps bg-[#27272a] text-[#f4f4f5] border border-[#3f3f46]/40 px-2 py-1 rounded shadow-sm shrink-0 group-hover:bg-[#f4f4f5] group-hover:text-[#0f0f11] transition-colors">Apply</span>
+</button>
+<!-- Slot B -->
+<button class="w-full text-left p-2.5 rounded-lg bg-[#121214] border border-[#27272a] hover:border-[#3f3f46] hover:bg-[#18181b] active:bg-[#202024] transition-all flex items-center justify-between group" type="button">
+<div class="flex items-center gap-2 min-w-0">
+<span class="font-label-code text-label-code text-[#ff5708] font-bold">+</span>
+<div class="flex flex-col min-w-0">
+<span class="font-label-code text-label-code text-[#f4f4f5] font-medium truncate">Need Fullstack / React Native</span>
+<span class="font-body-sm text-caption-caps text-[#9ca3af]">Ble-Manager, State Sync, WebSockets</span>
+</div>
+</div>
+<span class="font-label-mono-sm text-caption-caps bg-[#27272a] text-[#f4f4f5] border border-[#3f3f46]/40 px-2 py-1 rounded shadow-sm shrink-0 group-hover:bg-[#f4f4f5] group-hover:text-[#0f0f11] transition-colors">Apply</span>
+</button>
+</div>
+<!-- Action & Clock Deck -->
+<div class="pt-2 flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-1 font-label-mono-sm text-label-mono-sm text-[#9ca3af]">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+<span>Closes in 48h</span>
+</div>
+<button class="px-space-md py-2 rounded-lg bg-[#f4f4f5] text-[#0f0f11] font-label-code text-label-code font-semibold shadow-sm hover:bg-[#e4e4e7] active:scale-[0.98] transition-all flex items-center gap-1.5" type="button">
+<span>Request to Join Squad</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+</article>
+<!-- Card 2: ZeroKnowledge Vote -->
+<article class="bg-[#18181b] border border-[#27272a] rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm relative transition-all active:shadow-md hover:border-[#3f3f46]">
+<!-- Card Sub-header & Event Meta -->
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<h3 class="font-headline-sm text-headline-sm text-[#f4f4f5] tracking-tight">Squad "ZeroKnowledge Vote"</h3>
+<span class="px-2 py-0.5 rounded-full bg-[#27272a] border border-[#3f3f46]/40 text-[#a1a1aa] font-label-mono-sm text-caption-caps">1/3 Filled</span>
+</div>
+<span class="font-caption-caps text-caption-caps uppercase text-[#9ca3af] mt-0.5">Privacy &amp; Web3 Infrastructure</span>
+</div>
+<div class="shrink-0 px-2.5 py-1 rounded-full bg-[#27272a] border border-[#3f3f46]/40 text-[#f4f4f5] font-label-mono-sm text-label-mono-sm shadow-sm flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-[#adc6ff]"></span>
+<span>HackMIT 2024</span>
+</div>
+</div>
+<!-- Pitch -->
+<p class="font-body-md text-body-md text-[#a1a1aa] leading-relaxed">
+        ZK-SNARK enabled anonymous collegiate elections verifiable on mobile clients without trusted central tally.
+      </p>
+<!-- Existing Crew Cell -->
+<div class="bg-[#121214] border border-[#222226] rounded-lg p-2.5 flex flex-col gap-2">
+<span class="font-caption-caps text-caption-caps text-[#9ca3af] uppercase">Confirmed Teammates</span>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 min-w-0">
+<img class="w-6 h-6 rounded-full object-cover shrink-0 ring-1 ring-[#3f3f46]" data-alt="Portrait of David Lin, cryptography hacker wearing clean black crewneck looking thoughtfully at camera with natural ambient daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBi7_TUbReFgUpXhpM2VQ2xgwHQ5XhZ59hXQG4GK8R2u-hhums7kcq08wGupKZ2Z9H2KV-e4ufK44-tAjPN59tYRIGPwrdlJ3E_AFk6iN7BqoaTgeRAEz1c2dVFpodmsltshCfmDS-wReTl1nCcbxlvID9s0ksQUT8cLJqGcP_PgFsGB4_B_6jO_AS6LRdXqBwNIfGWCOQnx_6dyBBo7KRNEvDX9JvMIQxOJQ7IaUzT9URKu2j95ani3Q"/>
+<div class="flex items-center gap-1.5 min-w-0 truncate">
+<span class="font-body-sm text-body-sm text-[#f4f4f5] font-medium truncate">David L.</span>
+<span class="font-label-mono-sm text-caption-caps bg-blue-950/50 border border-blue-500/30 px-1.5 py-0.5 rounded text-[#adc6ff]">Founding Hacker</span>
+</div>
+</div>
+<span class="font-label-code text-label-mono-sm text-[#9ca3af] shrink-0">Cryptography (Circom / Halo2)</span>
+</div>
+</div>
+<!-- Dash-Style Open Role Recruitment Slots -->
+<div class="flex flex-col gap-1.5 pt-1">
+<span class="font-caption-caps text-caption-caps text-[#9ca3af] uppercase tracking-wider">Open Tactical Roles (Tap to Pitch)</span>
+<!-- Slot A -->
+<button class="w-full text-left p-2.5 rounded-lg bg-[#121214] border border-[#27272a] hover:border-[#3f3f46] hover:bg-[#18181b] active:bg-[#202024] transition-all flex items-center justify-between group" type="button">
+<div class="flex items-center gap-2 min-w-0">
+<span class="font-label-code text-label-code text-[#adc6ff] font-bold">+</span>
+<div class="flex flex-col min-w-0">
+<span class="font-label-code text-label-code text-[#f4f4f5] font-medium truncate">Need Backend (Go / Rust)</span>
+<span class="font-body-sm text-caption-caps text-[#9ca3af]">P2P Libp2p gossip sub network &amp; high-throughput RPC</span>
+</div>
+</div>
+<span class="font-label-mono-sm text-caption-caps bg-[#27272a] text-[#f4f4f5] border border-[#3f3f46]/40 px-2 py-1 rounded shadow-sm shrink-0 group-hover:bg-[#f4f4f5] group-hover:text-[#0f0f11] transition-colors">Apply</span>
+</button>
+<!-- Slot B -->
+<button class="w-full text-left p-2.5 rounded-lg bg-[#121214] border border-[#27272a] hover:border-[#3f3f46] hover:bg-[#18181b] active:bg-[#202024] transition-all flex items-center justify-between group" type="button">
+<div class="flex items-center gap-2 min-w-0">
+<span class="font-label-code text-label-code text-[#adc6ff] font-bold">+</span>
+<div class="flex flex-col min-w-0">
+<span class="font-label-code text-label-code text-[#f4f4f5] font-medium truncate">Need Product &amp; Presentation Lead</span>
+<span class="font-body-sm text-caption-caps text-[#9ca3af]">Interactive demo script, pitch slide deck &amp; keynote prep</span>
+</div>
+</div>
+<span class="font-label-mono-sm text-caption-caps bg-[#27272a] text-[#f4f4f5] border border-[#3f3f46]/40 px-2 py-1 rounded shadow-sm shrink-0 group-hover:bg-[#f4f4f5] group-hover:text-[#0f0f11] transition-colors">Apply</span>
+</button>
+</div>
+<!-- Action & Clock Deck -->
+<div class="pt-2 flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-1 font-label-mono-sm text-label-mono-sm text-[#9ca3af]">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+<span>Recruiting 3 days</span>
+</div>
+<button class="px-space-md py-2 rounded-lg bg-[#f4f4f5] text-[#0f0f11] font-label-code text-label-code font-semibold shadow-sm hover:bg-[#e4e4e7] active:scale-[0.98] transition-all flex items-center gap-1.5" type="button">
+<span>Request to Join Squad</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+</article>
+<!-- Card 3: EcoGrid -->
+<article class="bg-[#18181b] border border-[#27272a] rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm relative transition-all active:shadow-md hover:border-[#3f3f46]">
+<!-- Card Sub-header & Event Meta -->
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<h3 class="font-headline-sm text-headline-sm text-[#f4f4f5] tracking-tight">Squad "EcoGrid"</h3>
+<span class="px-2 py-0.5 rounded-full bg-emerald-950/50 border border-emerald-500/30 text-emerald-300 font-label-mono-sm text-caption-caps">3/4 Filled</span>
+</div>
+<span class="font-caption-caps text-caption-caps uppercase text-[#9ca3af] mt-0.5">Climate &amp; Clean Tech Track</span>
+</div>
+<div class="shrink-0 px-2.5 py-1 rounded-full bg-[#27272a] border border-[#3f3f46]/40 text-[#f4f4f5] font-label-mono-sm text-label-mono-sm shadow-sm flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+<span>TreeHacks</span>
+</div>
+</div>
+<!-- Pitch -->
+<p class="font-body-md text-body-md text-[#a1a1aa] leading-relaxed">
+        Decentralized energy micro-grid optimization using lightweight reinforcement learning on microcontrollers.
+      </p>
+<!-- Existing Crew Cell (Stacked Avatars Compact) -->
+<div class="bg-[#121214] border border-[#222226] rounded-lg p-2.5 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="flex -space-x-2 overflow-hidden">
+<img class="inline-block h-6 w-6 rounded-full object-cover ring-2 ring-[#18181b]" data-alt="Hacker team member portrait, smiling young engineer in denim shirt outdoor campus setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDg9ExySmStAuguPMHL9muPllWmt8094MwOlE5_h-K__J5uq-t3yYluS-FbhoIP8JcZBOTyVnnrqwHzYorMBkRy2ZrdBklZwLId5iR-5lFTjgWmLJEy5bTfMGBpTDe2fGrBYwWIyADSClWoRP-ZDl254UYHr4YSTjjVSjIEcYp8tQ49RyHuyWTIqdWiDeINyWbgYm6DNeInm4sJbUSMozvjqh1jTtz21GGGACId1Hmg6UrDdC0rkt1jhw"/>
+<img class="inline-block h-6 w-6 rounded-full object-cover ring-2 ring-[#18181b]" data-alt="Hacker teammate portrait, young female student with headset working on laptop in computer science laboratory" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkxyBodRXtKiI8XeoyTPcs4-tpB7xYKeM4br2CKqvYBRzaApP1a3eEyMllBMjpdk5N2hKmF-Lr64EE4APQa65oUeFhm5yjz99leqNj31oW5GA77r0SgSw0bt5Wsukfnw02JVST8ls9_nxanVSNx7G_ayk2uCv0Y72G-48CxvAKavmBzPjCDAyMcptms_SK29uYplqHY1h6rCchNR_b2JSZpc_gj6ci2MAnR2x4eiG0R7l_bjVSP3TM5w"/>
+<img class="inline-block h-6 w-6 rounded-full object-cover ring-2 ring-[#18181b]" data-alt="Hacker portrait, collegiate male developer in tech hoodie working in collaborative studio workspace" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzfcl_hLi0RRjCnyDqBwZ1Z7RO-mqyHHb4ZXtR9Oc7PuslDfMXYhaiQ93mSuvNfXxOKBTve_2rNdFNxNdRppQJmglDLTJkd8yBcHKrXwfjTj698aOQOnMnQqZYko1EtnK97xiW533SJyAOAPU8JmJb6B0YUI6h-IQCkeH46e29vqSiWk79ZHGra0bLAAsaSOEdXbqI0GxDF6CBJ0kf_L-CWC3v7Fi4TvrK4MUpgvDvOvRYkgoKg3ik1w"/>
+</div>
+<span class="font-body-sm text-body-sm text-[#f4f4f5] font-medium">Elena, Marcus &amp; Priya</span>
+</div>
+<span class="font-label-mono-sm text-caption-caps text-[#9ca3af]">Hardware, RL, Firmware</span>
+</div>
+<!-- Dash-Style Open Role Recruitment Slot -->
+<div class="flex flex-col gap-1.5 pt-1">
+<span class="font-caption-caps text-caption-caps text-[#9ca3af] uppercase tracking-wider">Final Missing Key Role</span>
+<button class="w-full text-left p-2.5 rounded-lg bg-[#121214] border border-[#27272a] hover:border-[#3f3f46] hover:bg-[#18181b] active:bg-[#202024] transition-all flex items-center justify-between group" type="button">
+<div class="flex items-center gap-2 min-w-0">
+<span class="font-label-code text-label-code text-emerald-400 font-bold">+</span>
+<div class="flex flex-col min-w-0">
+<span class="font-label-code text-label-code text-[#f4f4f5] font-medium truncate">Need Mobile Engineer (Swift)</span>
+<span class="font-body-sm text-caption-caps text-[#9ca3af]">Native iOS Dashboard with Live BLE Charts &amp; Widgets</span>
+</div>
+</div>
+<span class="font-label-mono-sm text-caption-caps bg-[#27272a] text-[#f4f4f5] border border-[#3f3f46]/40 px-2 py-1 rounded shadow-sm shrink-0 group-hover:bg-[#f4f4f5] group-hover:text-[#0f0f11] transition-colors">Apply</span>
+</button>
+</div>
+<!-- Action & Clock Deck -->
+<div class="pt-2 flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-1 font-label-mono-sm text-label-mono-sm text-amber-400">
+<span class="material-symbols-outlined text-[14px]">bolt</span>
+<span>1 spot left</span>
+</div>
+<button class="px-space-md py-2 rounded-lg bg-[#f4f4f5] text-[#0f0f11] font-label-code text-label-code font-semibold shadow-sm hover:bg-[#e4e4e7] active:scale-[0.98] transition-all flex items-center gap-1.5" type="button">
+<span>Request to Join Squad</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+</article>
+</div>
+<!-- Interactive Quick Pitch Drawer Trigger (Tactile banner) -->
+<div class="mt-space-md p-space-md bg-[#18181b] border border-[#27272a] rounded-xl flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-[#27272a] border border-[#3f3f46]/40 flex items-center justify-center text-[#ff5708] shadow-sm shrink-0">
+<span class="material-symbols-outlined text-[20px]">add_circle</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-label-code font-bold text-[#f4f4f5]">Recruiting for your squad?</span>
+<span class="font-body-sm text-caption-caps text-[#9ca3af]">Publish an open role slot to the campus league feed</span>
+</div>
+</div>
+<a class="shrink-0 px-3 py-1.5 rounded-lg bg-[#27272a] border border-[#3f3f46]/40 font-label-code text-label-mono-sm text-[#f4f4f5] shadow-sm active:scale-95 transition-all hover:bg-[#3f3f46]/60" data-path="create-listing" href="#">
+      Create Card
+    </a>
+</div>
+</div>
+<script>
+  // Micro-tactile Tab Switcher & Interactive Role Slot Toast Simulation
+  document.addEventListener('DOMContentLoaded', () => {
+    const tabs = document.querySelectorAll('#mode-switcher button');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => {
+          t.classList.remove('bg-[#27272a]', 'text-[#f4f4f5]', 'shadow-sm', 'border', 'border-white/5');
+          t.classList.add('text-[#9ca3af]');
+        });
+        tab.classList.add('bg-[#27272a]', 'text-[#f4f4f5]', 'shadow-sm', 'border', 'border-white/5');
+        tab.classList.remove('text-[#9ca3af]');
+      });
+    });
+
+    const applyBtns = document.querySelectorAll('button:has(.material-symbols-outlined)');
+    applyBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const ripple = document.createElement('span');
+        ripple.className = 'inline-block transition-transform';
+      });
+    });
+  });
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-[#0f0f11]/90 backdrop-blur-xl border-t border-[#222226] shadow-[0_-1px_12px_rgba(0,0,0,0.5)]" data-active-classes="text-[#f4f4f5] font-bold"><div class="flex justify-around items-center h-16 px-space-sm"><a class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[44px] text-[#9ca3af] hover:text-[#f4f4f5] transition-colors" data-path="hackathon-discovery" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span class="font-label-mono-sm text-label-mono-sm">Discover</span></a><a aria-current="page" class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[44px] transition-colors text-[#f4f4f5] font-bold" data-path="teammate-pool" href="#"><span class="material-symbols-outlined text-[20px] text-[#ff5708]">group</span><span class="font-label-mono-sm text-label-mono-sm">Talent</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[44px] text-[#9ca3af] hover:text-[#f4f4f5] transition-colors" data-path="active-squads" href="#"><span class="material-symbols-outlined text-[20px]">terminal</span><span class="font-label-mono-sm text-label-mono-sm">Squads</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[44px] text-[#9ca3af] hover:text-[#f4f4f5] transition-colors" data-path="hacker-messages" href="#"><span class="material-symbols-outlined text-[20px]">chat_bubble</span><span class="font-label-mono-sm text-label-mono-sm">Chats</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[44px] text-[#9ca3af] hover:text-[#f4f4f5] transition-colors" data-path="hacker-profile" href="#"><span class="material-symbols-outlined text-[20px]">badge</span><span class="font-label-mono-sm text-label-mono-sm">Profile</span></a></div></nav></body></html>

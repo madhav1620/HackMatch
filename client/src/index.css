@@ -1,0 +1,124 @@
+@import "tailwindcss";
+@import "./styles/animations.css";
+
+/* ═══════════════════════════════════════════════════════════════
+   HackMatch design tokens — exported from Stitch design system
+   "Tactile Editorial Minimalist" (project 10121204597706454375)
+   Source of truth: DESIGN.md · Never hardcode hex values in features
+   ═══════════════════════════════════════════════════════════════ */
+@theme {
+  /* Canvas & surfaces (Paper & Ink foundation) */
+  --color-canvas: #f9f9f8;
+  --color-surface: #ffffff;
+  --color-surface-warm: #fcf9f4;
+  --color-surface-sunk: #f6f3ee;
+
+  /* Hairline structure */
+  --color-hairline: #e4e4e0;
+  --color-hairline-subtle: #e6e6e3;
+
+  /* Ink */
+  --color-ink: #141413;
+  --color-ink-muted: #686763;
+
+  /* Accents */
+  --color-accent: #ff4f00; /* International Orange — conversion CTAs, live states */
+  --color-primary: #a93100; /* deep brand orange */
+  --color-primary-container: #d34000;
+  --color-link: #2563eb; /* Electric Cobalt — links, verified, active tabs */
+
+  /* Semantic badges */
+  --color-mint-bg: #dcfce7;
+  --color-mint-text: #166534;
+  --color-amber-bg: #fef3c7;
+  --color-amber-text: #92400e;
+
+  /* Feedback */
+  --color-error: #ba1a1a;
+  --color-error-container: #ffdad6;
+
+  /* Typography families */
+  --font-display: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Restrained radii (roundedness: 1) */
+  --radius-sm: 0.125rem; /* 2px — badges, dots */
+  /* default rounded = 0.25rem (4px) — nested elements */
+  --radius-md: 0.375rem; /* 6px */
+  --radius-lg: 0.5rem; /* 8px — buttons, inputs */
+  --radius-xl: 0.75rem; /* 12px — cards, modals */
+
+  /* Elevation (borders over shadows) */
+  --shadow-card: 0 1px 2px rgba(20, 20, 19, 0.04);
+  --shadow-lift: 0 4px 12px rgba(20, 20, 19, 0.06), 0 1px 2px rgba(20, 20, 19, 0.04);
+  --shadow-modal: 0 16px 36px -4px rgba(20, 20, 19, 0.1), 0 4px 12px rgba(20, 20, 19, 0.05);
+}
+
+/* ── Base ─────────────────────────────────────────────── */
+@layer base {
+  body {
+    font-family: var(--font-body);
+    color: var(--color-ink);
+    background-color: var(--color-canvas);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+
+  /* Crisp offset focus ring per design system — no glow */
+  :focus-visible {
+    outline: 1px solid var(--color-ink);
+    outline-offset: 2px;
+  }
+}
+
+/* ── Utilities (Stitch-specific patterns) ─────────────── */
+@layer utilities {
+  /* Tactile dot-matrix blueprint canvas */
+  .bg-dotmatrix {
+    background-color: var(--color-canvas);
+    background-image: radial-gradient(rgba(20, 20, 19, 0.05) 1px, transparent 1px);
+    background-size: 16px 16px;
+  }
+
+  /* Recessed dashed slot / empty state (signature element) */
+  .slot-dashed {
+    background: rgba(20, 20, 19, 0.015);
+    border: 1px dashed var(--color-hairline);
+  }
+
+  /* caption-caps: JetBrains Mono all-caps telemetry label */
+  .label-caps {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* label-mono-sm: skill pills, tags */
+  .label-mono-sm {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: 0.02em;
+  }
+
+  /* label-code: telemetry values, dashed slot text */
+  .label-code {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 18px;
+    letter-spacing: -0.01em;
+  }
+}
