@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { once } from "node:events";
 import { prisma } from "../src/lib/prisma.ts";
 import { deleteHackathon, getHackathon, listBookmarks, updateHackathon } from "../src/services/hackathon.service.ts";
 
@@ -79,4 +80,33 @@ test("saved-list cards are marked as bookmarked", async (t) => {
   }]);
   const result = await listBookmarks("student");
   assert.equal(result.items[0].hackathon.bookmarked, true);
+});
+
+test("DELETE endpoint preserves the auth and ownership boundary", async (t) => {
+  process.env.JWT_ACCESS_SECRET = "test-access-secret";
+  process.env.JWT_REFRESH_SECRET = "test-refresh-secret";
+  const [{ default: app }, { signAccess }] = await Promise.all([
+    import("../src/app.ts"), import("../src/lib/jwt.ts"),
+  ]);
+  const server = app.listen(0, "127.0.0.1");
+  await once(server, "listening");
+  t.after(() => new Promise((resolve) => server.close(resolve)));
+
+  let deleted = 0;
+  replace(t, "hackathon", "findUnique", async ({ where }) => where.id === "missing" ? null : { id: "event", organizerId: "owner" });
+  replace(t, "hackathon", "deleteMany", async () => { deleted += 1; return { count: 1 }; });
+  const base = `http://127.0.0.1:${server.address().port}/api/hackathons`;
+  const remove = (id, sub, role) => fetch(`${base}/${id}`, {
+    method: "DELETE",
+    headers: sub ? { Authorization: `Bearer ${signAccess({ sub, role, email: `${sub}@example.edu` })}` } : {},
+  });
+
+  assert.equal((await remove("event")).status, 401);
+  assert.equal((await remove("event", "student", "STUDENT")).status, 403);
+  assert.equal((await remove("event", "other", "ORGANIZER")).status, 403);
+  assert.equal(deleted, 0);
+  assert.equal((await remove("event", "owner", "ORGANIZER")).status, 204);
+  assert.equal((await remove("event", "admin", "ADMIN")).status, 204);
+  assert.equal((await remove("missing", "owner", "ORGANIZER")).status, 404);
+  assert.equal(deleted, 2);
 });
