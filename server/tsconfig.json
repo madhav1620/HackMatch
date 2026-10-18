@@ -10,7 +10,9 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "noEmit": true
+    "noEmit": false,
+    "outDir": "./dist",
+    "rootDir": "./src"
   },
   "include": ["src"]
 }
