@@ -7,6 +7,7 @@ import { EmptyState, HackathonCardSkeleton, Skeleton, SkeletonList } from "./Ske
 import { Section, Segmented, Tabs } from "./Tabs";
 import { Tag, OpenSlot } from "./Tag";
 import { TagInput } from "./TagInput";
+import { ToastProvider, useToast } from "./Toast";
 
 export {
   Badge,
@@ -26,5 +27,7 @@ export {
   Tag,
   TagInput,
   Textarea,
+  ToastProvider,
+  useToast,
 };
 export type { TabItem } from "./Tabs";

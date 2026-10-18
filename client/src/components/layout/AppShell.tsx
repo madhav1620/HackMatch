@@ -56,7 +56,7 @@ export function AppShell() {
           </nav>
 
           <form onSubmit={submitSearch} className="ml-auto flex items-center gap-2">
-            <label className="border-hairline hidden items-center gap-2 rounded-lg border bg-surface-sunk px-3 py-2 md:flex">
+            <label className="border-hairline hidden items-center gap-2 rounded-lg border bg-surface-sunk px-3 py-2 lg:flex">
               <Search className="text-ink-muted h-4 w-4" aria-hidden />
               <span className="sr-only">Search hackathons</span>
               <input
@@ -110,7 +110,10 @@ export function AppShell() {
         <Outlet />
       </main>
 
-      <nav className="border-hairline bg-surface fixed inset-x-0 bottom-0 z-30 border-t md:hidden">
+      <nav
+        className="border-hairline bg-surface animate-pop-in fixed inset-x-0 bottom-0 z-30 border-t md:hidden"
+        aria-label="Primary"
+      >
         <div className="flex items-stretch justify-between px-2">
           {TABS.map(({ to, label, icon: Icon, end }) => (
             <NavLink
@@ -119,7 +122,7 @@ export function AppShell() {
               end={end}
               className={({ isActive }) =>
                 `press flex flex-1 flex-col items-center gap-1 px-2 py-2 ${
-                  isActive ? "text-accent" : "text-ink-muted"
+                  isActive ? "text-primary" : "text-ink-muted"
                 }`
               }
             >

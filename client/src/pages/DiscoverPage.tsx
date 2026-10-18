@@ -109,7 +109,7 @@ export default function DiscoverPage() {
         </EmptyState>
       ) : (
         <>
-          <div className="grid gap-4 xl:grid-cols-2">
+          <div className="stagger grid gap-4 xl:grid-cols-2">
             {items.map((h, i) => (
               <HackathonCard key={h.id} hackathon={h} index={i} />
             ))}

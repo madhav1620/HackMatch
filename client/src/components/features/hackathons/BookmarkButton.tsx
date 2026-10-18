@@ -1,6 +1,7 @@
 import { Bookmark } from "lucide-react";
 import type { Hackathon } from "../../../api/types";
 import { useToggleBookmark } from "../../../hooks/useHackathons";
+import { useToast } from "../../ui";
 
 /**
  * Bookmark + reminder toggle. Optimistic (see `useToggleBookmark`), so the icon
@@ -16,6 +17,7 @@ export function BookmarkButton({
   className?: string;
 }) {
   const toggle = useToggleBookmark();
+  const toast = useToast();
   const saved = hackathon.bookmarked;
 
   return (
@@ -26,7 +28,19 @@ export function BookmarkButton({
       } ${className}`}
       aria-pressed={saved}
       title={saved ? "Remove from saved" : "Save + set a deadline reminder"}
-      onClick={() => toggle.mutate({ hackathon, bookmarked: saved })}
+      onClick={() =>
+        toggle.mutate(
+          { hackathon, bookmarked: saved },
+          {
+            onSuccess: () =>
+              toast.push(
+                saved ? `${hackathon.name} removed from saved` : `${hackathon.name} saved · deadline reminder on`,
+                saved ? "info" : "success",
+              ),
+            onError: () => toast.push("Couldn't update your saved list", "error"),
+          },
+        )
+      }
       disabled={toggle.isPending}
     >
       <Bookmark className={`h-4 w-4 ${saved ? "fill-current" : ""}`} aria-hidden />

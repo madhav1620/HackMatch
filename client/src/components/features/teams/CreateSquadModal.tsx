@@ -177,6 +177,14 @@ export function CreateSquadModal({
           </Button>
           <Button variant="outline" onClick={onClose}>Cancel</Button>
         </div>
+
+        {!valid && (
+          <p className="label-mono-sm text-ink-muted" role="note">
+            {name.trim().length < 2
+              ? "Give the squad a name (2+ characters) to continue."
+              : "Add a 10+ character description so applicants know the mission."}
+          </p>
+        )}
       </div>
     </Modal>
   );

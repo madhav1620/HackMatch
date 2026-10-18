@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./index.css";
 import { AuthProvider } from "./context/AuthContext";
+import { ToastProvider } from "./components/ui/Toast";
 import Router from "./Router";
 
 /** Feed data is cheap and cacheable — keep it fresh for 30s, retry once. */
@@ -22,7 +23,9 @@ createRoot(document.getElementById("root")!).render(
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <AuthProvider>
-          <Router />
+          <ToastProvider>
+            <Router />
+          </ToastProvider>
         </AuthProvider>
       </BrowserRouter>
     </QueryClientProvider>

@@ -106,6 +106,11 @@ export function LookingForTeamButton({
               Cancel
             </Button>
           </div>
+          {pitch.trim().length < 10 && (
+            <p className="label-mono-sm text-ink-muted" role="note">
+              Write at least 10 characters so leads know what you bring.
+            </p>
+          )}
         </div>
       </Modal>
     </>

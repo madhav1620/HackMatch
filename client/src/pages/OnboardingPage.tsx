@@ -78,7 +78,7 @@ export default function OnboardingPage() {
       <div className="label-caps text-ink-muted flex items-center gap-2">
         {STEPS.map((s, i) => (
           <span key={s} className="flex items-center gap-2">
-            <span className={i === step ? "text-accent" : i < step ? "text-ink" : ""}>
+            <span className={i === step ? "text-primary" : i < step ? "text-ink" : ""}>
               {String(i + 1).padStart(2, "0")} {s}
             </span>
             {i < STEPS.length - 1 && <span className="text-hairline">—</span>}
@@ -102,7 +102,7 @@ export default function OnboardingPage() {
                 >
                   <div className="flex items-center justify-between">
                     <span className="font-medium">{r.label}</span>
-                    {primaryRole === r.value && <Check className="text-accent h-4 w-4" aria-hidden />}
+                    {primaryRole === r.value && <Check className="text-primary h-4 w-4" aria-hidden />}
                   </div>
                   <p className="label-mono-sm text-ink-muted mt-1">{r.blurb}</p>
                 </button>

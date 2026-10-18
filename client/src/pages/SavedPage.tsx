@@ -45,7 +45,7 @@ export default function SavedPage() {
           </Link>
         </EmptyState>
       ) : (
-        <ul className="grid gap-3">
+        <ul className="stagger grid gap-3">
           {items.map(({ hackathon: h, remindAt, savedAt }, i) => (
             <li
               key={h.id}

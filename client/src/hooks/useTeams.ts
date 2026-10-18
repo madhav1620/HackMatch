@@ -2,7 +2,11 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { teamsApi } from "../api/teams";
 import type { JoinRequestBody, TeamBoardQuery, TeamDraft } from "../api/types";
 import { useAuth } from "../context/AuthContext";
+import { useToast } from "../components/ui";
 import { hackathonKeys } from "./useHackathons";
+
+/** Server messages arrive as plain `Error`s via `request<T>`. */
+const msg = (e: unknown) => (e instanceof Error ? e.message : "Something went wrong");
 
 export const teamKeys = {
   all: ["teams"] as const,
@@ -71,28 +75,43 @@ export function useSoloPosts(hackathonId: string | undefined, query: TeamBoardQu
 export function useCreateTeam(hackathonId: string) {
   const { token } = useAuth();
   const qc = useQueryClient();
+  const toast = useToast();
   return useMutation({
     mutationFn: (body: TeamDraft) => teamsApi.create(hackathonId, body, token as string),
-    onSuccess: () => invalidateAll(qc),
+    onSuccess: (team) => {
+      invalidateAll(qc);
+      toast.push(`“${team.name}” posted to the matchmaking board`);
+    },
+    onError: (e) => toast.push(msg(e), "error"),
   });
 }
 
 export function useUpdateTeam() {
   const { token } = useAuth();
   const qc = useQueryClient();
+  const toast = useToast();
   return useMutation({
     mutationFn: ({ id, ...body }: { id: string } & Partial<TeamDraft> & { isRecruiting?: boolean; openSlots?: number }) =>
       teamsApi.update(id, body, token as string),
-    onSuccess: () => invalidateAll(qc),
+    onSuccess: () => {
+      invalidateAll(qc);
+      toast.push("Squad updated");
+    },
+    onError: (e) => toast.push(msg(e), "error"),
   });
 }
 
 export function useDeleteTeam() {
   const { token } = useAuth();
   const qc = useQueryClient();
+  const toast = useToast();
   return useMutation({
     mutationFn: (id: string) => teamsApi.remove(id, token as string),
-    onSuccess: () => invalidateAll(qc),
+    onSuccess: () => {
+      invalidateAll(qc);
+      toast.push("Squad disbanded", "info");
+    },
+    onError: (e) => toast.push(msg(e), "error"),
   });
 }
 
@@ -100,10 +119,12 @@ export function useDeleteTeam() {
 export function useApplyToTeam() {
   const { token } = useAuth();
   const qc = useQueryClient();
+  const toast = useToast();
   return useMutation({
     mutationFn: ({ teamId, body }: { teamId: string; body: JoinRequestBody }) =>
       teamsApi.apply(teamId, body, token as string),
     onSuccess: () => invalidateAll(qc),
+    onError: (e) => toast.push(msg(e), "error"),
   });
 }
 
@@ -111,36 +132,61 @@ export function useApplyToTeam() {
 export function useReviewRequest() {
   const { token } = useAuth();
   const qc = useQueryClient();
+  const toast = useToast();
   return useMutation({
     mutationFn: ({ requestId, status }: { requestId: string; status: "ACCEPTED" | "DECLINED" }) =>
       teamsApi.review(requestId, status, token as string),
-    onSuccess: () => invalidateAll(qc),
+    onSuccess: (_data, vars) => {
+      invalidateAll(qc);
+      toast.push(
+        vars.status === "ACCEPTED"
+          ? "Applicant accepted · slot filled and contact shared"
+          : "Application declined",
+        vars.status === "ACCEPTED" ? "success" : "info",
+      );
+    },
+    onError: (e) => toast.push(msg(e), "error"),
   });
 }
 
 export function useCancelRequest() {
   const { token } = useAuth();
   const qc = useQueryClient();
+  const toast = useToast();
   return useMutation({
     mutationFn: (requestId: string) => teamsApi.cancel(requestId, token as string),
-    onSuccess: () => invalidateAll(qc),
+    onSuccess: () => {
+      invalidateAll(qc);
+      toast.push("Application withdrawn · you can re-apply anytime", "info");
+    },
+    onError: (e) => toast.push(msg(e), "error"),
   });
 }
 
 export function usePostSolo(hackathonId: string) {
   const { token } = useAuth();
   const qc = useQueryClient();
+  const toast = useToast();
   return useMutation({
     mutationFn: (pitch: string) => teamsApi.postSolo(hackathonId, pitch, token as string),
-    onSuccess: () => invalidateAll(qc),
+    onSuccess: () => {
+      invalidateAll(qc);
+      toast.push("You're on the solo board · squads can find you now");
+    },
+    onError: (e) => toast.push(msg(e), "error"),
   });
 }
 
 export function useDeleteSolo() {
   const { token } = useAuth();
   const qc = useQueryClient();
+  const toast = useToast();
   return useMutation({
     mutationFn: (id: string) => teamsApi.deleteSolo(id, token as string),
-    onSuccess: () => invalidateAll(qc),
+    onSuccess: () => {
+      invalidateAll(qc);
+      toast.push("Removed from the solo board", "info");
+    },
+    onError: (e) => toast.push(msg(e), "error"),
   });
 }
