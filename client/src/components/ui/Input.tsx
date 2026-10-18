@@ -21,3 +21,25 @@ export const Input: React.FC<
     </label>
   );
 };
+
+/** Hairline textarea — same rhythm as `Input`, for pitches and application notes. */
+export const Textarea: React.FC<
+  React.TextareaHTMLAttributes<HTMLTextAreaElement> & { label?: string; hint?: string; error?: string }
+> = ({ className = "", label, hint, error, id, ...props }) => {
+  const areaId = id ?? (label ? `f-${label.replace(/\s+/g, "-").toLowerCase()}` : undefined);
+  return (
+    <label className="block">
+      {label && <span className="label-caps text-ink-muted mb-1.5 block">{label}</span>}
+      <textarea
+        id={areaId}
+        className={`w-full resize-y rounded-lg border bg-surface px-3 py-2 text-sm outline-none transition-colors ${
+          error ? "border-error" : "border-hairline focus:border-ink"
+        } ${className}`}
+        aria-invalid={Boolean(error)}
+        {...props}
+      />
+      {hint && !error && <span className="label-mono-sm text-ink-muted mt-1 block">{hint}</span>}
+      {error && <span className="label-mono-sm text-error mt-1 block">{error}</span>}
+    </label>
+  );
+};

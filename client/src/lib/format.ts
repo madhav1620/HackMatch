@@ -70,3 +70,54 @@ export function ordinal(n: number): string {
   const v = n % 100;
   return `${n}${s[(v - 20) % 10] ?? s[v] ?? s[0]}`;
 }
+
+// ── Phase 4 — teams & matchmaking ─────────────────────────────────────────────
+
+const ROLE_LABELS: Record<string, string> = {
+  FRONTEND: "Frontend",
+  BACKEND: "Backend",
+  AIML: "AI / ML",
+  UIUX: "UI/UX Design",
+  PITCH: "Product & Pitch",
+  DEVOPS: "DevOps",
+  DATA: "Data Engineering",
+  OTHER: "Generalist",
+};
+
+/** "UIUX" → "UI/UX Design" */
+export function roleLabel(role: string): string {
+  return ROLE_LABELS[role] ?? role;
+}
+
+export function channelLabel(channel: string): string {
+  return { DISCORD: "Discord", WHATSAPP: "WhatsApp", EMAIL: "Email" }[channel] ?? channel;
+}
+
+export function commitmentLabel(commitment: string | null | undefined): string {
+  return { FULL_SPRINT: "Full sprint", PARTIAL: "Partial hours", FLEXIBLE: "Flexible" }[commitment ?? ""] ?? "Flexible";
+}
+
+/** Solo-builder availability pill. */
+export function availabilityLabel(availability: string): string {
+  return { OPEN: "Open to teams", SELECTIVE: "Selective", LOCKED: "Locked in" }[availability] ?? availability;
+}
+
+/** Deep link for an Instant Connect value (wa.me / mailto), else null. */
+export function contactHref(channel: string, value: string): string | null {
+  if (channel === "WHATSAPP") return `https://wa.me/${value.replace(/[^\d+]/g, "").replace(/^\+/, "")}`;
+  if (channel === "EMAIL") return `mailto:${value}`;
+  if (/^https?:\/\//i.test(value)) return value;
+  return null;
+}
+
+/** "3h ago" / "just now" — for request rows. */
+export function relativeTime(iso: string): string {
+  const diff = Date.now() - new Date(iso).getTime();
+  const mins = Math.round(diff / 60000);
+  if (mins < 1) return "just now";
+  if (mins < 60) return `${mins}m ago`;
+  const hours = Math.round(mins / 60);
+  if (hours < 24) return `${hours}h ago`;
+  return `${Math.round(hours / 24)}d ago`;
+}
+

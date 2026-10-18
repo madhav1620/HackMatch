@@ -125,3 +125,148 @@ export type HackathonDraft = {
   maxTeamSize: number;
   status: HackathonStatus;
 };
+
+// ── Team Matchmaking (mirrors server/src/services/team.service.ts) ────────────
+
+export type PrimaryRole = "FRONTEND" | "BACKEND" | "AIML" | "UIUX" | "PITCH" | "DEVOPS" | "DATA" | "OTHER";
+export type TeamChannel = "DISCORD" | "WHATSAPP" | "EMAIL";
+export type RequestStatus = "PENDING" | "ACCEPTED" | "DECLINED" | "CANCELLED";
+export type Commitment = "FULL_SPRINT" | "PARTIAL" | "FLEXIBLE";
+
+export type TeamContact = { channel: TeamChannel | string; value: string };
+
+export type TeamMemberPublic = {
+  userId: string;
+  name: string;
+  avatarUrl: string | null;
+  primaryRole: string;
+  role: string;
+  isLeader: boolean;
+  joinedAt?: string;
+};
+
+export type Team = {
+  id: string;
+  name: string;
+  description: string;
+  track: string | null;
+  isRecruiting: boolean;
+  openSlots: number;
+  hackathonId: string;
+  createdAt: string;
+  hackathon: { id: string; name: string; maxTeamSize: number; mode?: string };
+  requiredRoles: string[];
+  requiredSkills: string[];
+  filledSlots: number;
+  slotsTotal: number;
+  memberIds: string[];
+  members: TeamMemberPublic[];
+  /** Viewer state — injected per request. */
+  isMember: boolean;
+  isLeader: boolean;
+  myRequest: { id: string; status: string } | null;
+  /** Instant Connect — null unless the viewer is a confirmed member / lead. */
+  contact: TeamContact | null;
+};
+
+export type TeamDetail = Team & { pendingRequests: JoinRequest[] };
+
+export type JoinRequest = {
+  id: string;
+  teamId: string;
+  requesterId: string;
+  type: string;
+  message: string | null;
+  role: string | null;
+  portfolioUrl: string | null;
+  commitment: Commitment | string | null;
+  status: RequestStatus | string;
+  reviewedAt: string | null;
+  createdAt: string;
+  requester?: {
+    id: string;
+    name: string;
+    avatarUrl: string | null;
+    primaryRole: string;
+    skills: string[];
+  };
+  team?: {
+    id: string;
+    name: string;
+    track: string | null;
+    openSlots: number;
+    isRecruiting: boolean;
+    memberCount: number;
+    filledSlots: number;
+    slotsTotal: number;
+    hackathon: { id: string; name: string; registrationDeadline: string };
+  };
+};
+
+export type MyTeam = {
+  id: string;
+  name: string;
+  description: string;
+  track: string | null;
+  isRecruiting: boolean;
+  openSlots: number;
+  filledSlots: number;
+  slotsTotal: number;
+  requiredRoles: string[];
+  requiredSkills: string[];
+  contact: TeamContact | null;
+  myRole: string | null;
+  isLeader: boolean;
+  memberCount: number;
+  hackathon: { id: string; name: string; maxTeamSize: number; mode?: string };
+};
+
+export type TeamBoardResponse = Paged<Team> & { openSlots: number; recruitingTeams: number };
+
+export type TeamBoardQuery = {
+  skills?: string;
+  role?: PrimaryRole | "";
+  openOnly?: boolean;
+  page?: number;
+  limit?: number;
+};
+
+export type TeamDraft = {
+  name: string;
+  description: string;
+  track?: string;
+  openSlots?: number;
+  requiredRoles: PrimaryRole[];
+  requiredSkills: string[];
+  contactChannel: TeamChannel;
+  contactValue?: string;
+};
+
+export type JoinRequestBody = {
+  message?: string;
+  role?: PrimaryRole;
+  portfolioUrl?: string;
+  commitment?: Commitment;
+};
+
+export type SoloPost = {
+  id: string;
+  hackathonId: string;
+  userId: string;
+  pitch: string;
+  isOpen: boolean;
+  createdAt: string;
+  user: {
+    id: string;
+    name: string;
+    avatarUrl: string | null;
+    primaryRole: string;
+    skills: string[];
+    availability: string;
+    githubUrl: string | null;
+  };
+};
+
+export type SoloPostsResponse = Paged<SoloPost> & { mine: SoloPost | null };
+
+export type MyRequestsResponse = { outgoing: JoinRequest[]; incoming: JoinRequest[] };

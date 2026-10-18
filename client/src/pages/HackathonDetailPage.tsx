@@ -4,6 +4,8 @@ import { Users } from "lucide-react";
 import { useHackathon } from "../hooks/useHackathons";
 import { Button, CountdownBadge, EmptyState, Section, Tabs, Tag } from "../components/ui";
 import { BookmarkButton } from "../components/features/hackathons/BookmarkButton";
+import { TeamsBoard } from "../components/features/teams/HackathonBoard";
+import { SoloBoard } from "../components/features/teams/SoloBoard";
 import { formatDateTime, formatPrize, initials, modeLabel } from "../lib/format";
 
 /**
@@ -97,12 +99,10 @@ export default function HackathonDetailPage() {
         {/* live countdown + CTAs */}
         <div className="mt-4 flex flex-wrap items-center gap-2">
           <CountdownBadge target={h.registrationDeadline} label="Reg. closes in" />
-          <Link to="/talent" className="press ml-auto">
-            <Button variant="accent">
-              <Users className="h-4 w-4" aria-hidden />
-              Find a team
-            </Button>
-          </Link>
+          <Button variant="accent" className="ml-auto" onClick={() => setTab("teams")}>
+            <Users className="h-4 w-4" aria-hidden />
+            Find a team
+          </Button>
           <BookmarkButton hackathon={h} withLabel />
         </div>
       </section>
@@ -159,32 +159,10 @@ export default function HackathonDetailPage() {
           )}
 
           {tab === "teams" && (
-            <Section eyebrow="// Recruiting teams" title={`${h.teamCount} ${h.teamCount === 1 ? "squad" : "squads"} live`}>
-              <EmptyState
-                eyebrow="Phase 4"
-                title="Team board lands next"
-                hint="Matchmaking — recruiting squads, required skills, and dashed open-slot cells — ships in Phase 4. The API already reports squad counts here."
-              />
-            </Section>
+            <TeamsBoard hackathonId={h.id} hackathonName={h.name} maxTeamSize={h.maxTeamSize} />
           )}
 
-          {tab === "solo" && (
-            <Section eyebrow="// Solo builders" title={`${h.soloPostCount} available`}>
-              <p className="text-ink-muted text-sm leading-6">
-                {h.soloPostCount > 0
-                  ? `${h.soloPostCount} students are looking for a squad on this hackathon.`
-                  : "No solo builders have posted for this hackathon yet."}
-              </p>
-              <div className="mt-3">
-                <Link to="/talent">
-                  <Button variant="outline">
-                    Post your own need
-                    <span aria-hidden>→</span>
-                  </Button>
-                </Link>
-              </div>
-            </Section>
-          )}
+          {tab === "solo" && <SoloBoard hackathonId={h.id} hackathonName={h.name} />}
 
           {tab === "schedule" && (
             <Section eyebrow="// 04 Schedule">

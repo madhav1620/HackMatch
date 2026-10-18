@@ -1,11 +1,12 @@
 import { Button } from "./Button";
 import { Chip, Badge } from "./Chip";
 import { CountdownBadge } from "./CountdownBadge";
-import { Input } from "./Input";
+import { Input, Textarea } from "./Input";
 import { Modal } from "./Modal";
 import { EmptyState, HackathonCardSkeleton, Skeleton, SkeletonList } from "./Skeleton";
 import { Section, Segmented, Tabs } from "./Tabs";
 import { Tag, OpenSlot } from "./Tag";
+import { TagInput } from "./TagInput";
 
 export {
   Badge,
@@ -23,5 +24,7 @@ export {
   SkeletonList,
   Tabs,
   Tag,
+  TagInput,
+  Textarea,
 };
 export type { TabItem } from "./Tabs";

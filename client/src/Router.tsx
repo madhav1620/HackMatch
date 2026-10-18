@@ -5,11 +5,14 @@ import { ProtectedRoute } from "./components/features/auth/ProtectedRoute";
 import AuthPage from "./pages/AuthPage";
 import DiscoverPage from "./pages/DiscoverPage";
 import HackathonDetailPage from "./pages/HackathonDetailPage";
+import MyRequestsPage from "./pages/MyRequestsPage";
+import MyTeamsPage from "./pages/MyTeamsPage";
 import OnboardingPage from "./pages/OnboardingPage";
-import PlaceholderPage from "./pages/PlaceholderPage";
 import PostHackathonPage from "./pages/PostHackathonPage";
 import ProfilePage from "./pages/ProfilePage";
 import SavedPage from "./pages/SavedPage";
+import TalentPage from "./pages/TalentPage";
+import TeamDetailPage from "./pages/TeamDetailPage";
 
 export default function Router() {
   return (
@@ -25,23 +28,18 @@ export default function Router() {
       >
         <Route path="/" element={<DiscoverPage />} />
         <Route path="/hackathons/:id" element={<HackathonDetailPage />} />
+        <Route path="/teams/:id" element={<TeamDetailPage />} />
         <Route path="/saved" element={<SavedPage />} />
         <Route path="/admin/hackathons/new" element={<PostHackathonPage />} />
         <Route path="/onboarding" element={<OnboardingPage />} />
         <Route path="/profile/me" element={<ProfilePage />} />
         <Route path="/profile/:id" element={<ProfilePage />} />
-        <Route
-          path="/talent"
-          element={<PlaceholderPage title="Talent Directory" note="Browse solo builders and teammates by skill — Phase 4." />}
-        />
-        <Route
-          path="/squads"
-          element={<PlaceholderPage title="Squads" note="Teams recruiting for a hackathon, with open slots — Phase 4." />}
-        />
-        <Route
-          path="/chats"
-          element={<PlaceholderPage title="Chats" note="Accepted requests hand off to Discord / WhatsApp / Email — Phase 4." />}
-        />
+
+        {/* Phase 4 — Team Matchmaking & Recruitment */}
+        <Route path="/talent" element={<TalentPage />} />
+        <Route path="/squads" element={<MyTeamsPage />} />
+        <Route path="/requests" element={<MyRequestsPage />} />
+        <Route path="/chats" element={<Navigate to="/requests" replace />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />

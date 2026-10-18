@@ -1,7 +1,7 @@
 # TODO.md — Development Board
 
 > **Rule:** Mark items `- [x]` immediately when done and note the next task under "Currently working on".
-> **Currently working on:** Phase 3 — Discovery Hub ✅ **COMPLETE** (feed, filters, bookmarks, detail page, organizer form — all live-verified in a browser). Next: **Phase 4 — Team Matchmaking & Recruitment Engine**.
+> **Currently working on:** Phase 4 — Team Matchmaking & Recruitment Engine 🚧 **IN PROGRESS** (squads, matchmaking board, join-request workflow, Instant Connect).
 
 ---
 
@@ -58,12 +58,29 @@
 - [x] **Bug found by live testing:** `AppShell` used `<BadgeCheck>` without importing it, throwing on every authed route (blank page) — fixed.
 
 ## Phase 4 — Team Matchmaking & Recruitment Engine
-- [ ] "Create Team" / "Post a Team Requirement" flow tied to a hackathon
-- [ ] "Looking for Team" one-click status → Solo Builder post on a hackathon
-- [ ] Team matchmaking board per hackathon with skill-tag filtering (React, Python, Figma...) — match `design-reference/board-light.html` incl. dashed open-slot cells
-- [ ] Join Request workflow (Squad Application Modal per `design-reference/modal-light.html`): send → accept/decline → member added, slots decremented
-- [ ] Instant Connect: expose Discord/WhatsApp/Email contact links once accepted
-- [ ] My Requests / My Teams views with status indicators
+
+### Backend — schema + matchmaking API
+- [x] Schema migration: `Team.track`; `JoinRequest.role` / `portfolioUrl` / `commitment` / `reviewedAt`
+- [x] `team.service.ts` — board listing (skill + role + open-slots filters), squad CRUD (leader-owned), membership projection (contact never leaks to non-members)
+- [x] `POST /api/hackathons/:id/teams` (create squad + leader member) + `GET /api/hackathons/:id/teams` (matchmaking board)
+- [x] `GET` / `PATCH` / `DELETE /api/teams/:id` (detail w/ roster, leader-only edit) + `GET /api/teams/mine`
+- [x] Join-request workflow: `POST /api/teams/:id/requests`, `GET /api/teams/:id/requests` (leader), `PATCH /api/requests/:id` (accept → member added + slot decremented → auto-close at 0; decline), `DELETE /api/requests/:id` (cancel), `GET /api/requests/mine`
+- [x] Solo builders ("Looking for Team"): `POST /api/hackathons/:id/solo-post` (upsert), `GET /api/hackathons/:id/solo-posts`, `DELETE /api/solo-posts/:id`
+- [x] Instant Connect: `contactChannel`/`contactValue` projected **only** to confirmed members / leader
+- [x] Seed extension (5 squads w/ tracks + open slots incl. a full squad, 4 solo posts, 4 join requests, 3 bookmarks)
+- [x] `scripts/test-teams.mjs` live smoke test — **52 assertions green** (re-runnable)
+
+### Frontend — board, squad modal, Instant Connect
+- [ ] `api/teams.ts` + types + `hooks/useTeams.ts` (TanStack Query, invalidation across board / detail / my-teams)
+- [ ] `TeamCard` per `board-light` — solid member cells + **dashed open-slot cells**, track line, required role/skill pills, "Request to join"
+- [ ] `SquadApplicationModal` per `modal-light` — target squad, vacant slot, roster breakdown, 280-char pitch, portfolio, commitment window, privacy note
+- [ ] Create-squad / "Post a Team Requirement" modal (leader becomes first member; open slots from hackathon max team size)
+- [ ] "Looking for Team" one-click toggle → Solo Builder post (`SoloBuilderCard`)
+- [ ] `JoinRequestRow` (accept / decline) + **My Teams** + **My Requests** views with status indicators
+- [ ] `ContactReveal` — Instant Connect Discord / WhatsApp / Email, revealed once accepted
+- [ ] Wire `/hackathons/:id` TEAMS + SOLO tabs to the live board (replaced Phase-4 placeholders); `/squads`, `/talent` destinations
+- [ ] `npm run typecheck` clean (client + server) and `npm run build` green
+- [ ] **Live browser verification** — create squad → board card → apply → accept → contact revealed → slot decremented
 
 ## Phase 5 — Polish, Responsiveness & Deployment Prep
 - [ ] Animation pass: verify all motion inventory items from `DESIGN.md` §6 (and swap in Animotion MCP assets if connected)

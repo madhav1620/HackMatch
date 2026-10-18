@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { BadgeCheck, Bookmark, Compass, LogOut, MessagesSquare, Plus, Search, Terminal, User, Users } from "lucide-react";
+import { BadgeCheck, Bookmark, Compass, Inbox, LogOut, Plus, Search, User, Users, UsersRound } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 
 const TABS = [
   { to: "/", label: "Discover", icon: Compass, end: true },
   { to: "/talent", label: "Talent", icon: Users },
-  { to: "/squads", label: "Squads", icon: Terminal },
-  { to: "/chats", label: "Chats", icon: MessagesSquare },
+  { to: "/squads", label: "Squads", icon: UsersRound },
+  { to: "/requests", label: "Requests", icon: Inbox },
   { to: "/profile/me", label: "Profile", icon: User },
 ];
 
@@ -34,6 +34,26 @@ export function AppShell() {
           <span className="label-caps text-ink-muted border-hairline hidden rounded-sm border px-2 py-1 sm:inline-flex">
             Campus League
           </span>
+
+          <nav className="ml-2 hidden items-center gap-1 md:flex">
+            {[
+              { to: "/squads", label: "Squads" },
+              { to: "/requests", label: "Requests" },
+              { to: "/talent", label: "Talent" },
+            ].map((l) => (
+              <NavLink
+                key={l.to}
+                to={l.to}
+                className={({ isActive }) =>
+                  `press label-mono-sm rounded-lg px-2.5 py-2 ${
+                    isActive ? "bg-surface-sunk text-ink" : "text-ink-muted hover:text-ink"
+                  }`
+                }
+              >
+                {l.label}
+              </NavLink>
+            ))}
+          </nav>
 
           <form onSubmit={submitSearch} className="ml-auto flex items-center gap-2">
             <label className="border-hairline hidden items-center gap-2 rounded-lg border bg-surface-sunk px-3 py-2 md:flex">

@@ -347,6 +347,7 @@ async function main() {
       createdById: arjun.id,
       name: "Kernel Panic",
       description: "Crop-disease detection for smallholder farmers. Go + Postgres, need design and ML.",
+      track: "AgriTech · Impact Track",
       openSlots: 2,
       requiredRoles: tags("UIUX", "AIML"),
       requiredSkills: tags("Figma", "PyTorch"),
@@ -367,6 +368,7 @@ async function main() {
       createdById: ravi.id,
       name: "NeuroFlow",
       description: "Local-first EEG agent pipelines. On-device inference, no cloud round-trips.",
+      track: "Applied AI · Bio-Sensing Track",
       openSlots: 2,
       requiredRoles: tags("AIML", "UIUX"),
       requiredSkills: tags("PyTorch", "Design"),
@@ -384,6 +386,7 @@ async function main() {
       createdById: maya.id,
       name: "ZeroKnowledge Vote",
       description: "Private verifiable campus governance. Rust circuits + a frontend people trust.",
+      track: "Privacy & Web3 Infrastructure",
       openSlots: 1,
       requiredRoles: tags("BACKEND"),
       requiredSkills: tags("Rust"),
@@ -401,6 +404,7 @@ async function main() {
       createdById: arjun.id,
       name: "EcoGrid",
       description: "Decentralized mesh power monitor for campus hostels.",
+      track: "Climate · Hardware Track",
       openSlots: 2,
       requiredRoles: tags("DEVOPS", "FRONTEND"),
       requiredSkills: tags("Hardware", "Swift"),
@@ -410,6 +414,79 @@ async function main() {
   });
   await prisma.teamMember.create({
     data: { teamId: ecoGrid.id, userId: arjun.id, role: "DEVOPS", isLeader: true },
+  });
+
+  // A full (closed) squad — verifies the board's "squad complete" state + openOnly filter.
+  const pixelPirates = await prisma.team.create({
+    data: {
+      hackathonId: hackvit,
+      createdById: maya.id,
+      name: "Pixel Pirates",
+      description: "Game-jam energy: a 48h multiplayer roguelike with a hand-drawn art pass.",
+      track: "Games · Open Track",
+      openSlots: 0,
+      isRecruiting: false,
+      requiredRoles: tags("AIML"),
+      requiredSkills: tags("Unity", "TypeScript"),
+      contactChannel: "DISCORD",
+      contactValue: "https://discord.gg/pixelpirates",
+    },
+  });
+  await prisma.teamMember.create({
+    data: { teamId: pixelPirates.id, userId: maya.id, role: "UIUX", isLeader: true },
+  });
+  await prisma.teamMember.create({
+    data: { teamId: pixelPirates.id, userId: ravi.id, role: "AIML" },
+  });
+
+  // Application history: accepted (Maya → Kernel Panic), pending (Ravi → Kernel Panic),
+  // pending (Maya → EcoGrid) and declined (Arjun → ZeroKnowledge Vote).
+  await prisma.joinRequest.create({
+    data: {
+      teamId: kernelPanic.id,
+      requesterId: maya.id,
+      type: "JOIN",
+      role: "UIUX",
+      message: "I can own the whole design system and the dashboard UI. Portfolio in my profile.",
+      portfolioUrl: "https://maya.design",
+      commitment: "FULL_SPRINT",
+      status: "ACCEPTED",
+      reviewedAt: new Date(),
+    },
+  });
+  await prisma.joinRequest.create({
+    data: {
+      teamId: kernelPanic.id,
+      requesterId: ravi.id,
+      type: "JOIN",
+      role: "AIML",
+      message: "RAG + evals background, happy to own the ML pipeline and the offline model.",
+      commitment: "PARTIAL",
+      status: "PENDING",
+    },
+  });
+  await prisma.joinRequest.create({
+    data: {
+      teamId: ecoGrid.id,
+      requesterId: maya.id,
+      type: "JOIN",
+      role: "FRONTEND",
+      message: "Would love to build the monitoring dashboard. I have a Swift + charts prototype ready.",
+      commitment: "FLEXIBLE",
+      status: "PENDING",
+    },
+  });
+  await prisma.joinRequest.create({
+    data: {
+      teamId: zkVote.id,
+      requesterId: arjun.id,
+      type: "JOIN",
+      role: "BACKEND",
+      message: "Go backend engineer — I can wire the API and the circuits glue.",
+      commitment: "FULL_SPRINT",
+      status: "DECLINED",
+      reviewedAt: new Date(),
+    },
   });
 
   // Solo builders
@@ -434,6 +511,13 @@ async function main() {
       pitch: "Designer with a working prototype. Need two more builders who like deadlines.",
     },
   });
+  await prisma.soloPost.create({
+    data: {
+      hackathonId: hackvit,
+      userId: arjun.id,
+      pitch: "Backend/infra generalist looking for a hardware + frontend squad for HackVIT. I'll own the API.",
+    },
+  });
 
   // Bookmark / reminder state
   await prisma.bookmark.create({
@@ -444,7 +528,7 @@ async function main() {
 
   console.log(
     `Seeded ${[arjun, maya, ravi, organizer].length} users, ${HACKATHONS.length} hackathons, ` +
-      `4 teams, 3 solo posts, 3 bookmarks.`,
+      `5 teams, 4 solo posts, 4 join requests, 3 bookmarks.`,
   );
   console.log(`Student login:    arjun@iiit.ac.in / password123`);
   console.log(`Organizer login:  priya@bits-pilani.ac.in / password123`);

@@ -97,6 +97,7 @@ model Team {
   hackathon      Hackathon @relation(fields: [hackathonId], references: [id], onDelete: Cascade)
   name           String
   description    String
+  track          String? // e.g. "Applied AI · Bio-Sensing Track"
   isRecruiting   Boolean @default(true)
   openSlots      Int     @default(1)
   requiredRoles  String  @default("[]") // JSON PrimaryRole[] — PROD-NOTE: PrimaryRole[] on postgres
@@ -138,7 +139,11 @@ model JoinRequest {
   requester   User     @relation(fields: [requesterId], references: [id], onDelete: Cascade)
   type        String   @default("JOIN") // RequestType
   message     String?
+  role        String? // PrimaryRole the applicant is pitching for
+  portfolioUrl String?
+  commitment  String? // FULL_36H | PARTIAL | FLEXIBLE
   status      String   @default("PENDING") // RequestStatus
+  reviewedAt  DateTime?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
