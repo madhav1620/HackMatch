@@ -30,4 +30,5 @@ export {
   ToastProvider,
   useToast,
 };
+export { ThemeToggle } from "./ThemeToggle";
 export type { TabItem } from "./Tabs";

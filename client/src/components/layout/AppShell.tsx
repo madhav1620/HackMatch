@@ -2,6 +2,7 @@ import { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { BadgeCheck, Bookmark, Compass, Inbox, LogOut, Plus, Search, User, Users, UsersRound } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
+import { ThemeToggle } from "../ui/ThemeToggle";
 
 const TABS = [
   { to: "/", label: "Discover", icon: Compass, end: true },
@@ -66,6 +67,8 @@ export function AppShell() {
                 placeholder="Search hackathons, skills…"
               />
             </label>
+
+            <ThemeToggle />
 
             <NavLink
               to="/saved"
