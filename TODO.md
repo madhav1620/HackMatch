@@ -1,7 +1,7 @@
-# TODO.md — Development Board
+﻿# TODO.md — Development Board
 
 > **Rule:** Mark items `- [x]` immediately when done and note the next task under "Currently working on".
-> **Currently working on:** Phase 4 — Team Matchmaking & Recruitment Engine 🚧 **IN PROGRESS** (squads, matchmaking board, join-request workflow, Instant Connect).
+> **Currently working on:** Phase 5 — Polish, Responsiveness & Deployment Prep 🚧 **IN PROGRESS**
 
 ---
 
