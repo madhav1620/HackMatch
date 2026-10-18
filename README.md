@@ -10,6 +10,7 @@ Built as a monorepo: **React 19 + Vite + TypeScript + Tailwind v4** (client) and
 - **Team matchmaking** — per-hackathon board of recruiting squads, join-request workflow (apply → lead accepts/declines), and solo "Looking for Team" posts.
 - **Instant Connect** — a squad's Discord / WhatsApp / Email is revealed **only** to accepted members, the lead, and admins. It never appears on public board payloads.
 - **Auth** — college-email gate with OTP verification, access token in `localStorage` + rotating refresh cookie.
+- **Dark mode** — class-based theme with a system-preference default and a persisted header toggle; light-first design system retained.
 
 ## Demo logins
 
@@ -32,7 +33,7 @@ npm run dev
 - Client: http://localhost:5173 (Vite, proxies `/api` → :4000)
 - API: http://localhost:4000 (`GET /api/health`)
 
-The dev database is Postgres — set `DATABASE_URL` in `server/.env` to any instance you can reach (local install, Docker, or hosted). To (re)seed it:
+The dev database is Postgres — set `DATABASE_URL` in `server/.env` to any instance you can reach (local install, Docker, or hosted). **Note:** a Render *internal* connection string (host like `dpg-…-a`) is only reachable from inside Render's network — it will time out locally, so point `DATABASE_URL` at a local/hosted Postgres when running `npm run dev`. To (re)seed it:
 
 ```bash
 npm run seed -w server
