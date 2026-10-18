@@ -13,3 +13,4 @@ authRouter.post("/refresh", asyncHandler(auth.refresh));
 authRouter.post("/logout", asyncHandler(auth.logout));
 authRouter.get("/me", requireAuth, asyncHandler(auth.me));
 authRouter.patch("/me", requireAuth, asyncHandler(auth.updateMe));
+authRouter.get("/profiles/:id", requireAuth, asyncHandler(auth.profile));

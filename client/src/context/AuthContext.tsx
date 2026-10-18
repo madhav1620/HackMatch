@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { authApi, type User } from "../api/auth";
 
 type AuthState = {
@@ -36,12 +36,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const { token, set } = useLocalStorage();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const initialRefreshPending = useRef(token === null);
 
   useEffect(() => {
     let alive = true;
     async function load() {
       if (!token) {
-        setLoading(false);
+        if (!initialRefreshPending.current) {
+          setLoading(false);
+          return;
+        }
+        initialRefreshPending.current = false;
+        try {
+          const rotated = await authApi.refresh();
+          if (alive) set(rotated.accessToken);
+        } catch {
+          if (alive) {
+            setUser(null);
+            setLoading(false);
+          }
+        }
         return;
       }
       try {

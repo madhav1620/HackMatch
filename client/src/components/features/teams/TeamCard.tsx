@@ -73,7 +73,7 @@ export function TeamCard({
             key={i}
             type="button"
             onClick={() => onApply?.(team)}
-            disabled={!onApply || pending || team.isMember}
+            disabled={!onApply || pending || team.isMember || !team.isRecruiting}
             className="slot-dashed rounded-lg px-3 py-2.5 text-left disabled:cursor-default"
           >
             <p className="text-ink-muted text-sm font-medium">+ Need {roleLabel(slot.role)}</p>
@@ -87,7 +87,7 @@ export function TeamCard({
       <footer className="mt-auto flex flex-wrap items-center gap-2 pt-4">
         <Badge tone={openCount === 1 ? "amber" : team.isRecruiting ? "mint" : "neutral"} caps={false}>
           <Zap className="h-3 w-3" aria-hidden />
-          {openCount > 0 ? `${openCount} spot${openCount === 1 ? "" : "s"} left` : "Squad complete"}
+          {team.isRecruiting && openCount > 0 ? `${openCount} spot${openCount === 1 ? "" : "s"} left` : openCount > 0 ? "Recruitment paused" : "Squad complete"}
         </Badge>
 
         <div className="ml-auto flex items-center gap-2">
@@ -98,7 +98,7 @@ export function TeamCard({
             <Badge tone="mint" caps={false}>You&rsquo;re on this squad</Badge>
           ) : pending ? (
             <Badge tone="amber" caps={false}>Application pending</Badge>
-          ) : openCount > 0 && onApply ? (
+          ) : team.isRecruiting && openCount > 0 && onApply ? (
             <Button variant="accent" size="sm" onClick={() => onApply(team)}>
               Request to join
               <ArrowRight className="h-3.5 w-3.5" aria-hidden />

@@ -76,6 +76,11 @@ export const me: Ctx = async (req, res) => {
   res.json({ user });
 };
 
+export const profile: Ctx = async (req, res) => {
+  const user = await authService.getPublicProfile(req.params.id);
+  res.json({ user });
+};
+
 export const updateMe: Ctx = async (req, res) => {
   const input = assertValid(authService.profileUpdateSchema.safeParse(req.body));
   const user = await authService.updateProfile(req.auth!.sub, input);

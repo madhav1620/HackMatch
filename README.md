@@ -6,7 +6,7 @@ Built as a monorepo: **React 19 + Vite + TypeScript + Tailwind v4** (client) and
 
 ## Features
 
-- **Discovery Hub** — searchable, filterable hackathon feed (mode, org type, tech, date range, prize pool, sort), detail pages with live squad/solo counts, and bookmarks with deadline reminders.
+- **Discovery Hub** — searchable, filterable hackathon feed (mode, org type, tech, date range, prize pool, sort), detail pages with live squad/solo counts, and bookmarks with deadline countdowns.
 - **Team matchmaking** — per-hackathon board of recruiting squads, join-request workflow (apply → lead accepts/declines), and solo "Looking for Team" posts.
 - **Instant Connect** — a squad's Discord / WhatsApp / Email is revealed **only** to accepted members, the lead, and admins. It never appears on public board payloads.
 - **Auth** — college-email gate with OTP verification, access token in `localStorage` + rotating refresh cookie.
@@ -78,7 +78,13 @@ Copy `.env.example` to `server/.env`. Key values:
 
 ## Verification
 
-There is **no automated test suite**. Verification is manual plus two smoke scripts that hit the running API:
+Focused service regression tests run without a database:
+
+```bash
+npm run test -w server
+```
+
+Two additional smoke scripts hit the running API:
 
 ```bash
 node scripts/test-hackathons.mjs   # discovery/bookmark/auth rules

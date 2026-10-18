@@ -148,6 +148,21 @@ export async function getProfile(userId: string) {
   return publicUser(user);
 }
 
+/** Profile fields visible to other signed-in students. Private contact details stay in /me. */
+export async function getPublicProfile(userId: string) {
+  const user = await prisma.user.findUnique({
+    where: { id: userId, verified: true },
+    select: {
+      id: true, name: true, avatarUrl: true, verified: true, primaryRole: true,
+      bio: true, skills: true, githubUrl: true, linkedinUrl: true,
+      portfolioUrl: true, availability: true, email: true, createdAt: true,
+    },
+  });
+  if (!user) throw new ApiError(404, "NOT_FOUND", "User not found");
+  const { email, ...profile } = user;
+  return { ...profile, collegeDomain: email.split("@")[1] ?? "" };
+}
+
 export async function updateProfile(userId: string, input: z.infer<typeof profileUpdateSchema>) {
   const data: Record<string, unknown> = { ...input };
   if (input.skills !== undefined) data.skills = toStrArray(input.skills);

@@ -2,6 +2,7 @@ import type {
   AuthResponse,
   BasicOk,
   MeResponse,
+  PublicProfileResponse,
   OtpVerifyResponse,
   RefreshResponse,
   RegisterResponse,
@@ -21,7 +22,14 @@ async function http<T>(path: string, init: RequestInit = {}): Promise<T> {
   });
   if (!res.ok) {
     const text = await res.text().catch(() => "");
-    throw new Error(text || `${res.status} ${res.statusText}`);
+    let message = `${res.status} ${res.statusText}`;
+    try {
+      const parsed = JSON.parse(text);
+      if (parsed?.error?.message) message = parsed.error.message;
+    } catch {
+      if (text) message = text;
+    }
+    throw new Error(message);
   }
   return res.json() as Promise<T>;
 }
@@ -39,6 +47,8 @@ export const authApi = {
   logout: () => http<BasicOk>("/api/auth/logout", { method: "POST" }),
   me: (token: string) =>
     http<MeResponse>("/api/auth/me", { headers: { Authorization: `Bearer ${token}` } }),
+  profile: (id: string, token: string) =>
+    http<PublicProfileResponse>(`/api/auth/profiles/${encodeURIComponent(id)}`, { headers: { Authorization: `Bearer ${token}` } }),
   updateMe: (token: string, body: Partial<User>) =>
     http<MeResponse>("/api/auth/me", {
       method: "PATCH",

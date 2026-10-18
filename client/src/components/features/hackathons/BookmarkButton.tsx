@@ -27,14 +27,14 @@ export function BookmarkButton({
         saved ? "border-ink bg-ink text-canvas" : "border-hairline bg-surface text-ink hover:border-ink/40"
       } ${className}`}
       aria-pressed={saved}
-      title={saved ? "Remove from saved" : "Save + set a deadline reminder"}
+      title={saved ? "Remove from saved" : "Save hackathon"}
       onClick={() =>
         toggle.mutate(
           { hackathon, bookmarked: saved },
           {
             onSuccess: () =>
               toast.push(
-                saved ? `${hackathon.name} removed from saved` : `${hackathon.name} saved · deadline reminder on`,
+                saved ? `${hackathon.name} removed from saved` : `${hackathon.name} saved`,
                 saved ? "info" : "success",
               ),
             onError: () => toast.push("Couldn't update your saved list", "error"),

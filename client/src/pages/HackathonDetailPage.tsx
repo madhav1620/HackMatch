@@ -4,9 +4,10 @@ import { Users } from "lucide-react";
 import { useHackathon } from "../hooks/useHackathons";
 import { Button, CountdownBadge, EmptyState, Section, Tabs, Tag } from "../components/ui";
 import { BookmarkButton } from "../components/features/hackathons/BookmarkButton";
+import { HackathonLogo } from "../components/features/hackathons/HackathonLogo";
 import { TeamsBoard } from "../components/features/teams/HackathonBoard";
 import { SoloBoard } from "../components/features/teams/SoloBoard";
-import { formatDateTime, formatPrize, initials, modeLabel } from "../lib/format";
+import { formatDateTime, formatPrize, modeLabel } from "../lib/format";
 
 /**
  * Hackathon detail — mirrors `design-reference/hackathon-detail.html`:
@@ -71,9 +72,7 @@ export default function HackathonDetailPage() {
       {/* hero */}
       <section className="rounded-xl border border-hairline bg-surface p-4 md:p-6">
         <div className="flex flex-wrap items-start gap-4">
-          <div className="border-hairline bg-surface-sunk flex h-14 w-14 shrink-0 items-center justify-center rounded-lg border">
-            <span className="label-code text-ink-muted">{initials(h.name)}</span>
-          </div>
+          <HackathonLogo name={h.name} url={h.logoUrl} />
           <div className="min-w-0 flex-1">
             <span className="label-caps text-ink-muted">{modeLabel(h.mode)} · {h.location ?? "Global / remote"}</span>
             <h1 className="font-display mt-1 text-2xl leading-7 font-semibold md:text-3xl md:leading-9">{h.name}</h1>
@@ -136,24 +135,6 @@ export default function HackathonDetailPage() {
                 ) : (
                   <p className="text-ink-muted text-sm">Tracks are announced closer to the event.</p>
                 )}
-              </Section>
-              <Section eyebrow="// 03 Judging criteria">
-                <ul className="divide-y divide-hairline-subtle">
-                  {[
-                    ["Technical ambition & architecture", 35],
-                    ["Practical utility & real impact", 25],
-                    ["Product polish & tactile craft", 20],
-                    ["Completeness & live demo", 20],
-                  ].map(([label, pct]) => (
-                    <li key={label as string} className="flex items-center justify-between gap-3 py-3">
-                      <span className="text-sm">{label}</span>
-                      <span className="label-code text-ink-muted">{pct}%</span>
-                    </li>
-                  ))}
-                </ul>
-                <p className="label-mono-sm text-ink-muted mt-3">
-                  Standard HackMatch rubric — organizers can override per event.
-                </p>
               </Section>
             </>
           )}

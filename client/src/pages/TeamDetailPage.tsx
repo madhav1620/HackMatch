@@ -83,7 +83,7 @@ export default function TeamDetailPage() {
               {team.filledSlots}/{team.slotsTotal} filled
             </Badge>
             <Badge tone={team.isRecruiting && team.openSlots > 0 ? "mint" : "neutral"} caps={false}>
-              {team.openSlots > 0 ? `${team.openSlots} slot${team.openSlots === 1 ? "" : "s"} open` : "Squad complete"}
+              {team.isRecruiting && team.openSlots > 0 ? `${team.openSlots} slot${team.openSlots === 1 ? "" : "s"} open` : team.openSlots > 0 ? "Recruitment paused" : "Squad complete"}
             </Badge>
           </div>
         </div>
@@ -101,7 +101,7 @@ export default function TeamDetailPage() {
           </div>
         )}
 
-        {!team.isMember && team.openSlots > 0 && team.myRequest?.status !== "PENDING" && (
+        {!team.isMember && team.isRecruiting && team.openSlots > 0 && team.myRequest?.status !== "PENDING" && (
           <div className="mt-5">
             <Button variant="accent" onClick={() => setApplying(true)}>
               <UserPlus className="h-4 w-4" aria-hidden />

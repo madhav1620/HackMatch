@@ -3,7 +3,8 @@ import { BellRing } from "lucide-react";
 import { useBookmarks } from "../hooks/useHackathons";
 import { Button, CountdownBadge, EmptyState, SkeletonList } from "../components/ui";
 import { BookmarkButton } from "../components/features/hackathons/BookmarkButton";
-import { formatCompactPrize, formatDateTime, initials } from "../lib/format";
+import { HackathonLogo } from "../components/features/hackathons/HackathonLogo";
+import { formatCompactPrize, formatDateTime } from "../lib/format";
 
 /** Saved / reminder list — every bookmarked hackathon with its deadline. */
 export default function SavedPage() {
@@ -14,7 +15,7 @@ export default function SavedPage() {
     <div className="animate-fade-up space-y-5">
       <header className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p className="label-caps text-ink-muted">Reminders</p>
+          <p className="label-caps text-ink-muted">Your list</p>
           <h1 className="font-display mt-1 text-2xl leading-7 font-semibold">Saved hackathons</h1>
           <p className="text-ink-muted mt-1 text-sm">
             {isLoading ? "Loading…" : `${items.length} saved · deadlines tracked automatically`}
@@ -53,9 +54,7 @@ export default function SavedPage() {
               style={{ ["--stagger" as string]: String(i + 1) }}
             >
               <div className="flex items-start gap-3">
-                <div className="border-hairline bg-surface-sunk flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border">
-                  <span className="label-code text-ink-muted">{initials(h.name)}</span>
-                </div>
+                <HackathonLogo name={h.name} url={h.logoUrl} size="sm" />
                 <div className="min-w-0 flex-1">
                   <h2 className="font-display text-base leading-6 font-semibold">
                     <Link className="after:absolute after:inset-0 hover:underline" to={`/hackathons/${h.id}`}>

@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { BellRing, Plus, Sparkles } from "lucide-react";
 import { useHackathons } from "../hooks/useHackathons";
@@ -19,6 +19,12 @@ export default function DiscoverPage() {
     search: params.get("search") ?? "",
   }));
   const [page, setPage] = useState(1);
+  const urlSearch = params.get("search") ?? "";
+
+  useEffect(() => {
+    setFilters((current) => current.search === urlSearch ? current : { ...current, search: urlSearch });
+    setPage(1);
+  }, [urlSearch]);
 
   const query = useMemo(() => toQuery(filters, page, PAGE_SIZE), [filters, page]);
   const { data, isLoading, isFetching, isError, error, refetch } = useHackathons(query);
@@ -100,12 +106,6 @@ export default function DiscoverPage() {
           <Button variant="outline" onClick={clear}>
             Clear filters
           </Button>
-          <Link to="/saved">
-            <Button variant="ink">
-              <BellRing className="h-4 w-4" aria-hidden />
-              Notify me
-            </Button>
-          </Link>
         </EmptyState>
       ) : (
         <>

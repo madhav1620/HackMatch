@@ -2,6 +2,7 @@ import type { Prisma } from "@prisma/client";
 import { prisma } from "../lib/prisma.js";
 import { ApiError } from "../lib/error.js";
 import { toArray, toStrArray } from "../lib/jsonArrays.js";
+import { getHackathon } from "./hackathon.service.js";
 
 /**
  * Team Matchmaking service — squads, the per-hackathon board, the join-request
@@ -188,8 +189,7 @@ export type TeamListParams = {
 
 /** Board for one hackathon — public, but enriched with the viewer's own state. */
 export async function listTeams(hackathonId: string, params: TeamListParams, viewer: Viewer) {
-  const hack = await prisma.hackathon.findUnique({ where: { id: hackathonId }, select: { id: true } });
-  if (!hack) throw new ApiError(404, "NOT_FOUND", "Hackathon not found");
+  await getHackathon(hackathonId, viewer.userId, viewer.isAdmin);
 
   const where: Prisma.TeamWhereInput = { hackathonId };
   if (params.openOnly) {
@@ -219,7 +219,7 @@ export async function listTeams(hackathonId: string, params: TeamListParams, vie
     pageSize: params.limit,
     total: filtered.length,
     totalPages: Math.max(1, Math.ceil(filtered.length / params.limit)),
-    openSlots: filtered.reduce((n, r) => n + r.openSlots, 0),
+    openSlots: filtered.reduce((n, r) => n + (r.isRecruiting ? r.openSlots : 0), 0),
     recruitingTeams: filtered.filter((r) => r.isRecruiting && r.openSlots > 0).length,
   };
 }
@@ -229,6 +229,7 @@ export async function listTeams(hackathonId: string, params: TeamListParams, vie
 export async function getTeam(id: string, viewer: Viewer) {
   const row = (await prisma.team.findUnique({ where: { id }, select: TEAM_SELECT })) as TeamRow | null;
   if (!row) throw new ApiError(404, "NOT_FOUND", "Team not found");
+  await getHackathon(row.hackathonId, viewer.userId, viewer.isAdmin);
 
   const mine = await myRequestMap(viewer.userId, [id]);
   const card = toTeamCard(row, viewer, mine.get(id) ?? null);
@@ -279,6 +280,7 @@ function assertTeamInput(input: Partial<TeamInput>) {
 /** Create a squad; the caller becomes the founding member / leader. */
 export async function createTeam(hackathonId: string, userId: string, input: TeamInput) {
   assertTeamInput(input);
+  await getHackathon(hackathonId, userId);
   const hack = await prisma.hackathon.findUnique({
     where: { id: hackathonId },
     select: { id: true, maxTeamSize: true },
@@ -333,12 +335,10 @@ export async function updateTeam(id: string, viewer: Viewer, input: Partial<Team
     data.openSlots = input.openSlots;
   }
 
-  // isRecruiting and openSlots must never disagree — createTeam and the accept
-  // path in reviewRequest both keep that invariant. Default to "recruiting iff
-  // slots remain"; an explicit isRecruiting=false lets a lead pause recruiting
-  // while keeping slots, but isRecruiting=true can never survive openSlots === 0.
+  // Keep a paused squad paused on unrelated edits. Recruiting requires at
+  // least one slot, even when the lead explicitly enables it.
   const nextSlots = (data.openSlots as number | undefined) ?? row.openSlots;
-  data.isRecruiting = (input.isRecruiting ?? nextSlots > 0) && nextSlots > 0;
+  data.isRecruiting = (input.isRecruiting ?? row.isRecruiting) && nextSlots > 0;
 
   const updated = (await prisma.team.update({ where: { id }, data, select: TEAM_SELECT })) as TeamRow;
   const mine = await myRequestMap(viewer.userId, [id]);
@@ -412,9 +412,10 @@ export type RequestInput = {
 export async function requestJoin(teamId: string, userId: string, input: RequestInput) {
   const team = await prisma.team.findUnique({
     where: { id: teamId },
-    select: { id: true, isRecruiting: true, openSlots: true, createdById: true, members: { select: { userId: true } } },
+    select: { id: true, hackathonId: true, isRecruiting: true, openSlots: true, createdById: true, members: { select: { userId: true } } },
   });
   if (!team) throw new ApiError(404, "NOT_FOUND", "Team not found");
+  await getHackathon(team.hackathonId, userId);
   if (team.createdById === userId || team.members.some((m) => m.userId === userId)) {
     throw new ApiError(409, "CONFLICT", "You are already on this squad");
   }
@@ -639,8 +640,7 @@ type SoloRow = {
 };
 
 export async function listSoloPosts(hackathonId: string, params: SoloListParams, viewer: Viewer) {
-  const hack = await prisma.hackathon.findUnique({ where: { id: hackathonId }, select: { id: true } });
-  if (!hack) throw new ApiError(404, "NOT_FOUND", "Hackathon not found");
+  await getHackathon(hackathonId, viewer.userId, viewer.isAdmin);
 
   const rows = (await prisma.soloPost.findMany({
     where: { hackathonId },
@@ -676,8 +676,7 @@ export async function listSoloPosts(hackathonId: string, params: SoloListParams,
 
 /** Upsert the viewer's "Looking for Team" post for a hackathon. */
 export async function upsertSoloPost(hackathonId: string, userId: string, pitch: string) {
-  const hack = await prisma.hackathon.findUnique({ where: { id: hackathonId }, select: { id: true } });
-  if (!hack) throw new ApiError(404, "NOT_FOUND", "Hackathon not found");
+  await getHackathon(hackathonId, userId);
 
   const row = await prisma.soloPost.upsert({
     where: { hackathonId_userId: { hackathonId, userId } },

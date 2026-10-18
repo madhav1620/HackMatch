@@ -5,11 +5,11 @@ import { Badge, Chip, CountdownBadge, Tag } from "../../ui";
 import {
   formatCompactPrize,
   formatDateRange,
-  initials,
   modeLabel,
   orgTypeLabel,
 } from "../../../lib/format";
 import { BookmarkButton } from "./BookmarkButton";
+import { HackathonLogo } from "./HackathonLogo";
 
 /**
  * Discovery feed card — mirrors `design-reference/feed-light.html`:
@@ -27,9 +27,7 @@ export function HackathonCard({ hackathon, index = 0 }: { hackathon: Hackathon; 
     >
       {/* row 1 — logo, identity, bookmark */}
       <div className="flex items-start gap-3">
-        <div className="border-hairline bg-surface-sunk flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border">
-          <span className="label-code text-ink-muted">{initials(h.name)}</span>
-        </div>
+        <HackathonLogo name={h.name} url={h.logoUrl} size="sm" />
 
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">

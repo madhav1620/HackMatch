@@ -76,7 +76,7 @@ hackRouter.get("/bookmarks", requireAuth, asyncHandler(async (req, res) => {
 }));
 
 hackRouter.get("/:id", optionalAuth, asyncHandler(async (req, res) => {
-  const out = await h.getHackathon(req.params.id, req.auth?.sub);
+  const out = await h.getHackathon(req.params.id, req.auth?.sub, req.auth?.role === "ADMIN");
   res.json(out);
 }));
 
@@ -105,7 +105,7 @@ hackRouter.patch("/:id", requireAuth, requireRole("ORGANIZER", "ADMIN"), asyncHa
 }));
 
 hackRouter.delete("/:id", requireAuth, requireRole("ORGANIZER", "ADMIN"), asyncHandler(async (req, res) => {
-  await h.deleteHackathon(req.params.id);
+  await h.deleteHackathon(req.params.id, req.auth!.sub, req.auth!.role);
   res.status(204).end();
 }));
 

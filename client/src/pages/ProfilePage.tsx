@@ -1,11 +1,12 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
-  BadgeCheck, Bookmark, Check, Github, Globe, Linkedin, MessageCircle, Pencil, Share2, Trophy, UserPlus, X,
+  BadgeCheck, Check, Github, Globe, Linkedin, Pencil, Share2, X,
 } from "lucide-react";
 import { Button, Input } from "../components/ui";
-import { OpenSlot } from "../components/ui/Tag";
 import { useAuth } from "../context/AuthContext";
+import { authApi } from "../api/auth";
+import type { PublicProfile } from "../api/types";
 
 const ROLE_LABEL: Record<string, string> = {
   FRONTEND: "Frontend Engineer", BACKEND: "Backend Engineer", AIML: "AI / ML Engineer",
@@ -32,31 +33,62 @@ function SectionHead({ n, title, meta }: { n: string; title: string; meta?: stri
 
 export default function ProfilePage() {
   const { id } = useParams();
-  const { user, updateMe } = useAuth();
-  const isMe = !id || id === "me";
+  const { user: currentUser, token, updateMe } = useAuth();
+  const isMe = !id || id === "me" || id === currentUser?.id;
+  const [profile, setProfile] = useState<PublicProfile | null>(null);
+  const [profileLoading, setProfileLoading] = useState(false);
+  const [profileError, setProfileError] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // draft state (edit mode)
-  const [name, setName] = useState(user?.name ?? "");
-  const [primaryRole, setPrimaryRole] = useState(user?.primaryRole ?? "OTHER");
-  const [bio, setBio] = useState(user?.bio ?? "");
-  const [skills, setSkills] = useState<string[]>(user?.skills ?? []);
+  const [name, setName] = useState(currentUser?.name ?? "");
+  const [primaryRole, setPrimaryRole] = useState(currentUser?.primaryRole ?? "OTHER");
+  const [bio, setBio] = useState(currentUser?.bio ?? "");
+  const [skills, setSkills] = useState<string[]>(currentUser?.skills ?? []);
   const [skillDraft, setSkillDraft] = useState("");
-  const [githubUrl, setGithubUrl] = useState(user?.githubUrl ?? "");
-  const [linkedinUrl, setLinkedinUrl] = useState(user?.linkedinUrl ?? "");
-  const [portfolioUrl, setPortfolioUrl] = useState(user?.portfolioUrl ?? "");
-  const [availability, setAvailability] = useState(user?.availability ?? "AVAILABLE");
+  const [githubUrl, setGithubUrl] = useState(currentUser?.githubUrl ?? "");
+  const [linkedinUrl, setLinkedinUrl] = useState(currentUser?.linkedinUrl ?? "");
+  const [portfolioUrl, setPortfolioUrl] = useState(currentUser?.portfolioUrl ?? "");
+  const [availability, setAvailability] = useState(currentUser?.availability ?? "AVAILABLE");
+
+  useEffect(() => {
+    if (isMe || !id || !token) return;
+    let alive = true;
+    setProfile(null);
+    setProfileError(null);
+    setProfileLoading(true);
+    authApi.profile(id, token)
+      .then(({ user }) => { if (alive) setProfile(user); })
+      .catch(() => { if (alive) setProfileError("This student profile could not be loaded."); })
+      .finally(() => { if (alive) setProfileLoading(false); });
+    return () => { alive = false; };
+  }, [id, isMe, token]);
+
+  const user = isMe ? currentUser : profile;
 
   const initials = useMemo(
     () => (user?.name ?? "H").split(" ").map((w) => w[0]).slice(0, 2).join("").toUpperCase(),
     [user?.name],
   );
-  const domain = user?.email.split("@")[1] ?? "";
+  const domain = isMe ? (currentUser?.email.split("@")[1] ?? "") : (profile?.collegeDomain ?? "");
   const hackerId = useMemo(() => (user?.id ?? "").slice(-8).toUpperCase(), [user?.id]);
 
+  if (profileLoading) return <p className="label-mono-sm text-ink-muted">Loading profile…</p>;
+  if (profileError) return <p className="label-mono-sm text-error">{profileError}</p>;
   if (!user) return null;
+
+  async function share() {
+    try {
+      await navigator.clipboard.writeText(`${window.location.origin}/profile/${user!.id}`);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setError("Could not copy the profile link.");
+    }
+  }
 
   async function save() {
     setSaving(true);
@@ -75,7 +107,7 @@ export default function ProfilePage() {
     }
   }
 
-  const avail = AVAIL[availability] ?? AVAIL.AVAILABLE;
+  const avail = AVAIL[editing ? availability : user.availability] ?? AVAIL.AVAILABLE;
 
   return (
     <div className="animate-fade-up mx-auto max-w-3xl space-y-6">
@@ -98,10 +130,7 @@ export default function ProfilePage() {
                 <Pencil className="h-4 w-4" />
               </button>
             )}
-            <button className="press text-ink-muted" aria-label="Bookmark" title="Bookmark (Phase 3)">
-              <Bookmark className="h-4 w-4" />
-            </button>
-            <button className="press text-ink-muted" aria-label="Share" title="Share">
+            <button className="press text-ink-muted" onClick={share} aria-label={copied ? "Profile link copied" : "Copy profile link"} title={copied ? "Copied" : "Copy profile link"}>
               <Share2 className="h-4 w-4" />
             </button>
           </div>
@@ -136,7 +165,7 @@ export default function ProfilePage() {
                   </select>
                 </>
               ) : (
-                ` · ${ROLE_LABEL[primaryRole] ?? "Builder"}`
+                ` · ${ROLE_LABEL[user.primaryRole] ?? "Builder"}`
               )}
             </p>
             <div className="mt-3 flex flex-wrap items-center gap-2">
@@ -153,7 +182,7 @@ export default function ProfilePage() {
                 </select>
               ) : (
                 <span className="label-mono-sm text-ink-muted">
-                  {skills.length > 0 ? `Looking for a squad on ${skills.slice(0, 2).join(" / ")}` : "Open to teammates"}
+                  {user.skills.length > 0 ? `Looking for a squad on ${user.skills.slice(0, 2).join(" / ")}` : "Open to teammates"}
                 </span>
               )}
             </div>
@@ -195,7 +224,7 @@ export default function ProfilePage() {
 
       {/* ── 01 Core Tech & Domains ── */}
       <section className="border-hairline bg-surface shadow-card rounded-xl border p-6">
-        <SectionHead n="01" title="Core Tech & Domains" meta={editing ? undefined : `${skills.length} Specializations`} />
+        <SectionHead n="01" title="Core Tech & Domains" meta={editing ? undefined : `${user.skills.length} Specializations`} />
         <div className="mt-4 flex flex-wrap gap-2">
           {(editing ? skills : user.skills).length === 0 && <span className="label-mono-sm text-ink-muted">No skills tagged yet.</span>}
           {(editing ? skills : user.skills).map((s) => (
@@ -225,21 +254,9 @@ export default function ProfilePage() {
         )}
       </section>
 
-      {/* ── 02 Hackathon Track Record ── */}
+      {/* ── 02 What I'm looking to build ── */}
       <section className="border-hairline bg-surface shadow-card rounded-xl border p-6">
-        <SectionHead n="02" title="Hackathon Track Record" meta="0 Podiums" />
-        <div className="mt-4">
-          <OpenSlot>
-            <span className="inline-flex items-center gap-2">
-              <Trophy className="h-4 w-4" aria-hidden /> No podiums yet — submit a project to claim your first.
-            </span>
-          </OpenSlot>
-        </div>
-      </section>
-
-      {/* ── 03 What I'm looking to build ── */}
-      <section className="border-hairline bg-surface shadow-card rounded-xl border p-6">
-        <SectionHead n="03" title="What I'm Looking to Build" />
+        <SectionHead n="02" title="What I'm Looking to Build" />
         {editing ? (
           <textarea
             className="border-hairline bg-surface mt-4 w-full rounded-lg border px-3 py-2 text-sm outline-none"
@@ -256,19 +273,11 @@ export default function ProfilePage() {
         )}
       </section>
 
-      {/* ── 04 Past Project Repos ── */}
-      <section className="border-hairline bg-surface shadow-card rounded-xl border p-6">
-        <SectionHead n="04" title="Past Project Repos" meta="Open Source" />
-        <div className="mt-4">
-          <OpenSlot>// no repositories linked yet — connect GitHub in Phase 3</OpenSlot>
-        </div>
-      </section>
-
       {error && <p className="text-error text-sm">{error}</p>}
 
       {/* ── Footer actions ── */}
       <div className="border-hairline bg-surface sticky bottom-20 z-20 flex items-center justify-between rounded-xl border p-4 shadow-card">
-        <span className="label-mono-sm text-ink-muted">{[domain, "PST"].filter(Boolean).join(" · ")}</span>
+        <span className="label-mono-sm text-ink-muted">{domain}</span>
         <div className="flex items-center gap-2">
           {editing ? (
             <>
@@ -279,24 +288,10 @@ export default function ProfilePage() {
                 <Check className="mr-1 h-4 w-4" aria-hidden /> Save
               </Button>
             </>
-          ) : (
-            <>
-              <Button className="bg-surface-sunk text-ink border-hairline border" title="Chats arrive in Phase 4">
-                <MessageCircle className="mr-1 h-4 w-4" aria-hidden /> Message
-              </Button>
-              <Button title="Invites arrive in Phase 4">
-                <UserPlus className="mr-1 h-4 w-4" aria-hidden /> Invite to Squad
-              </Button>
-            </>
-          )}
+          ) : <Button onClick={share}><Share2 className="mr-1 h-4 w-4" aria-hidden />{copied ? "Copied" : "Share profile"}</Button>}
         </div>
       </div>
 
-      {!isMe && (
-        <p className="label-mono-sm text-ink-muted flex items-center gap-1">
-          <Trophy className="h-3 w-3" aria-hidden /> Viewing another student&apos;s profile (id: {id})
-        </p>
-      )}
     </div>
   );
 }

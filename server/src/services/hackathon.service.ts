@@ -117,7 +117,7 @@ function paged(rows: CardRow[], bookmarks: Map<string, string | null>, total: nu
 export async function listHackathons(params: ListParams, userId?: string) {
   const where: Prisma.HackathonWhereInput = {};
 
-  if (!params.includeClosed) where.status = "PUBLISHED";
+  where.status = params.includeClosed ? { in: ["PUBLISHED", "CLOSED"] } : "PUBLISHED";
   if (params.mode) where.mode = params.mode;
   if (params.orgType) where.orgType = params.orgType;
   if (params.minPrize !== undefined) where.prizePool = { gte: params.minPrize };
@@ -125,6 +125,13 @@ export async function listHackathons(params: ListParams, userId?: string) {
     // `from`/`to` bound the registration deadline (i.e. "closing between…").
     where.registrationDeadline = {
       ...(params.from ? { gte: params.from } : {}),
+      ...(params.to ? { lte: params.to } : {}),
+    };
+  }
+  if (!params.includeClosed) {
+    const lowerBound = new Date(Math.max(Date.now(), params.from?.getTime() ?? 0));
+    where.registrationDeadline = {
+      gte: lowerBound,
       ...(params.to ? { lte: params.to } : {}),
     };
   }
@@ -166,9 +173,12 @@ export async function listHackathons(params: ListParams, userId?: string) {
   return paged(rows as CardRow[], bookmarks, total, params);
 }
 
-export async function getHackathon(id: string, userId?: string) {
+export async function getHackathon(id: string, userId?: string, isAdmin = false) {
   const row = (await prisma.hackathon.findUnique({ where: { id }, select: CARD_SELECT })) as CardRow | null;
   if (!row) throw new ApiError(404, "NOT_FOUND", "Hackathon not found");
+  if (row.status === "DRAFT" && row.organizerId !== userId && !isAdmin) {
+    throw new ApiError(404, "NOT_FOUND", "Hackathon not found");
+  }
   const bookmarks = await bookmarksFor(userId, [id]);
   return toCard(row, bookmarks);
 }
@@ -219,11 +229,18 @@ export async function updateHackathon(
   role: string,
   patch: Partial<HackathonInput>,
 ) {
-  const existing = await prisma.hackathon.findUnique({ where: { id }, select: { organizerId: true } });
+  const existing = await prisma.hackathon.findUnique({ where: { id }, select: { organizerId: true, registrationDeadline: true, startDate: true, endDate: true, minTeamSize: true, maxTeamSize: true } });
   if (!existing) throw new ApiError(404, "NOT_FOUND", "Hackathon not found");
   if (role !== "ADMIN" && existing.organizerId !== userId) {
     throw new ApiError(403, "FORBIDDEN", "You can only edit hackathons you posted");
   }
+  assertInput({
+    registrationDeadline: patch.registrationDeadline ?? existing.registrationDeadline,
+    startDate: patch.startDate ?? existing.startDate,
+    endDate: patch.endDate ?? existing.endDate,
+    minTeamSize: patch.minTeamSize ?? existing.minTeamSize,
+    maxTeamSize: patch.maxTeamSize ?? existing.maxTeamSize,
+  });
   const { techTags, ...rest } = patch;
   const row = (await prisma.hackathon.update({
     where: { id },
@@ -233,10 +250,23 @@ export async function updateHackathon(
   return toCard(row, new Map());
 }
 
-export async function deleteHackathon(id: string) {
-  const row = await prisma.hackathon.findUnique({ where: { id }, select: { id: true } });
+export async function deleteHackathon(id: string, userId: string, role: string) {
+  const row = await prisma.hackathon.findUnique({ where: { id }, select: { id: true, organizerId: true } });
   if (!row) throw new ApiError(404, "NOT_FOUND", "Hackathon not found");
-  await prisma.hackathon.delete({ where: { id } });
+  if (role !== "ADMIN" && row.organizerId !== userId) {
+    throw new ApiError(403, "FORBIDDEN", "You can only delete hackathons you posted");
+  }
+  if (role === "ADMIN") {
+    const result = await prisma.hackathon.deleteMany({ where: { id } });
+    if (result.count === 0) throw new ApiError(404, "NOT_FOUND", "Hackathon not found");
+  } else {
+    const result = await prisma.hackathon.deleteMany({ where: { id, organizerId: userId } });
+    if (result.count === 0) {
+      const current = await prisma.hackathon.findUnique({ where: { id }, select: { id: true } });
+      if (!current) throw new ApiError(404, "NOT_FOUND", "Hackathon not found");
+      throw new ApiError(403, "FORBIDDEN", "You can only delete hackathons you posted");
+    }
+  }
 }
 
 export async function listMine(organizerId: string) {
@@ -255,17 +285,16 @@ export async function listBookmarks(userId: string) {
     select: { remindAt: true, createdAt: true, hackathon: { select: CARD_SELECT } },
   });
   return {
-    items: rows.map((b) => ({
+    items: rows.filter((b) => b.hackathon.status !== "DRAFT" || b.hackathon.organizerId === userId).map((b) => ({
       remindAt: b.remindAt ? b.remindAt.toISOString() : null,
       savedAt: b.createdAt.toISOString(),
-      hackathon: toCard(b.hackathon as CardRow, new Map()),
+      hackathon: toCard(b.hackathon as CardRow, new Map([[b.hackathon.id, b.remindAt?.toISOString() ?? null]])),
     })),
   };
 }
 
 export async function bookmark(userId: string, hackathonId: string, remindAt?: Date) {
-  const h = await prisma.hackathon.findUnique({ where: { id: hackathonId }, select: { id: true } });
-  if (!h) throw new ApiError(404, "NOT_FOUND", "Hackathon not found");
+  await getHackathon(hackathonId, userId);
   const b = await prisma.bookmark.upsert({
     where: { userId_hackathonId: { userId, hackathonId } },
     update: { remindAt: remindAt ?? null },

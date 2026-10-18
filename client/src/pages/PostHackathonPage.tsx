@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowRight, Check, Plus, Trash2, Upload } from "lucide-react";
+import { ArrowRight, Check, Plus, Trash2 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useCreateHackathon, useDeleteHackathon, useMyHackathons } from "../hooks/useHackathons";
 import { Badge, Button, Chip, EmptyState, Input, Section, Segmented } from "../components/ui";
@@ -20,6 +20,7 @@ type FormState = {
   name: string;
   tagline: string;
   url: string;
+  logoUrl: string;
   description: string;
   mode: Mode;
   location: string;
@@ -38,6 +39,7 @@ const INITIAL: FormState = {
   name: "",
   tagline: "",
   url: "",
+  logoUrl: "",
   description: "",
   mode: "OFFLINE",
   location: "",
@@ -97,24 +99,28 @@ export default function PostHackathonPage() {
 
   const submit = async (status: "DRAFT" | "PUBLISHED") => {
     setError(null);
-    const draft: HackathonDraft = {
-      name: form.name.trim(),
-      tagline: form.tagline.trim() || undefined,
-      description: form.description.trim(),
-      url: form.url.trim() || undefined,
-      mode: form.mode,
-      location: form.mode === "ONLINE" ? undefined : form.location.trim() || undefined,
-      orgType: form.orgType,
-      prizePool: Number(form.prizePool || 0),
-      registrationDeadline: new Date(form.registrationDeadline).toISOString(),
-      startDate: new Date(form.startDate).toISOString(),
-      endDate: new Date(form.endDate).toISOString(),
-      techTags: form.techTags,
-      minTeamSize: form.minTeamSize,
-      maxTeamSize: form.maxTeamSize,
-      status,
-    };
     try {
+      if (!form.registrationDeadline || !form.startDate || !form.endDate) {
+        throw new Error("Set the registration, start, and end dates before saving.");
+      }
+      const draft: HackathonDraft = {
+        name: form.name.trim(),
+        tagline: form.tagline.trim() || undefined,
+        description: form.description.trim(),
+        url: form.url.trim() || undefined,
+        logoUrl: form.logoUrl.trim() || undefined,
+        mode: form.mode,
+        location: form.mode === "ONLINE" ? undefined : form.location.trim() || undefined,
+        orgType: form.orgType,
+        prizePool: Number(form.prizePool || 0),
+        registrationDeadline: new Date(form.registrationDeadline).toISOString(),
+        startDate: new Date(form.startDate).toISOString(),
+        endDate: new Date(form.endDate).toISOString(),
+        techTags: form.techTags,
+        minTeamSize: form.minTeamSize,
+        maxTeamSize: form.maxTeamSize,
+        status,
+      };
       const created = await create.mutateAsync(draft);
       setDone(created.id);
       setForm(INITIAL);
@@ -178,7 +184,8 @@ export default function PostHackathonPage() {
               <button
                 key={s.id}
                 type="button"
-                onClick={() => setStep(s.id)}
+                onClick={() => { if (s.id <= step) setStep(s.id); }}
+                disabled={s.id > step}
                 aria-current={active}
                 className={`press label-caps inline-flex items-center gap-2 rounded-lg border px-3 py-2 ${
                   active
@@ -204,6 +211,7 @@ export default function PostHackathonPage() {
             <Input label="Hackathon name *" value={form.name} onChange={(e) => set("name", e.target.value)} placeholder="CalHacks 12.0" />
             <Input label="Tagline" value={form.tagline} onChange={(e) => set("tagline", e.target.value)} placeholder="36 hours of frontier tech" />
             <Input label="Event URL" value={form.url} onChange={(e) => set("url", e.target.value)} placeholder="https://…" />
+            <Input label="Logo image URL" type="url" value={form.logoUrl} onChange={(e) => set("logoUrl", e.target.value)} placeholder="https://example.com/logo.png" />
             <div className="md:col-span-2">
               <Input
                 label="Description *"
@@ -211,12 +219,6 @@ export default function PostHackathonPage() {
                 onChange={(e) => set("description", e.target.value)}
                 placeholder="What is this hackathon about? Who should apply?"
               />
-            </div>
-
-            <div className="slot-dashed md:col-span-2 rounded-xl px-4 py-8 text-center">
-              <Upload className="text-ink-muted mx-auto h-5 w-5" aria-hidden />
-              <p className="label-code text-ink-muted mt-2">Drop logo here or browse</p>
-              <p className="label-caps text-ink-muted mt-1">PNG / SVG · 1024×1024</p>
             </div>
 
             <div>
@@ -367,7 +369,7 @@ export default function PostHackathonPage() {
             </>
           )}
 
-          <span className="label-caps text-ink-muted ml-auto">Draft saves automatically</span>
+          <span className="label-caps text-ink-muted ml-auto">Use Save draft to keep an unpublished event</span>
         </div>
       </div>
 
@@ -381,6 +383,7 @@ export default function PostHackathonPage() {
           </span>
         }
       >
+        {remove.isError && <p className="text-error text-sm">Could not delete the hackathon. Please try again.</p>}
         {mine.isLoading ? (
           <p className="label-mono-sm text-ink-muted">Loading your posts…</p>
         ) : (mine.data?.items.length ?? 0) === 0 ? (
@@ -403,7 +406,7 @@ export default function PostHackathonPage() {
                   variant="ghost"
                   className="ml-auto"
                   loading={remove.isPending}
-                  onClick={() => remove.mutate(h.id)}
+                  onClick={() => { if (window.confirm(`Delete ${h.name} and its teams?`)) remove.mutate(h.id); }}
                   title="Delete this hackathon"
                 >
                   <Trash2 className="h-3.5 w-3.5" aria-hidden /> Delete

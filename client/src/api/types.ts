@@ -26,8 +26,14 @@ export type User = {
   createdAt?: string;
 };
 
+export type PublicProfile = Pick<User,
+  "id" | "name" | "avatarUrl" | "verified" | "primaryRole" | "bio" | "skills" |
+  "githubUrl" | "linkedinUrl" | "portfolioUrl" | "availability" | "createdAt"
+> & { collegeDomain: string };
+
 export type AuthResponse = { accessToken: string; user?: User };
 export type MeResponse = { user: User };
+export type PublicProfileResponse = { user: PublicProfile };
 export type RegisterResponse = { userId: string; email: string };
 export type OtpVerifyResponse = { accessToken: string; user: User };
 export type BasicOk = { ok: true };
