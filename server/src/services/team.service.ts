@@ -1,7 +1,7 @@
 import type { Prisma } from "@prisma/client";
 import { prisma } from "../lib/prisma.js";
 import { ApiError } from "../lib/error.js";
-import { parseJsonArray, toJsonArray } from "../lib/jsonArrays.js";
+import { toArray, toStrArray } from "../lib/jsonArrays.js";
 
 /**
  * Team Matchmaking service — squads, the per-hackathon board, the join-request
@@ -106,8 +106,8 @@ type TeamRow = {
   isRecruiting: boolean;
   openSlots: number;
   hackathonId: string;
-  requiredRoles: string;
-  requiredSkills: string;
+  requiredRoles: string[];
+  requiredSkills: string[];
   contactChannel: string;
   contactValue: string | null;
   createdById: string;
@@ -122,7 +122,7 @@ type TeamRow = {
 };
 
 type RequestRow = {
-  requester: { id: string; name: string; avatarUrl: string | null; primaryRole: string; skills: string };
+  requester: { id: string; name: string; avatarUrl: string | null; primaryRole: string; skills: string[] };
 } & Record<string, unknown>;
 
 /** Public team projection. **Contact is null unless the viewer is on the squad.** */
@@ -136,8 +136,8 @@ function toTeamCard(row: TeamRow, viewer: Viewer, myRequest: { id: string; statu
 
   return {
     ...rest,
-    requiredRoles: parseJsonArray<string>(requiredRoles),
-    requiredSkills: parseJsonArray<string>(requiredSkills),
+    requiredRoles: toArray<string>(requiredRoles),
+    requiredSkills: toArray<string>(requiredSkills),
     filledSlots: members.length,
     slotsTotal: members.length + row.openSlots,
     memberIds: members.map((m) => m.user.id),
@@ -160,7 +160,7 @@ function toTeamCard(row: TeamRow, viewer: Viewer, myRequest: { id: string; statu
 function toRequest(row: RequestRow) {
   return {
     ...row,
-    requester: { ...row.requester, skills: parseJsonArray<string>(row.requester.skills) },
+    requester: { ...row.requester, skills: toArray<string>(row.requester.skills) },
   };
 }
 
@@ -196,6 +196,10 @@ export async function listTeams(hackathonId: string, params: TeamListParams, vie
     where.isRecruiting = true;
     where.openSlots = { gt: 0 };
   }
+  // Native String[] columns → filter in the DB. Skill chips are derived from
+  // stored requiredSkills and roles are enum tokens, so exact-match is right.
+  if (params.role) where.requiredRoles = { has: params.role };
+  if (params.skills.length > 0) where.requiredSkills = { hasSome: params.skills };
 
   const rows = (await prisma.team.findMany({
     where,
@@ -203,16 +207,7 @@ export async function listTeams(hackathonId: string, params: TeamListParams, vie
     select: TEAM_SELECT,
   })) as TeamRow[];
 
-  // JSON-string columns → in-memory filtering (PROD-NOTE: hasSome / has on Postgres).
-  let filtered = rows;
-  if (params.role) filtered = filtered.filter((r) => parseJsonArray<string>(r.requiredRoles).includes(params.role as string));
-  if (params.skills.length > 0) {
-    const wanted = params.skills.map((s) => s.toLowerCase());
-    filtered = filtered.filter((r) => {
-      const tags = parseJsonArray<string>(r.requiredSkills).map((s) => s.toLowerCase());
-      return wanted.some((w) => tags.includes(w));
-    });
-  }
+  const filtered = rows;
 
   const start = (params.page - 1) * params.limit;
   const pageRows = filtered.slice(start, start + params.limit);
@@ -265,8 +260,8 @@ function writeTeam(input: Partial<TeamInput>) {
   if (input.name !== undefined) data.name = input.name;
   if (input.description !== undefined) data.description = input.description;
   if (input.track !== undefined) data.track = input.track || null;
-  if (input.requiredRoles !== undefined) data.requiredRoles = toJsonArray(input.requiredRoles);
-  if (input.requiredSkills !== undefined) data.requiredSkills = toJsonArray(input.requiredSkills);
+  if (input.requiredRoles !== undefined) data.requiredRoles = toStrArray(input.requiredRoles);
+  if (input.requiredSkills !== undefined) data.requiredSkills = toStrArray(input.requiredSkills);
   if (input.contactChannel !== undefined) data.contactChannel = input.contactChannel;
   if (input.contactValue !== undefined) data.contactValue = input.contactValue || null;
   return data;
@@ -306,8 +301,8 @@ export async function createTeam(hackathonId: string, userId: string, input: Tea
       track: input.track || null,
       openSlots,
       isRecruiting: openSlots > 0,
-      requiredRoles: toJsonArray(input.requiredRoles),
-      requiredSkills: toJsonArray(input.requiredSkills),
+      requiredRoles: toStrArray(input.requiredRoles),
+      requiredSkills: toStrArray(input.requiredSkills),
       contactChannel: input.contactChannel,
       contactValue: input.contactValue || null,
       members: { create: { userId, role: user?.primaryRole ?? input.requiredRoles[0] ?? "OTHER", isLeader: true } },
@@ -329,7 +324,7 @@ export async function updateTeam(id: string, viewer: Viewer, input: Partial<Team
   const row = await loadTeamForLead(id, viewer);
 
   const data: Record<string, unknown> = writeTeam(input);
-  if (input.isRecruiting !== undefined) data.isRecruiting = input.isRecruiting;
+
   if (input.openSlots !== undefined) {
     const maxOpen = Math.max(0, row.hackathon.maxTeamSize - row.members);
     if (input.openSlots < 0 || input.openSlots > maxOpen) {
@@ -337,6 +332,13 @@ export async function updateTeam(id: string, viewer: Viewer, input: Partial<Team
     }
     data.openSlots = input.openSlots;
   }
+
+  // isRecruiting and openSlots must never disagree — createTeam and the accept
+  // path in reviewRequest both keep that invariant. Default to "recruiting iff
+  // slots remain"; an explicit isRecruiting=false lets a lead pause recruiting
+  // while keeping slots, but isRecruiting=true can never survive openSlots === 0.
+  const nextSlots = (data.openSlots as number | undefined) ?? row.openSlots;
+  data.isRecruiting = (input.isRecruiting ?? nextSlots > 0) && nextSlots > 0;
 
   const updated = (await prisma.team.update({ where: { id }, data, select: TEAM_SELECT })) as TeamRow;
   const mine = await myRequestMap(viewer.userId, [id]);
@@ -350,6 +352,7 @@ async function loadTeamForLead(id: string, viewer: Viewer) {
       id: true,
       createdById: true,
       openSlots: true,
+      isRecruiting: true,
       members: { select: { userId: true } },
       hackathon: { select: { maxTeamSize: true } },
     },
@@ -382,8 +385,8 @@ export async function listMyTeams(userId: string) {
     const me = members.find((m) => m.userId === userId);
     return {
       ...rest,
-      requiredRoles: parseJsonArray<string>(requiredRoles),
-      requiredSkills: parseJsonArray<string>(requiredSkills),
+      requiredRoles: toArray<string>(requiredRoles),
+      requiredSkills: toArray<string>(requiredSkills),
       filledSlots: members.length,
       slotsTotal: members.length + r.openSlots,
       contact: contactValue ? { channel: contactChannel, value: contactValue } : null,
@@ -629,7 +632,7 @@ type SoloRow = {
     name: string;
     avatarUrl: string | null;
     primaryRole: string;
-    skills: string;
+    skills: string[];
     availability: string;
     githubUrl: string | null;
   };
@@ -645,7 +648,7 @@ export async function listSoloPosts(hackathonId: string, params: SoloListParams,
     select: SOLO_SELECT,
   })) as SoloRow[];
 
-  const all = rows.map((r) => ({ ...r, user: { ...r.user, skills: parseJsonArray<string>(r.user.skills) } }));
+  const all = rows.map((r) => ({ ...r, user: { ...r.user, skills: toArray<string>(r.user.skills) } }));
 
   let filtered = all;
   if (params.role) filtered = filtered.filter((r) => r.user.primaryRole === params.role);
@@ -682,7 +685,7 @@ export async function upsertSoloPost(hackathonId: string, userId: string, pitch:
     create: { hackathonId, userId, pitch, isOpen: true },
     select: SOLO_SELECT,
   });
-  return { ...row, user: { ...row.user, skills: parseJsonArray<string>(row.user.skills) } };
+  return { ...row, user: { ...row.user, skills: toArray<string>(row.user.skills) } };
 }
 
 export async function deleteSoloPost(id: string, viewer: Viewer) {

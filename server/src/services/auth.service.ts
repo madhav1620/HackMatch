@@ -3,7 +3,7 @@ import { prisma } from "../lib/prisma.js";
 import { ApiError } from "../lib/error.js";
 import { env } from "../config/env.js";
 import { generateOtp, sendOtpEmail } from "../lib/mailer.js";
-import { parseJsonArray } from "../lib/jsonArrays.js";
+import { toArray, toStrArray } from "../lib/jsonArrays.js";
 import bcrypt from "bcryptjs";
 
 export const registerSchema = z.object({
@@ -49,7 +49,7 @@ export function isCollegeEmail(email: string): boolean {
 /** Public representation — NEVER includes passwordHash or OTP fields (API leak guard). */
 function publicUser(u: {
   id: string; email: string; name: string; avatarUrl: string | null; verified: boolean;
-  role: string; primaryRole: string; bio: string | null; skills: string;
+  role: string; primaryRole: string; bio: string | null; skills: string[];
   githubUrl: string | null; linkedinUrl: string | null; portfolioUrl: string | null;
   discordHandle: string | null; whatsappNo: string | null; availability: string;
   createdAt?: Date;
@@ -63,7 +63,7 @@ function publicUser(u: {
     role: u.role,
     primaryRole: u.primaryRole,
     bio: u.bio,
-    skills: parseJsonArray(u.skills),
+    skills: toArray(u.skills),
     githubUrl: u.githubUrl,
     linkedinUrl: u.linkedinUrl,
     portfolioUrl: u.portfolioUrl,
@@ -150,7 +150,7 @@ export async function getProfile(userId: string) {
 
 export async function updateProfile(userId: string, input: z.infer<typeof profileUpdateSchema>) {
   const data: Record<string, unknown> = { ...input };
-  if (input.skills !== undefined) data.skills = JSON.stringify(input.skills);
+  if (input.skills !== undefined) data.skills = toStrArray(input.skills);
   const user = await prisma.user.update({ where: { id: userId }, data });
   return publicUser(user);
 }

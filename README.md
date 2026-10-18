@@ -32,7 +32,7 @@ npm run dev
 - Client: http://localhost:5173 (Vite, proxies `/api` → :4000)
 - API: http://localhost:4000 (`GET /api/health`)
 
-The dev database is SQLite at `server/prisma/dev.db`. To (re)seed it:
+The dev database is Postgres — set `DATABASE_URL` in `server/.env` to any instance you can reach (local install, Docker, or hosted). To (re)seed it:
 
 ```bash
 npm run seed -w server
@@ -68,12 +68,12 @@ Copy `.env.example` to `server/.env`. Key values:
 | `PORT` | API port (default `4000`) |
 | `CLIENT_URL` | CORS origin for the dev client (`http://localhost:5173`) |
 | `NODE_ENV` / `SERVE_CLIENT` | `production` (or `true`) serves the built client from Express |
-| `DATABASE_URL` | `file:./dev.db` for SQLite (dev); switch the Prisma provider to `postgresql` for prod |
+| `DATABASE_URL` | Postgres connection string — used for dev and prod alike |
 | `JWT_ACCESS_SECRET` / `JWT_REFRESH_SECRET` | **Change both** from the placeholders |
 | `COLLEGE_DOMAINS` | Comma-separated allowed email domains, matched as suffixes |
 | `SMTP_*` / `MAIL_FROM` | Leave `SMTP_*` empty to log OTP codes to the console instead of emailing |
 
-> **Prod note:** `server/prisma/schema.prisma` uses the `sqlite` provider for local dev. For Postgres, switch `provider` to `postgresql` and migrate — a few JSON-string columns are marked `PROD-NOTE` and become `String[]` arrays.
+> **Database:** `server/prisma/schema.prisma` uses the `postgresql` provider for both dev and prod. Skill/role/tag lists are native `String[]` columns. On a fresh clone run `npm run migrate -w server` before seeding.
 
 ## Verification
 

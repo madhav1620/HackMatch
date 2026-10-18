@@ -3,7 +3,7 @@ import { Router } from "express";
 import { z } from "zod";
 import { asyncHandler } from "../middleware/asyncHandler.js";
 import { optionalAuth, requireAuth } from "../middleware/auth.js";
-import { assertValid } from "../lib/validate.js";
+import { assertValid, queryBool } from "../lib/validate.js";
 import * as t from "../services/team.service.js";
 
 /**
@@ -29,7 +29,7 @@ const csv = (raw?: string): string[] =>
 const boardQuery = z.object({
   skills: z.string().trim().optional(),
   role: z.enum(t.PRIMARY_ROLES).optional(),
-  openOnly: z.coerce.boolean().optional(),
+  openOnly: queryBool,
   page: z.coerce.number().int().min(1).default(1),
   limit: z.coerce.number().int().min(1).max(100).default(24),
 });
@@ -39,6 +39,9 @@ const teamSchema = z.object({
   description: z.string().trim().min(10).max(2000),
   track: z.string().trim().max(120).optional(),
   openSlots: z.coerce.number().int().min(0).max(20).optional(),
+  // JSON body, so a real boolean — no coercion. Lets a lead pause recruiting
+  // without zeroing slots (the service still caps it by the slot count).
+  isRecruiting: z.boolean().optional(),
   requiredRoles: z.array(z.enum(t.PRIMARY_ROLES)).max(6),
   requiredSkills: z.array(z.string().trim().min(1)).max(12),
   contactChannel: z.enum(t.TEAM_CHANNELS),

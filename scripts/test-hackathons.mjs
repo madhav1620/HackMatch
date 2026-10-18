@@ -84,7 +84,7 @@ log("POST /hackathons/:id/bookmark", bk);
 const dup = await json(`/hackathons/${target.id}/bookmark`, { method: "POST", headers: auth(student.accessToken), body: "{}" });
 log("POST bookmark again (idempotent)", dup);
 const bkList = await json("/bookmarks", { headers: auth(student.accessToken) });
-log("GET /bookmarks", bkList, `names=[${(bkList.items || []).map((b) => b.hackathon.name).join(", ")}]`);
+log("GET /bookmarks", bkList, `names=[${(bkList.body.items || []).map((b) => b.hackathon.name).join(", ")}]`);
 log("DELETE /hackathons/:id/bookmark", await json(`/hackathons/${target.id}/bookmark`, { method: "DELETE", headers: auth(student.accessToken) }));
 log("GET /bookmarks after delete", await json("/bookmarks", { headers: auth(student.accessToken) }));
 log("GET /bookmarks (no token)", await json("/bookmarks"));
@@ -92,7 +92,7 @@ log("GET /bookmarks (no token)", await json("/bookmarks"));
 // 7. Organizer authoring
 log("GET /hackathons/mine (student → 403)", await json("/hackathons/mine", { headers: auth(student.accessToken) }));
 const mine = await json("/hackathons/mine", { headers: auth(organizer.accessToken) });
-log("GET /hackathons/mine (organizer)", mine, `names=[${(mine.items || []).map((h) => h.name + "/" + h.status).join(", ")}]`);
+log("GET /hackathons/mine (organizer)", mine, `names=[${(mine.body.items || []).map((h) => h.name + "/" + h.status).join(", ")}]`);
 
 const createBody = {
   name: "Smoke Test Hack",

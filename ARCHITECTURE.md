@@ -15,7 +15,7 @@
 | **Backend** | Node.js 20+ / Express 4 + TypeScript | Small, hackathon-friendly REST API |
 | **Validation** | Zod (request bodies/query params) | Single source of truth for API contracts, shared types |
 | **Database** | PostgreSQL (Neon free tier) | Relational data (users ↔ teams ↔ hackathons) fits a relational model |
-| **ORM** | Prisma | Typed schema, migrations, seed scripts. SQLite supported for local dev only |
+| **ORM** | Prisma | Typed schema, migrations, seed scripts. Postgres for both dev and prod |
 | **Auth** | College-email + password, 6-digit OTP verification, JWT (access + refresh) | Meets "sign in with college email" requirement without OAuth dependency |
 | **Mail** | Nodemailer (OTP emails); console-transport in dev | OTP delivery to `@college.edu` inboxes |
 | **Deployment** | Frontend: Vercel · Backend: Render/Railway · DB: Neon | Free-tier friendly |
@@ -27,7 +27,7 @@
 4. Roles: `STUDENT` (default), `ORGANIZER` (can post hackathons), `ADMIN` (full moderation).
 
 ### Auth implementation notes (Phase 2, as built)
-- **Dev database:** SQLite (`server/prisma/dev.db`) — no local Postgres available. SQLite lacks array columns, so `User.skills`, `Hackathon.techTags`, `Team.requiredRoles/requiredSkills` are JSON-string columns with typed helpers (`server/src/lib/jsonArrays.ts`). Every such column is marked `PROD-NOTE` in `schema.prisma`; switching to Postgres = change `provider` and convert those to `String[]`.
+- **Database:** Postgres (`DATABASE_URL`), for dev and prod alike. `User.skills`, `Hackathon.techTags`, `Team.requiredRoles/requiredSkills` are native `String[]` columns; list filtering is done in the DB (`has` / `hasSome`) and search uses `mode: "insensitive"` (Postgres `LIKE` is case-sensitive, unlike SQLite's). Migration history lives in `server/prisma/migrations`.
 - **Token transport:** the access token is returned in the response body and kept in `localStorage`; the refresh token is an httpOnly cookie (`hm_refresh`, `path=/api/auth`, `sameSite=lax`). `POST /auth/refresh` rotates it and returns a **new access token** in the body.
 - **Overseen-in-testing rules (do not regress):**
   - Controllers must own the response. `issueTokens()` only mints tokens + sets the cookie and returns the string — it must never write to `res`.
@@ -274,7 +274,7 @@ User 1─n Hackathon (posted by ORGANIZER/ADMIN)
 - Feed response shape: `{ items, page, pageSize, total, totalPages }`; each item is a card projection with `techTags: string[]`, `teamCount`, `soloPostCount`, `bookmarked`, `remindAt`.
 - Feed pagination defaults: `page=1`, `limit=12` (max `50`). `sort` is one of `deadline` (default) / `prize` / `recent`.
 - Only `status = PUBLISHED` is returned by default; `?includeClosed=true` includes DRAFT/CLOSED.
-- `from`/`to` bound **`registrationDeadline`**; `tech` is comma-separated and matches **any** selected tag (OR) — implemented in memory because SQLite stores tags as a JSON string (`PROD-NOTE` for Postgres `hasSome`).
+- `from`/`to` bound **`registrationDeadline`**; `tech` is comma-separated and matches **any** selected tag (OR) — a `hasSome` filter on the native `techTags` array column.
 - `bookmarked`/`remindAt` are resolved with `optionalAuth`, so the same feed serves signed-out and signed-in users.
 - `POST /hackathons/:id/bookmark` is an idempotent upsert (unique `[userId, hackathonId]`); body optional `{ remindAt }`.
 - Authoring: `POST` requires ORGANIZER/ADMIN, `PATCH`/`DELETE` require the owner or ADMIN, and end date ≥ start date + max team size ≥ min team size are enforced.

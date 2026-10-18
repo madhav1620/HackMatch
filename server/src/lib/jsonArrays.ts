@@ -1,8 +1,10 @@
-/** SQLite has no array columns — skills / techTags / requiredRoles are JSON strings.
- *  PROD-NOTE: on Postgres these become native String[] and helpers become no-ops. */
+/** Skill / role / tag lists are native `String[]` columns on Postgres.
+ *  These helpers only normalize defensively — a null column, or a stray legacy
+ *  JSON string from an old row — so read paths never throw. */
 
-export function parseJsonArray<T = string>(raw: string | null | undefined): T[] {
+export function toArray<T = string>(raw: readonly T[] | string | null | undefined): T[] {
   if (!raw) return [];
+  if (typeof raw !== "string") return [...raw];
   try {
     const v = JSON.parse(raw);
     return Array.isArray(v) ? (v as T[]) : [];
@@ -11,6 +13,7 @@ export function parseJsonArray<T = string>(raw: string | null | undefined): T[] 
   }
 }
 
-export function toJsonArray(arr: string[] | undefined | null): string {
-  return JSON.stringify(Array.isArray(arr) ? arr : []);
+/** Write-side normalizer: guarantee a well-formed `string[]` before persistence. */
+export function toStrArray(arr: readonly string[] | undefined | null): string[] {
+  return Array.isArray(arr) ? [...arr] : [];
 }

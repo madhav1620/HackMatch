@@ -1,14 +1,13 @@
 // HackMatch Prisma schema — see ARCHITECTURE.md §3
-// Dev: SQLite (JSON-string columns for skill/role lists — SQLite lacks array types)
-// Prod: switch provider to "postgresql" and change those String? columns to String[]
-//        (search: "PROD-NOTE" below)
+// Postgres everywhere (dev + prod): skill/role/tag lists are native String[].
+// JSON-string columns were a SQLite workaround and are gone (see git history).
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite" // PROD-NOTE: change to "postgresql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -35,7 +34,7 @@ model User {
   // onboarding profile
   primaryRole   String  @default("OTHER") // PrimaryRole
   bio           String?
-  skills        String  @default("[]") // JSON string[] — PROD-NOTE: String[] on postgres
+  skills        String[] @default([])
   githubUrl     String?
   linkedinUrl   String?
   portfolioUrl  String?
@@ -72,7 +71,7 @@ model Hackathon {
   registrationDeadline DateTime
   startDate            DateTime
   endDate              DateTime
-  techTags             String  @default("[]") // JSON string[] — PROD-NOTE: String[] on postgres
+  techTags             String[] @default([])
   minTeamSize          Int     @default(1)
   maxTeamSize          Int     @default(6)
   status               String  @default("PUBLISHED") // HackathonStatus
@@ -100,8 +99,8 @@ model Team {
   track          String? // e.g. "Applied AI · Bio-Sensing Track"
   isRecruiting   Boolean @default(true)
   openSlots      Int     @default(1)
-  requiredRoles  String  @default("[]") // JSON PrimaryRole[] — PROD-NOTE: PrimaryRole[] on postgres
-  requiredSkills String  @default("[]") // JSON string[] — PROD-NOTE: String[] on postgres
+  requiredRoles  String[] @default([])
+  requiredSkills String[] @default([])
   contactChannel String  @default("DISCORD") // TeamChannel
   contactValue   String?
 

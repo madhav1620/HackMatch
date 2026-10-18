@@ -1,7 +1,7 @@
 import type { Prisma } from "@prisma/client";
 import { prisma } from "../lib/prisma.js";
 import { ApiError } from "../lib/error.js";
-import { parseJsonArray, toJsonArray } from "../lib/jsonArrays.js";
+import { toArray, toStrArray } from "../lib/jsonArrays.js";
 
 /**
  * Hackathon service — Discovery Hub queries + organizer authoring.
@@ -76,7 +76,7 @@ const CARD_SELECT = {
 
 type CardRow = {
   id: string;
-  techTags: string;
+  techTags: string[];
   _count?: { teams: number; soloPosts: number } | null;
 } & Record<string, unknown>;
 
@@ -85,7 +85,7 @@ function toCard(row: CardRow, bookmarks: Map<string, string | null>) {
   const { _count, techTags, ...rest } = row;
   return {
     ...rest,
-    techTags: parseJsonArray<string>(techTags),
+    techTags: toArray<string>(techTags),
     teamCount: _count?.teams ?? 0,
     soloPostCount: _count?.soloPosts ?? 0,
     bookmarked: bookmarks.has(row.id),
@@ -129,12 +129,13 @@ export async function listHackathons(params: ListParams, userId?: string) {
     };
   }
   if (params.search) {
-    // Case-insensitive LIKE on SQLite; PROD-NOTE: add mode: "insensitive" on Postgres.
+    // Postgres LIKE is case-sensitive (SQLite's was not) — force insensitive
+    // so search behaves exactly as it did before the migration.
     where.OR = [
-      { name: { contains: params.search } },
-      { tagline: { contains: params.search } },
-      { description: { contains: params.search } },
-      { location: { contains: params.search } },
+      { name: { contains: params.search, mode: "insensitive" } },
+      { tagline: { contains: params.search, mode: "insensitive" } },
+      { description: { contains: params.search, mode: "insensitive" } },
+      { location: { contains: params.search, mode: "insensitive" } },
     ];
   }
 
@@ -145,25 +146,11 @@ export async function listHackathons(params: ListParams, userId?: string) {
         ? [{ createdAt: "desc" }]
         : [{ registrationDeadline: "asc" }];
 
-  // Tech tags live in a JSON string column → filter in memory, then paginate.
+  // Tech tags are a native String[] column → filter in the DB with hasSome.
   // Semantics: OR — a hackathon matches if it carries ANY of the selected tags
-  // (discovery-friendly). PROD-NOTE: on Postgres use `{ techTags: { hasSome: tech } }`.
-  if (params.tech.length > 0) {
-    const wanted = params.tech.map((t) => t.toLowerCase());
-    const all = (await prisma.hackathon.findMany({
-      where,
-      orderBy,
-      select: CARD_SELECT,
-    })) as CardRow[];
-    const matched = all.filter((r) => {
-      const tags = parseJsonArray<string>(r.techTags).map((t) => t.toLowerCase());
-      return wanted.some((w) => tags.includes(w));
-    });
-    const start = (params.page - 1) * params.limit;
-    const pageRows = matched.slice(start, start + params.limit);
-    const bookmarks = await bookmarksFor(userId, pageRows.map((r) => r.id));
-    return paged(pageRows, bookmarks, matched.length, params);
-  }
+  // (discovery-friendly). Chips come from TECH_OPTIONS, which is the same
+  // canonical casing used when tags are written.
+  if (params.tech.length > 0) where.techTags = { hasSome: params.tech };
 
   const [total, rows] = await Promise.all([
     prisma.hackathon.count({ where }),
@@ -210,7 +197,7 @@ function writeData(input: HackathonInput) {
     registrationDeadline: input.registrationDeadline,
     startDate: input.startDate,
     endDate: input.endDate,
-    techTags: toJsonArray(input.techTags),
+    techTags: toStrArray(input.techTags),
     minTeamSize: input.minTeamSize,
     maxTeamSize: input.maxTeamSize,
     status: input.status,
@@ -240,7 +227,7 @@ export async function updateHackathon(
   const { techTags, ...rest } = patch;
   const row = (await prisma.hackathon.update({
     where: { id },
-    data: { ...rest, ...(techTags ? { techTags: toJsonArray(techTags) } : {}) },
+    data: { ...rest, ...(techTags ? { techTags: toStrArray(techTags) } : {}) },
     select: CARD_SELECT,
   })) as CardRow;
   return toCard(row, new Map());

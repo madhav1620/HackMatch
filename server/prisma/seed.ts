@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
-const tags = (...s: string[]) => JSON.stringify(s);
+const tags = (...s: string[]) => s;
 const d = (days: number) => new Date(Date.now() + days * 24 * 60 * 60 * 1000);
 
 const HACKATHON_IDS: Record<string, string> = {};

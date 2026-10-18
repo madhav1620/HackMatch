@@ -2,7 +2,7 @@
 import { z } from "zod";
 import { asyncHandler } from "../middleware/asyncHandler.js";
 import { optionalAuth, requireAuth, requireRole } from "../middleware/auth.js";
-import { assertValid } from "../lib/validate.js";
+import { assertValid, queryBool } from "../lib/validate.js";
 import * as h from "../services/hackathon.service.js";
 import { listBookmarks } from "../services/hackathon.service.js";
 
@@ -17,7 +17,7 @@ const query = z.object({
   sort: z.enum(h.SORTS).default("deadline"),
   page: z.coerce.number().int().min(1).default(1),
   limit: z.coerce.number().int().min(1).max(50).default(12),
-  includeClosed: z.coerce.boolean().optional(),
+  includeClosed: queryBool,
 });
 
 const hackathonSchema = z.object({
