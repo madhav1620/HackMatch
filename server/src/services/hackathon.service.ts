@@ -34,12 +34,12 @@ export type ListParams = {
 
 export type HackathonInput = {
   name: string;
-  tagline?: string;
+  tagline?: string | null;
   description: string;
-  logoUrl?: string;
-  url?: string;
+  logoUrl?: string | null;
+  url?: string | null;
   mode: string;
-  location?: string;
+  location?: string | null;
   orgType: string;
   prizePool: number;
   registrationDeadline: Date;

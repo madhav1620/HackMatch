@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { BadgeCheck, Bookmark, Compass, Inbox, LogOut, Plus, Search, User, Users, UsersRound } from "lucide-react";
+import { BadgeCheck, Bookmark, Compass, Inbox, LogOut, Plus, Search, ShieldCheck, User, Users, UsersRound } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { ThemeToggle } from "../ui/ThemeToggle";
 
@@ -96,6 +96,16 @@ export function AppShell() {
               </NavLink>
             )}
 
+            {user?.role === "ADMIN" && (
+              <NavLink
+                to="/admin"
+                className={({ isActive }) => `press label-mono-sm border-hairline hidden items-center gap-1.5 rounded-lg border px-3 py-2 sm:inline-flex ${isActive ? "bg-ink text-canvas" : "bg-surface"}`}
+                title="Admin workspace"
+              >
+                <ShieldCheck className="h-4 w-4" aria-hidden /> Admin
+              </NavLink>
+            )}
+
             <NavLink
               to="/profile/me"
               className="press border-hairline flex items-center gap-2 rounded-lg border bg-surface px-3 py-2"
@@ -118,7 +128,7 @@ export function AppShell() {
         aria-label="Primary"
       >
         <div className="flex items-stretch justify-between px-2">
-          {TABS.map(({ to, label, icon: Icon, end }) => (
+          {[...TABS, ...(user?.role === "ADMIN" ? [{ to: "/admin", label: "Admin", icon: ShieldCheck }] : [])].map(({ to, label, icon: Icon, end }) => (
             <NavLink
               key={to}
               to={to}

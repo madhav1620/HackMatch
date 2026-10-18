@@ -93,6 +93,7 @@ test("DELETE endpoint preserves the auth and ownership boundary", async (t) => {
   t.after(() => new Promise((resolve) => server.close(resolve)));
 
   let deleted = 0;
+  replace(t, "user", "findUnique", async ({ where }) => ({ role: ["student", "former-admin"].includes(where.id) ? "STUDENT" : where.id === "admin" ? "ADMIN" : "ORGANIZER", verified: true }));
   replace(t, "hackathon", "findUnique", async ({ where }) => where.id === "missing" ? null : { id: "event", organizerId: "owner" });
   replace(t, "hackathon", "deleteMany", async () => { deleted += 1; return { count: 1 }; });
   const base = `http://127.0.0.1:${server.address().port}/api/hackathons`;
@@ -103,6 +104,7 @@ test("DELETE endpoint preserves the auth and ownership boundary", async (t) => {
 
   assert.equal((await remove("event")).status, 401);
   assert.equal((await remove("event", "student", "STUDENT")).status, 403);
+  assert.equal((await remove("event", "former-admin", "ADMIN")).status, 403);
   assert.equal((await remove("event", "other", "ORGANIZER")).status, 403);
   assert.equal(deleted, 0);
   assert.equal((await remove("event", "owner", "ORGANIZER")).status, 204);

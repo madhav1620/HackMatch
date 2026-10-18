@@ -15,8 +15,9 @@ export default function AuthPage() {
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
-  /** Fresh accounts (no role, no skills) are sent straight into onboarding. */
-  function goNext(u: { primaryRole: string; skills: string[] }) {
+  /** Admin accounts open their workspace; fresh student accounts complete onboarding. */
+  function goNext(u: { role: string; primaryRole: string; skills: string[] }) {
+    if (u.role === "ADMIN") { nav("/admin"); return; }
     const fresh = u.primaryRole === "OTHER" && u.skills.length === 0;
     nav(fresh ? "/onboarding" : "/");
   }
@@ -64,7 +65,7 @@ export default function AuthPage() {
         className="border-hairline bg-surface rounded-xl border p-6 shadow-card w-full max-w-sm"
       >
         <h1 className="text-xl font-semibold">{mode === "login" ? "Sign in" : "Create account"}</h1>
-        <p className="text-ink-muted mt-1 text-sm">Use your college email</p>
+        <p className="text-ink-muted mt-1 text-sm">{mode === "login" ? "Use your account email" : "Use your college email"}</p>
 
         {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
 
@@ -76,7 +77,7 @@ export default function AuthPage() {
         )}
 
         <div className="mt-4">
-          <label className="label-caps text-ink-muted">College email</label>
+          <label className="label-caps text-ink-muted">{mode === "login" ? "Email" : "College email"}</label>
           <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required autoComplete="email" />
         </div>
 

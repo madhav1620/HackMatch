@@ -11,6 +11,7 @@ Built as a monorepo: **React 19 + Vite + TypeScript + Tailwind v4** (client) and
 - **Instant Connect** — a squad's Discord / WhatsApp / Email is revealed **only** to accepted members, the lead, and admins. It never appears on public board payloads.
 - **Auth** — college-email gate with OTP verification, access token in `localStorage` + rotating refresh cookie.
 - **Dark mode** — class-based theme with a system-preference default and a persisted header toggle; light-first design system retained.
+- **Admin workspace** — a separate admin login opens `/admin` to review live platform totals, manage events, edit user profiles and roles, manage team details, and inspect join requests, solo posts, and bookmarks.
 
 ## Demo logins
 
@@ -38,6 +39,18 @@ The dev database is Postgres — set `DATABASE_URL` in `server/.env` to any inst
 ```bash
 npm run seed -w server
 ```
+
+The seed script replaces demo data. Do not run it against a database with records you need to keep.
+
+## Admin account
+
+Create a separate verified admin after migrations. This command refuses to overwrite an existing account and prints a generated password once. The admin email can be outside the college-domain allowlist; normal student signup still requires a college email.
+
+```bash
+npm run admin:create -w server -- admin@example.com "Admin Name"
+```
+
+Sign in with that email and the generated password. Admins land at `/admin`; its Events, Users, Teams, and Activity views use the connected database. User and team editors change profile and team metadata; event editing includes publishing status and dates. Keep the generated password out of source control.
 
 ## Production build
 

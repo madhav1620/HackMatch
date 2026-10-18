@@ -20,14 +20,14 @@ const query = z.object({
   includeClosed: queryBool,
 });
 
-const hackathonSchema = z.object({
+export const hackathonSchema = z.object({
   name: z.string().min(1).max(140),
-  tagline: z.string().max(160).optional(),
+  tagline: z.string().max(160).nullable().optional(),
   description: z.string().min(1).max(5000),
-  logoUrl: z.string().url().optional(),
-  url: z.string().url().optional(),
+  logoUrl: z.string().url().nullable().optional(),
+  url: z.string().url().nullable().optional(),
   mode: z.enum(h.MODES),
-  location: z.string().max(160).optional(),
+  location: z.string().max(160).nullable().optional(),
   orgType: z.enum(h.ORG_TYPES),
   prizePool: z.coerce.number().int().min(0),
   registrationDeadline: z.string().datetime(),

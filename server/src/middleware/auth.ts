@@ -1,6 +1,8 @@
 import type { NextFunction, Request, Response } from "express";
 import { verifyAccess, type AccessPayload } from "../lib/jwt.js";
 import { ApiError } from "../lib/error.js";
+import { prisma } from "../lib/prisma.js";
+import { asyncHandler } from "./asyncHandler.js";
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -38,15 +40,15 @@ export function optionalAuth(req: Request, _res: Response, next: NextFunction): 
   next();
 }
 
-/** Role gate — use after requireAuth. */
+/** Role gate — use after requireAuth. Role edits take effect without waiting for token expiry. */
 export function requireRole(...roles: string[]) {
-  return (req: Request, _res: Response, next: NextFunction): void => {
-    if (!req.auth) return next(new ApiError(401, "UNAUTHORIZED", "Missing access token"));
-    if (!roles.includes(req.auth.role)) {
-      return next(new ApiError(403, "FORBIDDEN", "Insufficient permissions"));
-    }
+  return asyncHandler(async (req, _res, next) => {
+    if (!req.auth) throw new ApiError(401, "UNAUTHORIZED", "Missing access token");
+    const user = await prisma.user.findUnique({ where: { id: req.auth.sub }, select: { role: true, verified: true } });
+    if (!user?.verified || !roles.includes(user.role)) throw new ApiError(403, "FORBIDDEN", "Insufficient permissions");
+    req.auth.role = user.role;
     next();
-  };
+  });
 }
 
 export function errorHandler(err: unknown, _req: Request, res: Response, _next: NextFunction): void {

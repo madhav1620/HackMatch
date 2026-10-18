@@ -9,6 +9,7 @@ import { env } from "./config/env.js";
 import { authRouter } from "./routes/auth.routes.js";
 import { hackRouter, bookmarksRouter } from "./routes/hackathon.routes.js";
 import { hackathonTeamsRouter, requestsRouter, soloRouter, teamsRouter } from "./routes/team.routes.js";
+import { adminRouter } from "./routes/admin.routes.js";
 import { errorHandler } from "./middleware/auth.js";
 
 const app = express();
@@ -22,6 +23,7 @@ app.get("/api/health", (_req, res) => {
 });
 
 app.use("/api/auth", authRouter);
+app.use("/api/admin", adminRouter);
 app.use("/api/hackathons", hackRouter);
 app.use("/api/hackathons", hackathonTeamsRouter);
 app.use("/api/teams", teamsRouter);
