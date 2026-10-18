@@ -83,11 +83,11 @@
 - [x] **Live browser verification** — create squad → board card → apply → accept → contact revealed → slot decremented
 
 ## Phase 5 — Polish, Responsiveness & Deployment Prep
-- [ ] Animation pass: verify all motion inventory items from `DESIGN.md` §6 (and swap in Animotion MCP assets if connected)
-- [ ] Mobile-first responsiveness pass (360 / 768 / 1280 px vs Stitch references)
-- [ ] Verify all Stitch design components cleanly integrated (no off-system styling)
-- [ ] Loading/empty/error states, toasts, form validation feedback
-- [ ] Accessibility pass (contrast, keyboard nav, focus states, prefers-reduced-motion)
+- [x] Animation pass: verify all motion inventory items from `DESIGN.md` §6 (and swap in Animotion MCP assets if connected)
+- [x] Mobile-first responsiveness pass (360 / 768 / 1280 px vs Stitch references)
+- [x] Verify all Stitch design components cleanly integrated (no off-system styling)
+- [x] Loading/empty/error states, toasts, form validation feedback
+- [x] Accessibility pass (contrast, keyboard nav, focus states, prefers-reduced-motion)
 - [ ] Production build + env config (.env.example, CORS, proxy) + deployment setup
 - [ ] Final audit of `TODO.md` — all boxes checked, docs in sync
 

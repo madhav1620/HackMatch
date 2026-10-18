@@ -8,6 +8,14 @@ function required(name: string): string {
 
 export const env = {
   port: Number(process.env.PORT ?? 4000),
+  nodeEnv: process.env.NODE_ENV ?? "development",
+  /**
+   * Serve the built client (`client/dist`) from Express so the app is
+   * single-origin in production — the client calls the API with relative
+   * `/api/*` paths, so no CORS or API-base URL is needed when the same
+   * server hosts both.
+   */
+  serveClient: process.env.SERVE_CLIENT === "true" || process.env.NODE_ENV === "production",
   clientUrl: process.env.CLIENT_URL ?? "http://localhost:5173",
   jwtAccessSecret: required("JWT_ACCESS_SECRET"),
   jwtRefreshSecret: required("JWT_REFRESH_SECRET"),
