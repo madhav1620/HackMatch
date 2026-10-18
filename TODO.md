@@ -1,7 +1,7 @@
 # TODO.md — Development Board
 
 > **Rule:** Mark items `- [x]` immediately when done and note the next task under "Currently working on".
-> **Currently working on:** Phase 5 — Polish, Responsiveness & Deployment Prep 🚧 **IN PROGRESS**
+> **Currently working on:** Phase 5 — Polish, Responsiveness & Deployment Prep ✅ **COMPLETE**
 
 ---
 
@@ -88,8 +88,8 @@
 - [x] Verify all Stitch design components cleanly integrated (no off-system styling)
 - [x] Loading/empty/error states, toasts, form validation feedback
 - [x] Accessibility pass (contrast, keyboard nav, focus states, prefers-reduced-motion)
-- [ ] Production build + env config (.env.example, CORS, proxy) + deployment setup
-- [ ] Final audit of `TODO.md` — all boxes checked, docs in sync
+- [x] Production build + env config (.env.example, CORS, proxy) + deployment setup
+- [x] Final audit of `TODO.md` — all boxes checked, docs in sync
 
 ---
 
@@ -101,3 +101,4 @@
 | 2026-10-18 | **Phase 2 auth backend complete.** SQLite schema + seed running; register/login/verify-otp/resend-otp/refresh/logout + /me implemented; college-domain gate tested; leak-fixed (no passwordHash/OTP in responses); OTP console delivery working. Next: frontend auth (sign-in, OTP, AuthContext, protected routes) + onboarding + Read.cv profile. |
 | 2026-10-18 | **Phase 2 COMPLETE.** Frontend: sign-in + OTP modal, `AuthContext` (access token in localStorage, refresh in httpOnly cookie w/ silent rotation), `ProtectedRoute`, 4-step onboarding wizard, Read.cv-style profile with inline edit, app shell + bottom tab bar. Fixed 3 live-test bugs (`ERR_HTTP_HEADERS_SENT` double-response on login/verify/refresh; missing `{accessToken,user}`; sensitive-field leak in `/me`). Verified end-to-end in a real browser + against the DB. Screenshot: `docs/phase2-profile.png`. **Next: Phase 3 — Discovery Hub** (feed, filters, bookmarks, hackathon detail). |
 | 2026-10-18 | **Phase 3 COMPLETE — Discovery Hub.** 5 extra Stitch screens generated/exported (13 total). Backend: `hackathon.service.ts` + routes/controllers (feed w/ search·mode·orgType·tech-OR·date-range·minPrize·sort·pagination, detail w/ counts, organizer CRUD, bookmark upsert, `/mine`), `optionalAuth`, reseeded (4 users incl. organizer, 13 hackathons, 4 teams, 3 solo posts, 3 bookmarks); `scripts/test-hackathons.mjs` ≈30 assertions green. Frontend: TanStack Query data layer, `HackathonCard`, `FilterBar`, `BookmarkButton`, loading/empty states, `DiscoverPage`, `HackathonDetailPage`, `SavedPage`, `PostHackathonPage`. `npm run typecheck` clean, `npm run build` green, feed/detail/bookmark/saved/role-gate/create-publish-delete all live-verified in the browser. Fixed a missing `BadgeCheck` import in `AppShell` that blanked every authed route. **Next: Phase 4 — Team Matchmaking & Recruitment.** |
+| 2026-10-18 | **Phase 5 COMPLETE — Polish, Responsiveness & Deployment.** Animation pass: fixed the inert feed `--stagger` delay (parent grid lacked `.stagger`), added bottom-nav pop-in, and built the missing Toast system per the Stitch spec (wired to all team/bookmark mutations + inline form-validation hints). Accessibility pass: measured every token pair; fixed two WCAG AA failures by routing accent *text* through the existing `--color-primary` / `--color-primary-container` tokens (vivid `#ff4f00` kept for non-text fills, borders, tints). Responsive pass: fixed a 94px header overflow at the 768px breakpoint (search deferred to `lg`); verified zero horizontal overflow at 360/768/1024/1280px across all 10 routes; bottom-nav touch targets 52px. Deployment: single-origin production serving (Express serves `client/dist` + SPA fallback for deep links), `NODE_ENV`/`SERVE_CLIENT` env flags, server `migrate`/`seed` scripts, and a root `README.md`. Prod serving live-verified on a test port. Smoke scripts green (30 + 52 assertions); `npm run typecheck` + `npm run build` clean. Docs (`ARCHITECTURE.md`, `DESIGN.md`) synced. |

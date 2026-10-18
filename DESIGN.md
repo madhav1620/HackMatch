@@ -172,8 +172,7 @@ AppShell
 
 ## 6. Animation & Motion Plan
 
-> **MCP status:** Animotion MCP (`animotion-mcp`) is **connected and verified** — 20 categories / 745 animations (`suggest_animation` returns real CSS) and 9,745 SVG icons across Lucide, Heroicons, Tabler and Bootstrap.
-> **Plan (v1):** interim hand-authored keyframes in `client/src/styles/animations.css` are written to Animotion's class-based conventions, so real Animotion CSS drops in 1:1. Phase 3–5 swaps in MCP-sourced animation CSS for the inventory below and replaces `lucide-react` glyphs with MCP-sourced SVG paths.
+> **MCP status:** Animotion MCP (`animotion-mcp`) is **not connected** in this environment. The motion layer in `client/src/styles/animations.css` is hand-authored to Animotion's class-based conventions (`animotion-*` keys/classes + app aliases `.press`/`.lift`/`.stagger`/`.skeleton`/`.animate-*`), so real Animotion CSS can drop in 1:1 later.
 > **Icons (interim):** `lucide-react` (real, versioned SVG icon set — no hallucinated paths).
 
 ### Motion inventory (all respect `prefers-reduced-motion`)
@@ -197,3 +196,26 @@ AppShell
 - Ink-on-paper contrast is extreme (≥ 12:1) — maintain for all body/label pairs; verify mint/amber badge text ≥ 4.5:1.
 - Keyboard-navigable modals/filters with visible focus ring (1px offset `#141413`, per design system).
 - Verify every screen at 360px / 768px / 1280px against Stitch references.
+
+### Phase 5 audit results
+
+**Contrast (WCAG AA).** Measured pairs:
+
+| Pair | Ratio | Verdict |
+|---|---|---|
+| `ink` on canvas | 17.50:1 | AAA |
+| `ink-muted` on canvas / surface | 5.37 / 5.66:1 | AA |
+| `mint-text` on `mint-bg` | 6.49:1 | AA |
+| `amber-text` on `amber-bg` | 6.37:1 | AA |
+| `error` on surface | 6.46:1 | AA |
+| white on `ink` (Toast) | 18.43:1 | AAA |
+
+**Accent contrast fix.** The vivid brand fill `--color-accent: #ff4f00` measured only **3.30:1** both as small text on light backgrounds and behind white button labels — failing AA for normal text. Rather than alter the brand fill (still used for non-text fills, borders, and tints, where the 3:1 UI-component threshold applies), all **text** routes through the existing deeper tokens:
+
+- `Button` accent variant → `bg-primary-container` (`#d34000`, white-on **4.66:1**) hovering to `bg-primary` (`#a93100`, **6.72:1**).
+- Bottom-nav active tab + onboarding step indicator / check → `text-primary` (**6.38:1**).
+- `Badge`/`Tag`/`Chip` accent tone already used `text-primary` on a 10% accent tint (**6.13:1**).
+
+**Responsiveness.** No horizontal overflow at 360 / 768 / 1024 / 1280px across all 10 routes. One real bug fixed: the header search field appeared at the `md` (768px) breakpoint and overflowed the viewport by ~94px — deferred to `lg`.
+
+**Motion.** All 9 inventory items are live and covered by the `prefers-reduced-motion` block in `animations.css`. Two gaps fixed this phase: the feed `--stagger` delay was inert (parent grid lacked `.stagger`), and the Toast component (slide-up + settle) did not exist — both now implemented.

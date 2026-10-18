@@ -323,23 +323,25 @@ hackathon-hub/
 │   ├── vite.config.ts         # tailwind v4 plugin + /api proxy → localhost:4000
 │   ├── tsconfig.json
 │   └── src/
-│       ├── main.tsx
-│       ├── App.tsx            # routes
+│       ├── main.tsx            # providers: QueryClient, BrowserRouter, Auth, Toast
+│       ├── Router.tsx          # route table (protected + public routes)
+│       ├── index.css           # Tailwind v4 @theme tokens (from Stitch) + base + utilities
 │       ├── styles/
-│       │   ├── index.css        # Tailwind v4 @theme tokens (from Stitch) + base + utilities
-│       │   └── animations.css   # interim motion layer (Animotion-ready classes)
+│       │   └── animations.css  # motion layer (Animotion-classed, reduced-motion aware)
 │       ├── components/
-│       │   ├── ui/            # Button, Input, Chip, Badge, Card, Modal, Avatar
-│       │   ├── layout/        # AppShell, TopNav, BottomNav, Container, FilterBar
+│       │   ├── ui/            # Button, Input/Textarea, Chip/Badge, Modal, Toast, Tabs,
+│       │   │                  # Tag, TagInput, CountdownBadge, Skeleton/EmptyState
+│       │   ├── layout/        # AppShell (top bar + bottom tabs + search)
 │       │   └── features/
-│       │       ├── hackathons/  # HackathonCard, HackathonFilters, BookmarkButton
-│       │       ├── teams/       # TeamCard, CreateTeamForm, JoinRequestCard
-│       │       ├── profile/     # ProfileForm, SkillTagInput, AvailabilityBadge
-│       │       └── auth/        # OtpForm, ProtectedRoute
-│       ├── pages/             # Landing, Onboarding, Feed, HackathonDetail,
-│       │                      # TeamBoard, Profile, MyTeams, AdminPost
-│       ├── api/               # typed fetch clients (authApi, hackathonApi...)
-│       ├── hooks/             # useAuth, useHackathons, useTeams...
+│       │       ├── hackathons/  # HackathonCard, FilterBar, BookmarkButton
+│       │       ├── teams/       # TeamCard, HackathonBoard, SoloBoard, SkillFilterBar,
+│       │       │                # CreateSquadModal, SquadApplicationModal, JoinRequestRow,
+│       │       │                # ContactReveal, LookingForTeam, SoloBuilderCard
+│       │       └── auth/        # ProtectedRoute (OTP UI lives in AuthPage)
+│       ├── pages/             # Auth, Onboarding, Discover, HackathonDetail, Saved,
+│       │                      # TeamDetail, MyTeams, MyRequests, Talent, Profile, PostHackathon
+│       ├── api/               # typed fetch clients (authApi, hackathonsApi, teamsApi)
+│       ├── hooks/             # useHackathons, useTeams (TanStack Query)
 │       └── context/           # AuthContext
 └── server/
     ├── prisma/
@@ -365,3 +367,5 @@ hackathon-hub/
 4. **Contact handoff instead of in-app chat (v1)** — accepted requests expose Discord/WhatsApp/Email links; keeps scope tight ("Instant Connect").
 5. **All mutations validated with Zod** and typed into shared `client/src/api/types.ts`.
 6. **Design source of truth = Stitch** — UI components must derive from the selected Stitch design system (see `DESIGN.md`).
+7. **Single-origin production serving** — the client calls the API with relative `/api/*` paths. In production (`NODE_ENV=production` or `SERVE_CLIENT=true`) Express serves the built `client/dist` with an SPA fallback for non-`/api` routes, so one process hosts both and no CORS or API-base config is needed. Dev keeps the Vite proxy split (client :5173 → API :4000).
+8. **Instant Connect privacy rule** — a team's `contactChannel`/`contactValue` is never included in public board or detail payloads; it is only returned to accepted members, the team lead, and ADMIN (enforced server-side in `team.service.ts`).
