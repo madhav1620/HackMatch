@@ -4,12 +4,12 @@ type Variant = "ink" | "accent" | "outline" | "ghost";
 type Size = "sm" | "md";
 
 const VARIANTS: Record<Variant, string> = {
-  ink: "bg-ink text-white border border-transparent hover:bg-ink/90",
-  // Conversion CTA. Uses the deep brand orange (primary-container → primary) rather
+  ink: "bg-ink text-canvas border border-transparent hover:bg-ink/90",
+  // Conversion CTA. Uses the deep brand orange (primary-container → primary-hover) rather
   // than the vivid `accent` fill, so white label text clears WCAG AA (4.66:1 base,
   // 6.72:1 hover). `--color-accent` stays reserved for non-text fills/live states.
   accent:
-    "bg-primary-container text-white border border-transparent hover:bg-primary",
+    "bg-primary-container text-white border border-transparent hover:bg-primary-hover",
   outline: "bg-surface text-ink border border-hairline hover:border-ink/40",
   ghost: "bg-transparent text-ink-muted border border-transparent hover:text-ink",
 };

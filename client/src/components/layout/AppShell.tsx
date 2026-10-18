@@ -73,7 +73,7 @@ export function AppShell() {
             <NavLink
               to="/saved"
               className={({ isActive }) =>
-                `press border-hairline rounded-lg border px-3 py-2 ${isActive ? "bg-ink text-white" : "bg-surface"}`
+                `press border-hairline rounded-lg border px-3 py-2 ${isActive ? "bg-ink text-canvas" : "bg-surface"}`
               }
               title="Saved hackathons"
             >
@@ -86,7 +86,7 @@ export function AppShell() {
                 to="/admin/hackathons/new"
                 className={({ isActive }) =>
                   `press border-hairline hidden items-center gap-1.5 rounded-lg border px-3 py-2 sm:inline-flex ${
-                    isActive ? "bg-ink text-white" : "bg-surface"
+                    isActive ? "bg-ink text-canvas" : "bg-surface"
                   }`
                 }
                 title="Post a hackathon"

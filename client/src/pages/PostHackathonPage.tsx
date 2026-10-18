@@ -182,7 +182,7 @@ export default function PostHackathonPage() {
                 aria-current={active}
                 className={`press label-caps inline-flex items-center gap-2 rounded-lg border px-3 py-2 ${
                   active
-                    ? "border-ink bg-ink text-white"
+                    ? "border-ink bg-ink text-canvas"
                     : complete
                       ? "border-mint-text bg-mint-bg text-mint-text"
                       : "border-hairline text-ink-muted"

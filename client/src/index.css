@@ -1,6 +1,9 @@
 @import "tailwindcss";
 @import "./styles/animations.css";
 
+/* Class-based dark mode — `.dark` on <html> (see ThemeToggle + index.html init). */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* ═══════════════════════════════════════════════════════════════
    HackMatch design tokens — exported from Stitch design system
    "Tactile Editorial Minimalist" (project 10121204597706454375)
@@ -25,6 +28,7 @@
   --color-accent: #ff4f00; /* International Orange — conversion CTAs, live states */
   --color-primary: #a93100; /* deep brand orange */
   --color-primary-container: #d34000;
+  --color-primary-hover: #a93100; /* CTA hover — deep enough for a white label */
   --color-link: #2563eb; /* Electric Cobalt — links, verified, active tabs */
 
   /* Semantic badges */
@@ -53,6 +57,52 @@
   --shadow-card: 0 1px 2px rgba(20, 20, 19, 0.04);
   --shadow-lift: 0 4px 12px rgba(20, 20, 19, 0.06), 0 1px 2px rgba(20, 20, 19, 0.04);
   --shadow-modal: 0 16px 36px -4px rgba(20, 20, 19, 0.1), 0 4px 12px rgba(20, 20, 19, 0.05);
+}
+
+/* ── Dark theme ─────────────────────────────────────────
+   Applied via `.dark` on <html> (ThemeToggle + index.html init script).
+   Overriding the tokens here flips every semantic utility at once
+   (bg-canvas, text-ink, border-hairline, …) without touching components.
+   Left unlayered so it beats Tailwind's `@layer theme` `:root` block. */
+:root.dark {
+  color-scheme: dark;
+
+  --color-canvas: #0b0b0a;
+  --color-surface: #141413;
+  --color-surface-warm: #1a1815;
+  --color-surface-sunk: #101010;
+
+  --color-hairline: #34342f;
+  --color-hairline-subtle: #2b2b27;
+
+  --color-ink: #f5f5f2;
+  --color-ink-muted: #a9a9a3;
+
+  /* Light brand orange — AA text on dark surfaces (base fill stays deep). */
+  --color-primary: #ff9a5c;
+  --color-primary-hover: #8f2800;
+  --color-link: #7cb0ff;
+
+  --color-mint-bg: #12291a;
+  --color-mint-text: #7ee2a0;
+  --color-amber-bg: #2a1e08;
+  --color-amber-text: #f0b45a;
+
+  --color-error: #ff8a8a;
+  --color-error-container: #3a1414;
+
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-lift: 0 4px 12px rgba(0, 0, 0, 0.5), 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-modal: 0 16px 36px -4px rgba(0, 0, 0, 0.6), 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* Dot-matrix canvas + dashed slots need light ink on dark surfaces. */
+:root.dark .bg-dotmatrix {
+  background-image: radial-gradient(rgba(245, 245, 242, 0.06) 1px, transparent 1px);
+}
+
+:root.dark .slot-dashed {
+  background: rgba(245, 245, 242, 0.02);
 }
 
 /* ── Base ─────────────────────────────────────────────── */

@@ -24,7 +24,7 @@ export function BookmarkButton({
     <button
       type="button"
       className={`press relative z-10 inline-flex items-center gap-2 rounded-lg border px-3 py-1.5 transition-colors ${
-        saved ? "border-ink bg-ink text-white" : "border-hairline bg-surface text-ink hover:border-ink/40"
+        saved ? "border-ink bg-ink text-canvas" : "border-hairline bg-surface text-ink hover:border-ink/40"
       } ${className}`}
       aria-pressed={saved}
       title={saved ? "Remove from saved" : "Save + set a deadline reminder"}

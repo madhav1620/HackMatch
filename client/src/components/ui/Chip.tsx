@@ -15,7 +15,7 @@ export function Chip({
   as?: "button" | "span";
 }) {
   const cls = `label-mono-sm inline-flex items-center gap-1 rounded-full border px-3 py-1.5 transition-colors ${
-    active ? "border-ink bg-ink text-white" : "border-hairline bg-surface text-ink hover:border-ink/40"
+    active ? "border-ink bg-ink text-canvas" : "border-hairline bg-surface text-ink hover:border-ink/40"
   }`;
   if (as === "span" || !onClick) {
     return (

@@ -81,7 +81,7 @@ export function FilterBar({
           <button
             type="button"
             className={`press label-mono-sm inline-flex items-center gap-1.5 rounded-lg border px-3 py-2 ${
-              more || count > 0 ? "border-ink bg-ink text-white" : "border-hairline bg-surface text-ink"
+              more || count > 0 ? "border-ink bg-ink text-canvas" : "border-hairline bg-surface text-ink"
             }`}
             onClick={() => setMore((v) => !v)}
             aria-expanded={more}

@@ -1,7 +1,7 @@
 # TODO.md — Development Board
 
 > **Rule:** Mark items `- [x]` immediately when done and note the next task under "Currently working on".
-> **Currently working on:** Phase 5 — Polish, Responsiveness & Deployment Prep ✅ **COMPLETE**
+> **Currently working on:** Phase 6 — Dark Mode ✅ **COMPLETE** (light-first base retained)
 
 ---
 
@@ -91,6 +91,16 @@
 - [x] Production build + env config (.env.example, CORS, proxy) + deployment setup
 - [x] Final audit of `TODO.md` — all boxes checked, docs in sync
 
+## Phase 6 — Dark Mode
+- [x] `ThemeToggle` component (system preference + persisted `localStorage` `hm_theme`; sun/moon in the header)
+- [x] No-flash init script in `client/index.html` (applies `.dark` before first paint)
+- [x] Dark palette via a single `:root.dark` token override in `client/src/index.css` — flips every semantic utility (`bg-canvas`, `text-ink`, `border-hairline`, …) without touching components
+- [x] `@custom-variant dark` registered for class-based `dark:` utilities
+- [x] Dot-matrix canvas + dashed slots re-inked for dark surfaces
+- [x] Fixed inverted "ink" fills that rendered white-on-white in dark (`bg-ink text-white` → `bg-ink text-canvas`) across `Button`, `Tabs`, `Chip`, `Toast`, `AppShell`, `BookmarkButton`, `FilterBar`, `PostHackathonPage`
+- [x] Added `--color-primary-hover` so the CTA hover keeps a white-label-safe fill in both themes
+- [x] Live-verified in a real browser: both themes across Discover / Squads / Requests / Talent / Profile; zero console errors; automated contrast scan reports no text below 3:1; `npm run typecheck` clean
+
 ---
 
 ### Change Log
@@ -103,3 +113,4 @@
 | 2026-10-18 | **Phase 3 COMPLETE — Discovery Hub.** 5 extra Stitch screens generated/exported (13 total). Backend: `hackathon.service.ts` + routes/controllers (feed w/ search·mode·orgType·tech-OR·date-range·minPrize·sort·pagination, detail w/ counts, organizer CRUD, bookmark upsert, `/mine`), `optionalAuth`, reseeded (4 users incl. organizer, 13 hackathons, 4 teams, 3 solo posts, 3 bookmarks); `scripts/test-hackathons.mjs` ≈30 assertions green. Frontend: TanStack Query data layer, `HackathonCard`, `FilterBar`, `BookmarkButton`, loading/empty states, `DiscoverPage`, `HackathonDetailPage`, `SavedPage`, `PostHackathonPage`. `npm run typecheck` clean, `npm run build` green, feed/detail/bookmark/saved/role-gate/create-publish-delete all live-verified in the browser. Fixed a missing `BadgeCheck` import in `AppShell` that blanked every authed route. **Next: Phase 4 — Team Matchmaking & Recruitment.** |
 | 2026-10-18 | **Phase 5 COMPLETE — Polish, Responsiveness & Deployment.** Animation pass: fixed the inert feed `--stagger` delay (parent grid lacked `.stagger`), added bottom-nav pop-in, and built the missing Toast system per the Stitch spec (wired to all team/bookmark mutations + inline form-validation hints). Accessibility pass: measured every token pair; fixed two WCAG AA failures by routing accent *text* through the existing `--color-primary` / `--color-primary-container` tokens (vivid `#ff4f00` kept for non-text fills, borders, tints). Responsive pass: fixed a 94px header overflow at the 768px breakpoint (search deferred to `lg`); verified zero horizontal overflow at 360/768/1024/1280px across all 10 routes; bottom-nav touch targets 52px. Deployment: single-origin production serving (Express serves `client/dist` + SPA fallback for deep links), `NODE_ENV`/`SERVE_CLIENT` env flags, server `migrate`/`seed` scripts, and a root `README.md`. Prod serving live-verified on a test port. Smoke scripts green (30 + 52 assertions); `npm run typecheck` + `npm run build` clean. Docs (`ARCHITECTURE.md`, `DESIGN.md`) synced. |
 | 2026-10-18 | **SQLite → Postgres migration complete.** Provider switched to `postgresql`; `User.skills`, `Hackathon.techTags`, `Team.requiredRoles/requiredSkills` converted from JSON-string columns to native `String[]`; migration history regenerated (old SQL was SQLite-flavored and could not replay). Queries moved to the DB (`has` / `hasSome` replacing in-memory filtering); search now uses `mode: "insensitive"` because Postgres `LIKE` is case-sensitive where SQLite's was not; `jsonArrays.ts` reduced to defensive normalizers (`toArray` / `toStrArray`); `seed.ts` writes real arrays. Also fixed 4 bugs found in review: `z.coerce.boolean()` parsing `?openOnly=false`/`?includeClosed=false` as `true` (new `queryBool` schema), `isRecruiting` being stripped by the PATCH route schema, `updateTeam` letting `openSlots`/`isRecruiting` drift apart, and two dead diagnostics in `test-hackathons.mjs`. Verified on Postgres 18: 30 + 52 smoke assertions + 12 bugfix assertions green, typecheck and build clean. |
+| 2026-10-18 | **Dark mode added.** Class-based (`<html>.dark`) with a system-preference default and a persisted toggle (`localStorage` `hm_theme`) plus a no-flash init script in `index.html`. Dark palette is a single `:root.dark` token override in `client/src/index.css`, so every semantic utility flips at once. Fixed inverted "ink" fills that went white-on-white in dark (label now `text-canvas`) and added `--color-primary-hover` to keep the CTA hover AA-safe. **Local-dev caveat:** `server/.env` `DATABASE_URL` points at the Render-internal host (unreachable outside Render), so local API calls 500 until it is pointed at a local Postgres — verified working against a local Postgres 18. Live browser-verified in both themes; contrast scan clean; typecheck clean. |

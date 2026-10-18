@@ -26,7 +26,7 @@ export function useToast(): Ctx {
 const TONE = {
   success: { Icon: CheckCircle2, glyph: "text-mint-bg", label: "Success" },
   error: { Icon: TriangleAlert, glyph: "text-error-container", label: "Error" },
-  info: { Icon: Info, glyph: "text-white/70", label: "Notice" },
+  info: { Icon: Info, glyph: "text-canvas/70", label: "Notice" },
 } as const;
 
 const LIFETIME = 3600;
@@ -75,7 +75,7 @@ function ToastCard({ item, onDismiss }: { item: ToastItem; onDismiss: (id: numbe
   }, [item.id, onDismiss]);
 
   return (
-    <div className="shadow-modal flex w-full max-w-sm items-center gap-3 rounded-xl bg-ink px-4 py-3 text-white">
+    <div className="shadow-modal flex w-full max-w-sm items-center gap-3 rounded-xl bg-ink px-4 py-3 text-canvas">
       <span className="shrink-0" aria-hidden>
         <Icon className={`h-4 w-4 ${glyph}`} />
       </span>
@@ -85,7 +85,7 @@ function ToastCard({ item, onDismiss }: { item: ToastItem; onDismiss: (id: numbe
       </p>
       <button
         type="button"
-        className="press -mr-1 p-1 text-white/70 transition-colors hover:text-white focus-visible:text-white"
+        className="press -mr-1 p-1 text-canvas/70 transition-colors hover:text-canvas focus-visible:text-canvas"
         onClick={() => onDismiss(item.id)}
         aria-label="Dismiss notification"
       >
