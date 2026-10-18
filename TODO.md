@@ -1,4 +1,4 @@
-﻿# TODO.md — Development Board
+# TODO.md — Development Board
 
 > **Rule:** Mark items `- [x]` immediately when done and note the next task under "Currently working on".
 > **Currently working on:** Phase 5 — Polish, Responsiveness & Deployment Prep 🚧 **IN PROGRESS**
@@ -71,16 +71,16 @@
 - [x] `scripts/test-teams.mjs` live smoke test — **52 assertions green** (re-runnable)
 
 ### Frontend — board, squad modal, Instant Connect
-- [ ] `api/teams.ts` + types + `hooks/useTeams.ts` (TanStack Query, invalidation across board / detail / my-teams)
-- [ ] `TeamCard` per `board-light` — solid member cells + **dashed open-slot cells**, track line, required role/skill pills, "Request to join"
-- [ ] `SquadApplicationModal` per `modal-light` — target squad, vacant slot, roster breakdown, 280-char pitch, portfolio, commitment window, privacy note
-- [ ] Create-squad / "Post a Team Requirement" modal (leader becomes first member; open slots from hackathon max team size)
-- [ ] "Looking for Team" one-click toggle → Solo Builder post (`SoloBuilderCard`)
-- [ ] `JoinRequestRow` (accept / decline) + **My Teams** + **My Requests** views with status indicators
-- [ ] `ContactReveal` — Instant Connect Discord / WhatsApp / Email, revealed once accepted
-- [ ] Wire `/hackathons/:id` TEAMS + SOLO tabs to the live board (replaced Phase-4 placeholders); `/squads`, `/talent` destinations
-- [ ] `npm run typecheck` clean (client + server) and `npm run build` green
-- [ ] **Live browser verification** — create squad → board card → apply → accept → contact revealed → slot decremented
+- [x] `api/teams.ts` + types + `hooks/useTeams.ts` (TanStack Query, invalidation across board / detail / my-teams)
+- [x] `TeamCard` per `board-light` — solid member cells + **dashed open-slot cells**, track line, required role/skill pills, "Request to join"
+- [x] `SquadApplicationModal` per `modal-light` — target squad, vacant slot, roster breakdown, 280-char pitch, portfolio, commitment window, privacy note
+- [x] Create-squad / "Post a Team Requirement" modal (leader becomes first member; open slots from hackathon max team size)
+- [x] "Looking for Team" one-click toggle → Solo Builder post (`SoloBuilderCard`)
+- [x] `JoinRequestRow` (accept / decline) + **My Teams** + **My Requests** views with status indicators
+- [x] `ContactReveal` — Instant Connect Discord / WhatsApp / Email, revealed once accepted
+- [x] Wire `/hackathons/:id` TEAMS + SOLO tabs to the live board (replaced Phase-4 placeholders); `/squads`, `/talent` destinations
+- [x] `npm run typecheck` clean (client + server) and `npm run build` green
+- [x] **Live browser verification** — create squad → board card → apply → accept → contact revealed → slot decremented
 
 ## Phase 5 — Polish, Responsiveness & Deployment Prep
 - [ ] Animation pass: verify all motion inventory items from `DESIGN.md` §6 (and swap in Animotion MCP assets if connected)
